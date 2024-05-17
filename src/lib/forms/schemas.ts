@@ -20,7 +20,7 @@ export const userSchema = z.object({
 	role: z
 		.enum(['USER', 'ADMIN'], { required_error: 'You must have a role' })
 		.default('USER'),
-	emailVerified: z.boolean().default(false),
+	emailVerified: z.boolean().optional(),
 	terms: z.literal<boolean>(true, {
 		errorMap: () => ({ message: "You must accept the terms & privacy policy" }),
 	}),
@@ -28,9 +28,11 @@ export const userSchema = z.object({
 	updatedAt: z.date().optional()
 });
 
-export const userUpdateSchema = userSchema.extend({
-	id: z.string()
+export const userUpdateSchema = userSchema.pick({
+	name: true,
+    email: true
 })
+export type UserUpdateSchema = typeof userUpdateSchema;
 
 export type UserSchema = typeof userSchema;
 

@@ -1,12 +1,33 @@
-<script>
+<script lang="ts">
 	import '../app.css';
 	import { ModeWatcher } from 'mode-watcher';
+	import { getFlash } from 'sveltekit-flash-message';
 	import Navigation from '$lib/components/navigation/navigation.svelte';
+	import { page } from '$app/stores';
+	import { Toaster } from "$lib/components/ui/sonner";
+	import { toast } from 'svelte-sonner';
+
 	const { data, children } = $props();
 	const user = $derived(data.user)
+	const flash = $state(getFlash(page));
+	$effect(() => {
+		if ($flash) {
+			switch ($flash.type) {
+				case 'success':
+					//console.log('flash.message.success: ' + $flash.message);
+					toast.success($flash.message);
+					break;
+				case 'error':
+					//console.log('flash.message.error: ' + $flash.message);
+					toast.error($flash.message);
+					break;
+			}
+		}
+	})
 </script>
 
 <ModeWatcher />
+<Toaster />
 <div class="relative flex min-h-screen flex-col">
 	<div class="flex-1 flex-col">
 		<Navigation {user} />

@@ -50,6 +50,9 @@ importers:
       postgres:
         specifier: ^3.4.4
         version: 3.4.4
+      svelte-sonner:
+        specifier: ^0.3.24
+        version: 0.3.24(svelte@5.0.0-next.132)
       sveltekit-superforms:
         specifier: ^2.13.1
         version: 2.13.1(@sveltejs/kit@2.5.8(@sveltejs/vite-plugin-svelte@3.1.0(svelte@5.0.0-next.132)(vite@5.2.11(@types/node@20.12.12)))(svelte@5.0.0-next.132)(vite@5.2.11(@types/node@20.12.12)))(@types/json-schema@7.0.15)(esbuild-runner@2.2.2(esbuild@0.19.12))(esbuild@0.19.12)(svelte@5.0.0-next.132)
@@ -2796,6 +2799,11 @@ packages:
         optional: true
       typescript:
         optional: true
+
+  svelte-sonner@0.3.24:
+    resolution: {integrity: sha512-txuL0JBUs0v6qGrr0PGCsbXmKHuthdrAkfISYi8umuveF7+gINb6EXl6VmKY9aHhyxCqvVgqd6yophQNrnor4w==}
+    peerDependencies:
+      svelte: '>=3 <5'
 
   svelte@5.0.0-next.132:
     resolution: {integrity: sha512-0+WtutZ46kBu1sU9wD6iWFbvrEqqUroP7hJYtdhzMtpqec4luktfm7NwzXn1vzIAwsQf0hHM2IzRzhbtJmT6kA==}
@@ -5829,6 +5837,10 @@ snapshots:
       postcss: 8.4.38
       postcss-load-config: 4.0.2(postcss@8.4.38)
       typescript: 5.4.5
+
+  svelte-sonner@0.3.24(svelte@5.0.0-next.132):
+    dependencies:
+      svelte: 5.0.0-next.132
 
   svelte@5.0.0-next.132:
     dependencies:
