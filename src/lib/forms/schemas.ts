@@ -67,3 +67,6 @@ export const logInSchema = userSchema.pick({
 });
 
 export type LogInSchema = typeof logInSchema;
+
+export const resetPasswordSchema = userSchema.pick({ email: true });
+export type ResetPasswordSchema = typeof resetPasswordSchema;

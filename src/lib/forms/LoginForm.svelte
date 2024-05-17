@@ -41,12 +41,17 @@
             </Form.Field>
         </Card.Content>
         <Card.Footer>
-            <Form.Button class="w-full" disabled={$submitting || $delayed}>
-                {#if $submitting || $delayed}
-                    <Loader2 class="mr-2 h-4 w-4 animate-spin" />
-                    Please wait
-                {:else}Log In{/if}
-            </Form.Button>
+            <div class="block w-full">
+                <Form.Button class="w-full" disabled={$submitting || $delayed}
+                    >{#if $submitting || $delayed}
+                        <Loader2 class="mr-2 h-4 w-4 animate-spin" />
+                        Please wait{:else}Log In{/if}
+                </Form.Button>
+
+                <div class="mt-6 text-center text-sm">
+                    <a href="/password/reset" class="underline">Forgot your password?</a>
+                </div>
+            </div>
         </Card.Footer>
     </Card.Root>
 </form>

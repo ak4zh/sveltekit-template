@@ -11,13 +11,14 @@ export const userTable = pgTable('users', {
 	// other attributes
 	// role: text('role', { enum: ["USER", "ADMIN"] }).default("USER"), // if you prefer text type
 	parentId: uuid('parent_id').references((): AnyPgColumn => userTable.id),
-	referralCode: varchar('referral_code', { length: 16 }).notNull().unique().default(),
-	role: varchar('role', { enum: ["USER", "ADMIN"], length: 8 }).default("USER"),
+	referralCode: varchar('referral_code', { length: 16 }).notNull().unique(),
+	role: varchar('role', { enum: ["USER", "ADMIN"], length: 8 }).default("USER").notNull(),
 	name: text('first_name').notNull(),
 	email: text('email').notNull().unique(),
 	emailVerified: boolean('email_verified').notNull().default(false),
 	emailVerifyToken: text('email_verify_token').unique(),
 	passwordHash: text('password_hash').notNull(),
+	token: uuid('token').unique()
 });
 
 export const sessionTable = pgTable('sessions', {

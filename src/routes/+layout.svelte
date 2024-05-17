@@ -10,7 +10,7 @@
 <div class="relative flex min-h-screen flex-col">
 	<div class="flex-1 flex-col">
 		<Navigation {user} />
-		<div class="mt-8 md:mt-12">
+		<div class="mt-8 md:mt-12 max-w-5xl mx-auto">
 			{@render children()}
 		</div>	
 	</div>

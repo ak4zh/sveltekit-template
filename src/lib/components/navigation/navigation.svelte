@@ -6,6 +6,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { User } from 'lucia';
+	import { APP_NAME } from '$lib/constants';
 
 	let { user } : { user: User | null } = $props();
 	let currentPage = $derived($page.url.pathname);
@@ -14,9 +15,7 @@
 <header class="bg-background sticky top-0 z-40 w-full border-b">
 	<div class="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
 		<div class="flex gap-6 md:gap-10">
-			<a class="flex items-center space-x-2" href="/">
-				<!-- <Logo /> -->
-			</a>
+			<a class="flex items-center space-x-2" href="/">{APP_NAME}</a>
 			{#if user}
 				<nav class="flex gap-6">
 					<a
