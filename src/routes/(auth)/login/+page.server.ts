@@ -8,7 +8,7 @@ import { logInSchema } from '$lib/forms/schemas.js';
 import { zod } from 'sveltekit-superforms/adapters';
 
 export const load = async (event) => {
-	if (event.locals.user) redirect(302, '/dashboard');
+	if (event.locals.user) redirect(302, '/profile');
 	const form = await superValidate(event, zod(logInSchema));
 	return {
 		form

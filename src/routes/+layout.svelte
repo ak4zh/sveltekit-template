@@ -8,7 +8,6 @@
 	import { toast } from 'svelte-sonner';
 
 	const { data, children } = $props();
-	const user = $derived(data.user)
 	const flash = $state(getFlash(page));
 	$effect(() => {
 		if ($flash) {
@@ -30,7 +29,7 @@
 <Toaster />
 <div class="relative flex min-h-screen flex-col">
 	<div class="flex-1 flex-col">
-		<Navigation {user} />
+		<Navigation user={data.user} />
 		<div class="mt-8 md:mt-12 max-w-5xl mx-auto">
 			{@render children()}
 		</div>	

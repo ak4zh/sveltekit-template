@@ -14,7 +14,7 @@
         validators: zodClient(userUpdateSchema),
         resetForm: false
     })
-	const { form: formData, enhance, submitting, delayed } = form;
+	const { form: formData, enhance, submitting, delayed, tainted } = form;
 </script>
 
 <form use:enhance method="POST" class="w-fit">
@@ -48,7 +48,7 @@
         </Card.Content>
         <Card.Footer>
             <div class="block w-full">
-                <Form.Button class="w-full" disabled={$submitting || $delayed}
+                <Form.Button class="w-full" disabled={!$tainted || $submitting || $delayed}
                     >{#if $submitting || $delayed}
                         <Loader2 class="mr-2 h-4 w-4 animate-spin" />
                         Please wait{:else}Update{/if}

@@ -10,6 +10,11 @@
 
 	let { user } : { user: User | null } = $props();
 	let currentPage = $derived($page.url.pathname);
+
+	function navClass(path: string) {
+		let textClass = currentPage === path ? 'text-primary' : ''
+		return `flex items-center text-sm font-medium text-muted-foreground ${textClass}`.trim();
+	}
 </script>
 
 <header class="bg-background sticky top-0 z-40 w-full border-b">
@@ -18,22 +23,10 @@
 			<a class="flex items-center space-x-2" href="/">{APP_NAME}</a>
 			{#if user}
 				<nav class="flex gap-6">
-					<a
-						class="flex items-center text-sm font-medium text-muted-foreground"
-						href="/"
-						class:active={'/' === currentPage}>Home</a
-					>
-					<a
-						class="flex items-center text-sm font-medium text-muted-foreground"
-						href="/dashboard"
-						class:active={'/dashboard' === currentPage}>Dashboard</a
-					>
+					<a class="{navClass('/')}" href="/">Home</a>
+					<a class="{navClass('/profile')}" href="/profile">Profile</a>
 					{#if user.role === 'ADMIN'}
-						<a
-							class="flex items-center text-sm font-medium text-muted-foreground"
-							href="/users"
-							class:active={'/users' === currentPage}>Users</a
-						>
+						<a class="{navClass('/users')}" href="/users">Users</a>
 					{/if}
 				</nav>
 			{/if}
@@ -120,9 +113,3 @@
 		</div>
 	</div>
 </header>
-
-<style>
-	.active {
-		@apply text-primary;
-	}
-</style>
