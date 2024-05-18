@@ -14,8 +14,8 @@ export const sendVerificationEmail = async (email: string, token: string) => {
 
 // Send an email to welcome the new user
 export const sendWelcomeEmail = async (email: string) => {
-	const textEmail = `Dank voor het verifiëren van je emailadres bij ${APP_NAME}.\nJe kunt nu hier inloggen in je account.\n\n${BASE_URL}/sign-in`;
-	const htmlEmail = `<p>Dank voor het verifiëren van je emailadres bij ${APP_NAME}.</p><p>Je kunt nu hier <a href="${BASE_URL}/sign-in">inloggen</a> in je account.</p>`;
+	const textEmail = `Dank voor het verifiëren van je emailadres bij ${APP_NAME}.\nJe kunt nu hier inloggen in je account.\n\n${BASE_URL}/login`;
+	const htmlEmail = `<p>Dank voor het verifiëren van je emailadres bij ${APP_NAME}.</p><p>Je kunt nu hier <a href="${BASE_URL}/login">inloggen</a> in je account.</p>`;
 	const subject = `Welcome to ${APP_NAME}`;
 	const resultSend = await sendEmail(email, subject, htmlEmail, textEmail);
 	return resultSend;
@@ -41,7 +41,7 @@ export const updateEmailAddressSuccessEmail = async (
 	token: string
 ) => {
 	const verifyEmailURL = `${BASE_URL}/verify/email-${token}`;
-	const textEmail = `Dank voor het verifiëren van je emailadres bij ${APP_NAME}.\nJe kunt nu hier inloggen in je account.\n\n${BASE_URL}/sign-in`;
+	const textEmail = `Dank voor het verifiëren van je emailadres bij ${APP_NAME}.\nJe kunt nu hier inloggen in je account.\n\n${BASE_URL}/login`;
 	const htmlEmail = `<p>Klik op deze <a href="${verifyEmailURL}">link</a> om je emailadres voor jouw ${APP_NAME} account te verifiëren.</p>  <p>Je kunt ook klikken op onderstaande link.</p><p>${verifyEmailURL}</p><p>Als jij deze account niet hebt aangemaakt, kun je deze mail negeren.</p>`;
 	const subject = `Verifieer je emailadres voor ${APP_NAME}`;
 	await sendEmail(email, subject, htmlEmail, textEmail);

@@ -4,12 +4,12 @@ import { setError, superValidate } from 'sveltekit-superforms';
 import { lucia } from '$lib/server/lucia';
 import { Argon2id } from 'oslo/password';
 import { getUserByEmail } from '$lib/server/database/actions/users';
-import { logInSchema } from '$lib/forms/schemas.js';
+import { loginSchema } from '$lib/forms/schemas.js';
 import { zod } from 'sveltekit-superforms/adapters';
 
 export const load = async (event) => {
 	if (event.locals.user) redirect(302, '/profile');
-	const form = await superValidate(event, zod(logInSchema));
+	const form = await superValidate(event, zod(loginSchema));
 	return {
 		form
 	};
@@ -17,7 +17,7 @@ export const load = async (event) => {
 
 export const actions = {
 	default: async (event) => {
-		const form = await superValidate(event, zod(logInSchema));
+		const form = await superValidate(event, zod(loginSchema));
 		if (!form.valid) return fail(400, { form });
 
 		//add user to db

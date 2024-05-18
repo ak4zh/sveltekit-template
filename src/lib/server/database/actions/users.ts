@@ -1,12 +1,12 @@
-import { asc, eq, not } from 'drizzle-orm';
+import { asc, eq, not, sql } from 'drizzle-orm';
 import db from '$lib/server/database/client';
 import { sessionTable, userTable } from '$lib/server/database/schemas';
 import type { User, UpdateUser } from '$lib/server/database/schemas';
-import { alias } from 'drizzle-orm/pg-core';
+// import { alias } from 'drizzle-orm/pg-core';
 
-const parent = alias(userTable, "parent")
+// const parent = alias(userTable, "parent")
 
-export const getUsers = async (page = 1, pageSize = 100) => {
+export const getUsers = async (page = 1, pageSize = 10) => {
 	return await db
 		.select({
 			id: userTable.id,
@@ -14,30 +14,30 @@ export const getUsers = async (page = 1, pageSize = 100) => {
 			email: userTable.email,
 			referralCode: userTable.referralCode,
 			role: userTable.role,
-			parent,
+			emailVerified: userTable.emailVerified
 		})
 		.from(userTable)
-		.leftJoin(parent, eq(parent.id, userTable.parentId))
 		.orderBy(asc(userTable.serial))
 		.limit(pageSize)
 		.offset((page - 1) * pageSize);
 };
 
-export const getMyUsers = async (userId: string, page = 1, pageSize = 100) => {
+export const countUsers = async () => {
+	return await db.select({ count: sql`count(*)`.mapWith(Number) }).from(userTable);
+};
+
+export const getMyUsers = async (userId: string, page = 1, pageSize = 10) => {
 	return await db
 		.select({
 			id: userTable.id,
 			name: userTable.name,
-			company: userTable.company,
 			email: userTable.email,
-			inviteCode: userTable.inviteCode,
+			referralCode: userTable.referralCode,
 			role: userTable.role,
-			advisorId: userTable.advisorId,
-			advisor,
+			emailVerified: userTable.emailVerified
 		})
 		.from(userTable)
-		.where(eq(userTable.advisorId, userId))
-		.leftJoin(advisor, eq(advisor.id, userTable.advisorId))
+		.where(eq(userTable.parentId, userId))
 		.orderBy(asc(userTable.serial))
 		.limit(pageSize)
 		.offset((page - 1) * pageSize);

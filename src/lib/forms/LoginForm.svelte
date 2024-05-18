@@ -3,14 +3,14 @@
 	import { Input } from "$lib/components/ui/input";
 	import * as Card from '$lib/components/ui/card';
 	import { Loader2 } from 'lucide-svelte';
-	import { logInSchema, type LogInSchema } from './schemas';
+	import { loginSchema, type LoginSchema } from './schemas';
 	import SuperDebug, { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { browser } from "$app/environment";
 
-    export let data: SuperValidated<Infer<LogInSchema>>;
+    export let data: SuperValidated<Infer<LoginSchema>>;
 	const form = superForm(data, {
-		validators: zodClient(logInSchema),
+		validators: zodClient(loginSchema),
 	});
 	const { form: formData, enhance, submitting, delayed } = form;
 </script>

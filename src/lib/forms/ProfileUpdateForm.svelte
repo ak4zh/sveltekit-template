@@ -9,7 +9,7 @@
 	import { browser } from "$app/environment";
     import * as Avatar from "$lib/components/ui/avatar/index.js";
 
-    const { data } : { data: SuperValidated<Infer<UserUpdateSchema>> | undefined } = $props();
+    const { data } : { data: SuperValidated<Infer<UserUpdateSchema>> } = $props();
 	const form = superForm(data, {
         validators: zodClient(userUpdateSchema),
         resetForm: false

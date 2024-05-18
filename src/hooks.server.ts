@@ -1,6 +1,23 @@
-import { dev } from '$app/environment';
 import { lucia } from '$lib/server/lucia';
 import { redirect, type Handle } from '@sveltejs/kit';
+// import { faker } from "@faker-js/faker";
+// import { nanoid } from 'nanoid';
+// import { Argon2id } from 'oslo/password';
+// import { userTable } from '$lib/server/database/schemas';
+// import db from '$lib/server/database/client';
+// const data: (typeof userTable.$inferInsert)[] = [];
+// for (let i = 0; i < 200; i++) {
+// 	data.push({
+// 		name: faker.person.fullName(),
+// 		email: faker.internet.email(),
+// 		referralCode: nanoid(7),
+// 		passwordHash: await new Argon2id().hash(faker.internet.password()),
+// 		token: crypto.randomUUID(),
+// 		createdAt: new Date(),
+// 		updatedAt: new Date(),
+// 	});
+// }    
+// await db.insert(userTable).values(data);
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const startTimer = Date.now();
@@ -31,16 +48,14 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.user = user;
 	event.locals.session = session;
 
-	if (!dev) {
-		if (event.route.id?.startsWith('/(protected)')) {
-			if (!user) redirect(302, 'sign-in');
-			if (!user.emailVerified) redirect(302, 'verify/email');
-		};
-		if (event.route.id?.startsWith('/(admin)')) {
-			if (user?.role !== 'ADMIN') redirect(302, 'sign-in');
-		};
-	};
 
+	if (event.route.id?.startsWith('/(protected)')) {
+		if (!user) redirect(302, '/login');
+		if (!user.emailVerified) redirect(302, '/verify/email');
+	};
+	if (event.route.id?.startsWith('/(protected)/(admin)')) {
+		if (user?.role !== 'ADMIN') redirect(302, '/profile');
+	};
 	const response = await resolve(event);
 	return response;
 };

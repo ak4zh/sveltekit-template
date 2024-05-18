@@ -27,14 +27,14 @@ export const userSchema = z.object({
 	createdAt: z.date().optional(),
 	updatedAt: z.date().optional()
 });
+export type UserSchema = typeof userSchema;
 
 export const userUpdateSchema = userSchema.pick({
 	name: true,
     email: true
-})
+});
 export type UserUpdateSchema = typeof userUpdateSchema;
 
-export type UserSchema = typeof userSchema;
 
 export const userUpdatePasswordSchema = userSchema
 	.pick({ password: true, confirmPassword: true })
@@ -52,7 +52,6 @@ export const userUpdatePasswordSchema = userSchema
 			});
 		}
 	});
-
 export type UserUpdatePasswordSchema = typeof userUpdatePasswordSchema;
 
 export const signUpSchema = userSchema.pick({
@@ -63,12 +62,34 @@ export const signUpSchema = userSchema.pick({
 });
 export type SignUpSchema = typeof signUpSchema;
 
-export const logInSchema = userSchema.pick({
+export const loginSchema = userSchema.pick({
 	email: true,
 	password: true
 });
-
-export type LogInSchema = typeof logInSchema;
+export type LoginSchema = typeof loginSchema;
 
 export const resetPasswordSchema = userSchema.pick({ email: true });
 export type ResetPasswordSchema = typeof resetPasswordSchema;
+
+export const userDeleteSchema = z.object({ id: z.string({ required_error: 'Select the user you want to delete' }) });
+export type UserDeleteSchema = typeof userDeleteSchema;
+
+export const userCreateByAdminSchema = userSchema
+	.pick({
+		name: true,
+		email: true,
+		role: true,
+		password: true,
+		emailVerified: true
+	})
+export type UserCreateByAdminSchema = typeof userCreateByAdminSchema;
+
+export const userUpdateByAdminSchema = userSchema
+	.extend({ id: z.string({ required_error: 'Please select the user you want to update' }) })
+	.pick({
+		id: true,
+		name: true,
+		email: true,
+		role: true
+	})
+export type UserUpdateByAdminSchema = typeof userUpdateByAdminSchema;

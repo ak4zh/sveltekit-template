@@ -5,7 +5,6 @@ import { userUpdateSchema } from '$lib/forms/schemas';
 import { updateEmailAddressSuccessEmail } from '$lib/server/emails/templates';
 import { updateUser } from '$lib/server/database/actions/users';
 import type { UpdateUser } from '$lib/server/database/schemas';
-
 import { zod } from 'sveltekit-superforms/adapters';
 
 
@@ -40,6 +39,7 @@ export const actions = {
 				const updatedData: UpdateUser = {
 					name: form.data.name,
 					email: form.data.email,
+					updatedAt: new Date()
 				};
 				if (newEmail) {
 					const token = crypto.randomUUID();
