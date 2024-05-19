@@ -1,5 +1,5 @@
 import { userUpdateByAdminSchema, userDeleteSchema } from '$lib/forms/schemas';
-import { countUsers, deleteUser, getMyUsers, getUserById, getUsers, updateUser, type UserFilters } from '$lib/server/database/actions/users';
+import { deleteUser, getMyUsers, getUserById, getUsers, updateUser, type UserFilters } from '$lib/server/database/actions/users';
 import { fail, redirect } from '@sveltejs/kit';
 import { setFlash } from 'sveltekit-flash-message/server';
 import { setError, superValidate, message } from 'sveltekit-superforms/server';
@@ -54,7 +54,6 @@ export const actions = {
 					name: form.data.name,
 					email: form.data.email,
 					role: form.data.role,
-					updatedAt: new Date()
 				};
 				if (newEmail) {
 					const token = crypto.randomUUID();

@@ -71,6 +71,9 @@ export type LoginSchema = typeof loginSchema;
 export const resetPasswordSchema = userSchema.pick({ email: true });
 export type ResetPasswordSchema = typeof resetPasswordSchema;
 
+export const resendEmailSchema = z.object({ id: z.string({ required_error: 'Something went wrong' }) });
+export type ResendEmailSchema = typeof resendEmailSchema;
+
 export const userDeleteSchema = z.object({ id: z.string({ required_error: 'Select the user you want to delete' }) });
 export type UserDeleteSchema = typeof userDeleteSchema;
 

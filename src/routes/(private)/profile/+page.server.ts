@@ -39,7 +39,6 @@ export const actions = {
 				const updatedData: UpdateUser = {
 					name: form.data.name,
 					email: form.data.email,
-					updatedAt: new Date()
 				};
 				if (newEmail) {
 					const token = crypto.randomUUID();

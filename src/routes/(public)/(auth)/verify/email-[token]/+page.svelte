@@ -1,5 +1,4 @@
 <script lang="ts">
-	/** @type {import('./$types').PageData} */
 	import { Loader2 } from 'lucide-svelte';
 	export let data: { heading?: string; message?: string };
 </script>

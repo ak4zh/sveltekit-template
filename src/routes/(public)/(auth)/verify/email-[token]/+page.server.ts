@@ -17,7 +17,7 @@ export async function load({ params }) {
 			'Your email could not be verified. Please contact support if you feel this is an error.';
 
 		if (user) {
-			sendWelcomeEmail(user.email);
+			await sendWelcomeEmail(user.email);
 			heading = 'Je email is geverifieerd';
 			message =
 				'Je kunt nu hier <a href="/login" class="underline">inloggen</a>';

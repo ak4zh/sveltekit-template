@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, boolean, uuid, serial, varchar, AnyPgColumn } from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp, boolean, uuid, serial, varchar, type AnyPgColumn } from 'drizzle-orm/pg-core';
 // import { sql } from 'drizzle-orm'; // pg_uuidv7
 
 export const userTable = pgTable('users', {
@@ -6,19 +6,21 @@ export const userTable = pgTable('users', {
 	// id: uuid('id').primaryKey().default(sql`uuid_generate_v7()`), // pg_uuidv7
 	id: uuid('id').notNull().primaryKey().defaultRandom(),
 	serial: serial('serial'), // used for faster orderBy if you are not using uuid7 or similar
-	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull(),
-	updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull(),
+	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).defaultNow().notNull(),
+	updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' })
+		.defaultNow().$onUpdate(() => new Date()).notNull(),
 	// other attributes
-	// role: text('role', { enum: ["USER", "ADMIN"] }).default("USER"), // if you prefer text type
+	// role: text('role', { enum: ["USER", "ADMIN"] }).default("USER").notNull(), // if you prefer text type
 	parentId: uuid('parent_id').references((): AnyPgColumn => userTable.id),
 	referralCode: varchar('referral_code', { length: 16 }).notNull().unique(),
 	role: varchar('role', { enum: ["USER", "ADMIN"], length: 8 }).default("USER").notNull(),
-	name: text('first_name').notNull(),
+	name: text('name').notNull(),
 	email: text('email').notNull().unique(),
 	emailVerified: boolean('email_verified').notNull().default(false),
-	emailVerifyToken: text('email_verify_token').unique(),
 	passwordHash: text('password_hash').notNull(),
-	token: uuid('token').unique()
+	token: uuid('token').unique().notNull().defaultRandom()
+	// token: uuid('token').unique().default(sql`uuid_generate_v7()`), // pg_uuidv7
+
 });
 
 export const sessionTable = pgTable('sessions', {

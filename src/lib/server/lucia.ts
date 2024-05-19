@@ -41,7 +41,6 @@ interface DatabaseUserAttributes {
 	role: string;
 	email: string;
 	emailVerified: boolean;
-	emailVerifyToken: string;
 }
 
 /*interface DatabaseSessionAttributes {

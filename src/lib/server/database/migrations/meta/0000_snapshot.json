@@ -1,5 +1,5 @@
 {
-  "id": "f9e85148-fdf6-4d7b-b8eb-e263845229d6",
+  "id": "4e64ad9e-ad9c-43ab-8984-259e8b345dd7",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "6",
   "dialect": "postgresql",
@@ -67,13 +67,15 @@
           "name": "created_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
         "parent_id": {
           "name": "parent_id",
@@ -91,11 +93,11 @@
           "name": "role",
           "type": "varchar(8)",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "'USER'"
         },
-        "first_name": {
-          "name": "first_name",
+        "name": {
+          "name": "name",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -113,15 +115,15 @@
           "notNull": true,
           "default": false
         },
-        "email_verify_token": {
-          "name": "email_verify_token",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
         "password_hash": {
           "name": "password_hash",
           "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "token": {
+          "name": "token",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         }
@@ -158,11 +160,11 @@
             "email"
           ]
         },
-        "users_email_verify_token_unique": {
-          "name": "users_email_verify_token_unique",
+        "users_token_unique": {
+          "name": "users_token_unique",
           "nullsNotDistinct": false,
           "columns": [
-            "email_verify_token"
+            "token"
           ]
         }
       }

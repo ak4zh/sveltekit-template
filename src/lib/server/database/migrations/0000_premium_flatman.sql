@@ -7,19 +7,19 @@ CREATE TABLE IF NOT EXISTS "sessions" (
 CREATE TABLE IF NOT EXISTS "users" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"serial" serial NOT NULL,
-	"created_at" timestamp with time zone NOT NULL,
-	"updated_at" timestamp with time zone NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"parent_id" uuid,
 	"referral_code" varchar(16) NOT NULL,
-	"role" varchar(8) DEFAULT 'USER',
-	"first_name" text NOT NULL,
+	"role" varchar(8) DEFAULT 'USER' NOT NULL,
+	"name" text NOT NULL,
 	"email" text NOT NULL,
 	"email_verified" boolean DEFAULT false NOT NULL,
-	"email_verify_token" text,
 	"password_hash" text NOT NULL,
+	"token" uuid NOT NULL,
 	CONSTRAINT "users_referral_code_unique" UNIQUE("referral_code"),
 	CONSTRAINT "users_email_unique" UNIQUE("email"),
-	CONSTRAINT "users_email_verify_token_unique" UNIQUE("email_verify_token")
+	CONSTRAINT "users_token_unique" UNIQUE("token")
 );
 --> statement-breakpoint
 DO $$ BEGIN

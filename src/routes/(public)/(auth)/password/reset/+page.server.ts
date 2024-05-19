@@ -14,7 +14,6 @@ export const load = async (event) => {
 export const actions = {
 	default: async (event) => {
 		const form = await superValidate(event, zod(resetPasswordSchema));
-		console.log(form)
 		if (!form.valid) return fail(400, { form });
 
 		try {
@@ -33,6 +32,6 @@ export const actions = {
 				'The was a problem resetting your password. Please contact support if you need further help.'
 			);
 		}
-		redirect(302, '/password/reset/success');
+		return redirect(302, '/password/reset/success');
 	}
 };

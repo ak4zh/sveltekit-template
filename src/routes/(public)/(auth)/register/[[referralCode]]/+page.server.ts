@@ -33,8 +33,6 @@ export const actions = {
 				passwordHash: await new Argon2id().hash(form.data.password),
 				token,
 				referralCode: nanoid(7),
-				createdAt: new Date(),
-				updatedAt: new Date(),
 				parentId: parent?.id
 			};
 			const newUser = await createUser(user);
