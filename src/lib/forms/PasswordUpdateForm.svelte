@@ -12,7 +12,9 @@
 	const form = superForm(data, {
 		validators: zodClient(userUpdatePasswordSchema)
 	});
-	const { form: formData, enhance, submitting, delayed } = form;
+	const { form: formData, enhance, submitting, delayed, tainted } = form;
+	let disabled = $state(false)
+	$effect(() => { disabled = !$tainted || $submitting || $delayed})
 </script>
 
 <div class="flex flex-col gap-4">
@@ -39,7 +41,7 @@
 				</Form.Field>
 			</Card.Content>
 			<Card.Footer>
-				<Form.Button class="w-full" disabled={$submitting || $delayed}>
+				<Form.Button class="w-full" disabled={disabled}>
 					{#if $submitting || $delayed}
 						<Loader2 class="mr-2 h-4 w-4 animate-spin" />
 						Please wait

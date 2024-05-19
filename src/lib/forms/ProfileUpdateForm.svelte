@@ -7,7 +7,6 @@
 	import SuperDebug, { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { browser } from '$app/environment';
-	import * as Avatar from '$lib/components/ui/avatar/index.js';
 
 	const { action, data }: { action: string, data: SuperValidated<Infer<UserUpdateSchema>> } = $props();
 	const form = superForm(data, {
@@ -15,23 +14,16 @@
 		resetForm: false
 	});
 	const { form: formData, enhance, submitting, delayed, tainted } = form;
+	let disabled = $state(false)
+	$effect(() => { disabled = !$tainted || $submitting || $delayed})
 </script>
 
 <div class="flex flex-col gap-4">
 	<form use:enhance method="POST" action={action}>
 		<Card.Root>
 			<Card.Header class="space-y-1">
-				<Card.Header class="space-y-1">
-					<div class="mx-auto">
-						<Avatar.Root class="h-16 w-16 text-2xl">
-							<Avatar.Fallback
-								>{$formData.name.slice(0, 2)?.toUpperCase()}</Avatar.Fallback
-							>
-						</Avatar.Root>
-					</div>
-					<Card.Title class="text-2xl">Profile</Card.Title>
-					<Card.Description>Update your profile settings below.</Card.Description>
-				</Card.Header>
+				<Card.Title class="text-2xl">Account</Card.Title>
+				<Card.Description>Update your account details</Card.Description>
 			</Card.Header>
 			<Card.Content class="grid gap-4">
 				<Form.Field {form} name="name">
@@ -51,7 +43,7 @@
 			</Card.Content>
 			<Card.Footer>
 				<div class="block w-full">
-					<Form.Button class="w-full" disabled={!$tainted || $submitting || $delayed}
+					<Form.Button class="w-full" disabled={disabled}
 						>{#if $submitting || $delayed}
 							<Loader2 class="mr-2 h-4 w-4 animate-spin" />
 							Please wait{:else}Update{/if}
