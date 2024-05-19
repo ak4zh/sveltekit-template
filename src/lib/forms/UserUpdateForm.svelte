@@ -57,6 +57,7 @@
 							<Select.Item value="ADMIN" label="ADMIN">ADMIN</Select.Item>
 						</Select.Group>
 					</Select.Content>
+					<Select.Input name="role" bind:value={$formData.role} />
 				</Select.Root>
 			</Form.Control>
 			<Form.FieldErrors />
