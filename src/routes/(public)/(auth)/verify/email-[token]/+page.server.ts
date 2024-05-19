@@ -19,8 +19,7 @@ export async function load({ params }) {
 		if (user) {
 			await sendWelcomeEmail(user.email);
 			heading = 'Je email is geverifieerd';
-			message =
-				'Je kunt nu hier <a href="/login" class="underline">inloggen</a>';
+			message = 'Je kunt nu hier <a href="/login" class="underline">inloggen</a>';
 			await updateUser(user.id, { emailVerified: true });
 		}
 		return { heading, message };

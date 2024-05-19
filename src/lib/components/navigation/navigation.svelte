@@ -1,32 +1,32 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
-	import { Sun, Moon, SunMoon, UserRound, LogOut, CircleUserRound} from 'lucide-svelte';
+	import { Sun, Moon, SunMoon, UserRound, LogOut, CircleUserRound } from 'lucide-svelte';
 	import { setMode, resetMode } from 'mode-watcher';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { User } from 'lucia';
 	import { APP_NAME } from '$lib/constants';
 
-	let { user } : { user: User | null } = $props();
+	let { user }: { user: User | null } = $props();
 	let currentPage = $derived($page.url.pathname);
 
 	function navClass(path: string) {
-		let textClass = currentPage === path ? 'text-primary' : ''
+		let textClass = currentPage === path ? 'text-primary' : '';
 		return `flex items-center text-sm font-medium text-muted-foreground ${textClass}`.trim();
 	}
 </script>
 
-<header class="bg-background sticky top-0 z-40 w-full border-b">
+<header class="sticky top-0 z-40 w-full border-b bg-background">
 	<div class="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
 		<div class="flex gap-6 md:gap-10">
 			<a class="flex items-center space-x-2" href="/">{APP_NAME}</a>
 			{#if user}
 				<nav class="flex gap-6">
-					<a class="{navClass('/')}" href="/">Home</a>
-					<a class="{navClass('/profile')}" href="/profile">Profile</a>
+					<a class={navClass('/')} href="/">Home</a>
+					<a class={navClass('/profile')} href="/profile">Profile</a>
 					{#if user.role === 'ADMIN'}
-						<a class="{navClass('/users')}" href="/users">Users</a>
+						<a class={navClass('/users')} href="/users">Users</a>
 					{/if}
 				</nav>
 			{/if}
@@ -101,7 +101,7 @@
 							<DropdownMenu.Item>
 								<form action="/logout" method="POST">
 									<button>
-										<LogOut class="mr-2 h-4 w-4 inline" />
+										<LogOut class="mr-2 inline h-4 w-4" />
 										Log Out
 									</button>
 								</form>

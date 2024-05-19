@@ -4,9 +4,8 @@
 			Password updated successfully
 		</h1>
 		<p class="max-w-[700px] text-lg text-muted-foreground">
-			Your password has been updated. You may now <a href="/login" class="underline"
-				>log in</a
-			> with your new password.
+			Your password has been updated. You may now <a href="/login" class="underline">log in</a> with
+			your new password.
 		</p>
 	</div>
 </section>

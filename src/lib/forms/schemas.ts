@@ -17,12 +17,10 @@ export const userSchema = z.object({
 		.min(6, { message: 'Password must be at least 6 characters' })
 		.trim(),
 	//terms: z.boolean({ required_error: 'You must accept the terms and privacy policy' }),
-	role: z
-		.enum(['USER', 'ADMIN'], { required_error: 'You must have a role' })
-		.default('USER'),
+	role: z.enum(['USER', 'ADMIN'], { required_error: 'You must have a role' }).default('USER'),
 	emailVerified: z.boolean().optional(),
 	terms: z.literal<boolean>(true, {
-		errorMap: () => ({ message: "You must accept the terms & privacy policy" }),
+		errorMap: () => ({ message: 'You must accept the terms & privacy policy' })
 	}),
 	createdAt: z.date().optional(),
 	updatedAt: z.date().optional()
@@ -31,10 +29,9 @@ export type UserSchema = typeof userSchema;
 
 export const userUpdateSchema = userSchema.pick({
 	name: true,
-    email: true
+	email: true
 });
 export type UserUpdateSchema = typeof userUpdateSchema;
-
 
 export const userUpdatePasswordSchema = userSchema
 	.pick({ password: true, confirmPassword: true })
@@ -71,20 +68,23 @@ export type LoginSchema = typeof loginSchema;
 export const resetPasswordSchema = userSchema.pick({ email: true });
 export type ResetPasswordSchema = typeof resetPasswordSchema;
 
-export const resendEmailSchema = z.object({ id: z.string({ required_error: 'Something went wrong' }) });
+export const resendEmailSchema = z.object({
+	id: z.string({ required_error: 'Something went wrong' })
+});
 export type ResendEmailSchema = typeof resendEmailSchema;
 
-export const userDeleteSchema = z.object({ id: z.string({ required_error: 'Select the user you want to delete' }) });
+export const userDeleteSchema = z.object({
+	id: z.string({ required_error: 'Select the user you want to delete' })
+});
 export type UserDeleteSchema = typeof userDeleteSchema;
 
-export const userCreateByAdminSchema = userSchema
-	.pick({
-		name: true,
-		email: true,
-		role: true,
-		password: true,
-		emailVerified: true
-	})
+export const userCreateByAdminSchema = userSchema.pick({
+	name: true,
+	email: true,
+	role: true,
+	password: true,
+	emailVerified: true
+});
 export type UserCreateByAdminSchema = typeof userCreateByAdminSchema;
 
 export const userUpdateByAdminSchema = userSchema
@@ -94,5 +94,5 @@ export const userUpdateByAdminSchema = userSchema
 		name: true,
 		email: true,
 		role: true
-	})
+	});
 export type UserUpdateByAdminSchema = typeof userUpdateByAdminSchema;

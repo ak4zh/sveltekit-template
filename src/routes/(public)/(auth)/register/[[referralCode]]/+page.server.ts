@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import { setError, superValidate } from 'sveltekit-superforms';
-import { fail } from "@sveltejs/kit";
+import { fail } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
 import { setFlash } from 'sveltekit-flash-message/server';
 import { Argon2id } from 'oslo/password';
@@ -9,7 +9,6 @@ import { createUser, getUserByReferralCode } from '$lib/server/database/actions/
 import { nanoid } from 'nanoid';
 import { sendVerificationEmail } from '$lib/server/emails/templates';
 import { signUpSchema } from '$lib/forms/schemas.js';
-
 
 export const load = async (event) => {
 	if (event.locals.user) redirect(302, '/profile');
@@ -20,12 +19,10 @@ export const load = async (event) => {
 export const actions = {
 	default: async ({ request, params, cookies }) => {
 		const form = await superValidate(request, zod(signUpSchema));
-		console.log(form)
-		if (!form.valid) return fail(400, { form })
+		console.log(form);
+		if (!form.valid) return fail(400, { form });
 		try {
-			const parent = params.referralCode
-				? await getUserByReferralCode(params.referralCode)
-				: null
+			const parent = params.referralCode ? await getUserByReferralCode(params.referralCode) : null;
 			const token = crypto.randomUUID();
 			const user = {
 				email: form.data.email.toLowerCase(),
@@ -36,7 +33,7 @@ export const actions = {
 				parentId: parent?.id
 			};
 			const newUser = await createUser(user);
-			if (!newUser) throw Error("User already exists")
+			if (!newUser) throw Error('User already exists');
 			await sendVerificationEmail(newUser.email, token);
 			const session = await lucia.createSession(newUser.id, {});
 			const sessionCookie = lucia.createSessionCookie(session.id);

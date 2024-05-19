@@ -5,10 +5,10 @@
 	import Navigation from '$lib/components/navigation/navigation.svelte';
 	import Footer from '$lib/components/footer/footer.svelte';
 	import { page } from '$app/stores';
-	import { Toaster } from "$lib/components/ui/sonner";
+	import { Toaster } from '$lib/components/ui/sonner';
 	import { toast } from 'svelte-sonner';
-	import { Separator } from "$lib/components/ui/separator";
-	
+	import { Separator } from '$lib/components/ui/separator';
+
 	const { data, children } = $props();
 	const flash = $state(getFlash(page));
 	$effect(() => {
@@ -24,7 +24,7 @@
 					break;
 			}
 		}
-	})
+	});
 </script>
 
 <ModeWatcher />
@@ -32,9 +32,9 @@
 <div class="relative flex min-h-screen flex-col">
 	<div class="flex-1 flex-col">
 		<Navigation user={data.user} />
-		<div class="mt-8 md:mt-12 max-w-5xl mx-auto">
+		<div class="mx-auto mt-8 max-w-5xl md:mt-12">
 			{@render children()}
-		</div>	
+		</div>
 	</div>
 	<Separator />
 	<Footer />

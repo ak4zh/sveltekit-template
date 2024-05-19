@@ -5,7 +5,6 @@ import { getUserByEmail, updateUser } from '$lib/server/database/actions/users';
 import { resetPasswordSchema } from '$lib/forms/schemas.js';
 import { zod } from 'sveltekit-superforms/adapters';
 
-
 export const load = async (event) => {
 	const form = await superValidate(event, zod(resetPasswordSchema));
 	return { form };

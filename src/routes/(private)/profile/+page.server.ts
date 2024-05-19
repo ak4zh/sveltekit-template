@@ -7,7 +7,6 @@ import { updateUser } from '$lib/server/database/actions/users';
 import type { UpdateUser } from '$lib/server/database/schemas';
 import { zod } from 'sveltekit-superforms/adapters';
 
-
 export const load = async (event) => {
 	const form = await superValidate(event, zod(userUpdateSchema));
 	const user = event.locals.user;
@@ -20,9 +19,9 @@ export const load = async (event) => {
 	}
 	form.data = {
 		name: user?.name,
-		email: user?.email,
+		email: user?.email
 	};
-	return { 
+	return {
 		form
 	};
 };
@@ -38,7 +37,7 @@ export const actions = {
 				const newEmail = user?.email !== form.data.email;
 				const updatedData: UpdateUser = {
 					name: form.data.name,
-					email: form.data.email,
+					email: form.data.email
 				};
 				if (newEmail) {
 					const token = crypto.randomUUID();

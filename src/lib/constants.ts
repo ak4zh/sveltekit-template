@@ -1,5 +1,5 @@
 import { dev } from '$app/environment';
-import { PUBLIC_DOMAIN, PUBLIC_EMAIL } from '$env/static/public'
+import { PUBLIC_DOMAIN, PUBLIC_EMAIL } from '$env/static/public';
 export const DOMAIN = PUBLIC_DOMAIN;
 export const BASE_URL = dev ? 'http://localhost:5173' : `https://${DOMAIN}`;
 export const APP_NAME = 'Sveltekit Starter';

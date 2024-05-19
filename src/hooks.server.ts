@@ -17,7 +17,7 @@ import { redirect, type Handle } from '@sveltejs/kit';
 // 		createdAt: new Date(),
 // 		updatedAt: new Date(),
 // 	});
-// }    
+// }
 // await db.insert(userTable).values(data);
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -29,7 +29,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		event.locals.user = null;
 		event.locals.session = null;
 		return resolve(event);
-	};
+	}
 
 	const { session, user } = await lucia.validateSession(sessionId);
 	if (session && session.fresh) {
@@ -38,24 +38,24 @@ export const handle: Handle = async ({ event, resolve }) => {
 			path: '.',
 			...sessionCookie.attributes
 		});
-	};
+	}
 	if (!session) {
 		const sessionCookie = lucia.createBlankSessionCookie();
 		event.cookies.set(sessionCookie.name, sessionCookie.value, {
 			path: '.',
 			...sessionCookie.attributes
 		});
-	};
+	}
 	event.locals.user = user;
 	event.locals.session = session;
 
 	if (event.route.id?.startsWith('/(private)')) {
 		if (!user) redirect(302, '/login');
 		if (!user.emailVerified) redirect(302, '/verify/email');
-	};
+	}
 	if (event.route.id?.startsWith('/(private)/(admin)')) {
 		if (user?.role !== 'ADMIN') redirect(302, '/profile');
-	};
+	}
 	const response = await resolve(event);
 	return response;
 };

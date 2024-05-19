@@ -8,5 +8,5 @@ export default defineConfig({
 	},
 	optimizeDeps: {
 		exclude: ['@node-rs/argon2', '@node-rs/bcrypt']
-	},
+	}
 });

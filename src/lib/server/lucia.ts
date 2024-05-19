@@ -22,7 +22,7 @@ export const lucia = new Lucia(adapter, {
 			name: attributes.name,
 			role: attributes.role,
 			email: attributes.email,
-			emailVerified: attributes.emailVerified,
+			emailVerified: attributes.emailVerified
 		};
 	}
 });

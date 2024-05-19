@@ -14,4 +14,3 @@ export default {
 		url: DATABASE_URL
 	}
 } satisfies Config;
-

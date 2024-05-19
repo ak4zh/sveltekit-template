@@ -10,9 +10,9 @@ export const load = async (event) => {
 export const actions = {
 	default: async (event) => {
 		let user = event.locals.user;
-		if (!user) return redirect(302, '/login')
+		if (!user) return redirect(302, '/login');
 		user = await getUserById(user.id);
-		if (!user) return redirect(302, '/login')
+		if (!user) return redirect(302, '/login');
 		const token = crypto.randomUUID();
 		await updateUser(user.id, { emailVerified: false, token });
 		await sendVerificationEmail(user.email, token);
@@ -25,4 +25,4 @@ export const actions = {
 		);
 		return { success: true };
 	}
-}
+};
