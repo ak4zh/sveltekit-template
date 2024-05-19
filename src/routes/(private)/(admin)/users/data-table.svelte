@@ -14,21 +14,21 @@
 	  import ActionsCol from "./actions-col.svelte";
 
     const store = queryParameters({
-        page: ssp.number(1),
-        limit: ssp.number(10),
+        page: ssp.number(),
+        limit: ssp.number(),
         sort: ssp.string(),
         order: ssp.string(),
         name: ssp.string(),
         email: ssp.string(),
         role: ssp.string(),
     });
-    const sspPage = queryParam('page', ssp.number($store.page));
-    const sspLimit = queryParam('limit', ssp.number($store.limit));
-    const sspSortBy = queryParam('sort', ssp.string($store.sort));
-    const sspSortOrder = queryParam('order', ssp.string($store.order)) as Writable<'asc' | 'desc' | null>;
-    const sspName = queryParam('name', ssp.string($store.name), { debounceHistory: 500 });
-    const sspEmail = queryParam('email', ssp.string($store.email), { debounceHistory: 500 });
-    const sspRole = queryParam('role', ssp.string($store.role));
+    const sspPage = queryParam('page', ssp.number(1), { showDefaults: false });
+    const sspLimit = queryParam('limit', ssp.number(10), { showDefaults: false });
+    const sspSortBy = queryParam('sort', ssp.string());
+    const sspSortOrder = queryParam('order', ssp.string()) as Writable<'asc' | 'desc' | null>;
+    const sspName = queryParam('name', ssp.string(), { debounceHistory: 500 });
+    const sspEmail = queryParam('email', ssp.string(), { debounceHistory: 500 });
+    const sspRole = queryParam('role', ssp.string());
 
     let users: Writable<User[]> = writable($page.data.users || []);
     let count = writable($page.data.count);
