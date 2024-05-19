@@ -20,7 +20,7 @@
 				<Pencil class="h-4 w-4" />
 			</Button>
 		</Dialog.Trigger>
-		<Dialog.Content class="sm:max-w-[425px]">
+		<Dialog.Content >
 			<Dialog.Header>
 				<Dialog.Title>Edit user</Dialog.Title>
 				<Dialog.Description>

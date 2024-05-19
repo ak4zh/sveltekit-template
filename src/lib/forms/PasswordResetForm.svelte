@@ -15,33 +15,35 @@
 	const { form: formData, enhance, submitting, delayed } = form;
 </script>
 
-<form use:enhance method="POST" class="w-fit">
-	<Card.Root>
-		<Card.Header class="space-y-1">
-			<Card.Title class="text-2xl">Reset Your Password</Card.Title>
-			<Card.Description>Receive email instructions to reset your password.</Card.Description>
-		</Card.Header>
-		<Card.Content class="grid gap-4">
-			<Form.Field {form} name="email">
-				<Form.Control let:attrs>
-					<Form.Label>Email</Form.Label>
-					<Input {...attrs} bind:value={$formData.email} />
-				</Form.Control>
-				<Form.FieldErrors />
-			</Form.Field>
-		</Card.Content>
-		<Card.Footer>
-			<Form.Button class="w-full" disabled={$submitting || $delayed}>
-				{#if $submitting || $delayed}
-					<Loader2 class="mr-2 h-4 w-4 animate-spin" />
-					Please wait
-				{:else}Send Password Reset Email{/if}
-			</Form.Button>
-		</Card.Footer>
-	</Card.Root>
-</form>
-<div class="w-full">
-	{#if browser}
-		<SuperDebug data={$formData} />
-	{/if}
+<div class="flex flex-col gap-4">
+	<form use:enhance method="POST">
+		<Card.Root>
+			<Card.Header class="space-y-1">
+				<Card.Title class="text-2xl">Reset Your Password</Card.Title>
+				<Card.Description>Receive email instructions to reset your password.</Card.Description>
+			</Card.Header>
+			<Card.Content class="grid gap-4">
+				<Form.Field {form} name="email">
+					<Form.Control let:attrs>
+						<Form.Label>Email</Form.Label>
+						<Input {...attrs} bind:value={$formData.email} />
+					</Form.Control>
+					<Form.FieldErrors />
+				</Form.Field>
+			</Card.Content>
+			<Card.Footer>
+				<Form.Button class="w-full" disabled={$submitting || $delayed}>
+					{#if $submitting || $delayed}
+						<Loader2 class="mr-2 h-4 w-4 animate-spin" />
+						Please wait
+					{:else}Send Password Reset Email{/if}
+				</Form.Button>
+			</Card.Footer>
+		</Card.Root>
+	</form>
+	<div>
+		{#if browser}
+			<SuperDebug data={$formData} />
+		{/if}
+	</div>
 </div>

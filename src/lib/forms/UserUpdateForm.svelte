@@ -37,44 +37,46 @@
 	$effect(() => console.log('Comp:', open));
 </script>
 
-<form use:enhance method="POST" action="?/update" id="edit-${$formData.id}">
-	<input hidden name="id" value={$formData.id} />
-	<Form.Field {form} name="role">
-		<Form.Control>
-			<Form.Label>Role</Form.Label>
-			<Select.Root
-				onSelectedChange={(e) => ($formData.role = e?.value)}
-				selected={{ label: $formData.role, value: $formData.role }}
-			>
-				<Select.Trigger class="w-[180px]">
-					<Select.Value placeholder="Select a role" />
-				</Select.Trigger>
-				<Select.Content>
-					<Select.Group>
-						<Select.Item value="" label="">-</Select.Item>
-						<Select.Item value="USER" label="USER">USER</Select.Item>
-						<Select.Item value="ADMIN" label="ADMIN">ADMIN</Select.Item>
-					</Select.Group>
-				</Select.Content>
-			</Select.Root>
-		</Form.Control>
-		<Form.FieldErrors />
-	</Form.Field>
-	<Form.Field {form} name="name">
-		<Form.Control let:attrs>
-			<Form.Label>Name</Form.Label>
-			<Input {...attrs} bind:value={$formData.name} />
-		</Form.Control>
-		<Form.FieldErrors />
-	</Form.Field>
-	<Form.Field {form} name="email">
-		<Form.Control let:attrs>
-			<Form.Label>Email</Form.Label>
-			<Input {...attrs} bind:value={$formData.email} />
-		</Form.Control>
-		<Form.FieldErrors />
-	</Form.Field>
-</form>
-{#if browser}
-	<SuperDebug data={$formData} />
-{/if}
+<div class="flex flex-col gap-4">
+	<form use:enhance method="POST" action="?/update" id="edit-${$formData.id}">
+		<input hidden name="id" value={$formData.id} />
+		<Form.Field {form} name="role">
+			<Form.Control>
+				<Form.Label>Role</Form.Label>
+				<Select.Root
+					onSelectedChange={(e) => ($formData.role = e?.value)}
+					selected={{ label: $formData.role, value: $formData.role }}
+				>
+					<Select.Trigger class="w-[180px]">
+						<Select.Value placeholder="Select a role" />
+					</Select.Trigger>
+					<Select.Content>
+						<Select.Group>
+							<Select.Item value="" label="">-</Select.Item>
+							<Select.Item value="USER" label="USER">USER</Select.Item>
+							<Select.Item value="ADMIN" label="ADMIN">ADMIN</Select.Item>
+						</Select.Group>
+					</Select.Content>
+				</Select.Root>
+			</Form.Control>
+			<Form.FieldErrors />
+		</Form.Field>
+		<Form.Field {form} name="name">
+			<Form.Control let:attrs>
+				<Form.Label>Name</Form.Label>
+				<Input {...attrs} bind:value={$formData.name} />
+			</Form.Control>
+			<Form.FieldErrors />
+		</Form.Field>
+		<Form.Field {form} name="email">
+			<Form.Control let:attrs>
+				<Form.Label>Email</Form.Label>
+				<Input {...attrs} bind:value={$formData.email} />
+			</Form.Control>
+			<Form.FieldErrors />
+		</Form.Field>
+	</form>
+	{#if browser}
+		<SuperDebug data={$formData} />
+	{/if}
+</div>

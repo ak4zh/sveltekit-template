@@ -40,11 +40,6 @@ export const userUpdatePasswordSchema = userSchema
 			ctx.addIssue({
 				code: 'custom',
 				message: 'Password and Confirm Password must match',
-				path: ['password']
-			});
-			ctx.addIssue({
-				code: 'custom',
-				message: 'Password and Confirm Password must match',
 				path: ['confirmPassword']
 			});
 		}
