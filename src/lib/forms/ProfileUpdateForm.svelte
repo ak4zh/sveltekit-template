@@ -23,7 +23,7 @@
 	<form use:enhance method="POST" action={action}>
 		<Card.Root>
 			<Card.Header class="space-y-1">
-				<Card.Title class="text-2xl">Account</Card.Title>
+				<Card.Title class="text-2xl">{m.account()}</Card.Title>
 				<Card.Description>Update your account details</Card.Description>
 			</Card.Header>
 			<Card.Content class="grid gap-4">

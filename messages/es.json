@@ -12,6 +12,7 @@
     "confirmPassword": "confirmar Contraseña",
     "name": "nombre",
     "email": "Correo electrónico",
+    "role": "Role",
     "privacy": "política de privacidad",
     "terms": "Términos de servicio",
     "about": "Acerca de",

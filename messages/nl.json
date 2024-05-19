@@ -12,6 +12,7 @@
     "confirmPassword": "bevestig wachtwoord",
     "name": "naam",
     "email": "E-mail",
+    "role": "Rol",
     "privacy": "Privacybeleid",
     "terms": "Servicevoorwaarden",
     "about": "Over",

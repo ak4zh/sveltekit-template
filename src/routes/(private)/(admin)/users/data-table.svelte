@@ -12,6 +12,7 @@
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select/index.js';
 	import ActionsCol from './actions-col.svelte';
+	import * as m from "$paraglide/messages.js"
 
 	const store = queryParameters({
 		page: ssp.number(),
@@ -49,7 +50,7 @@
 	const columns = table.createColumns([
 		table.column({
 			accessor: 'name',
-			header: 'Name',
+			header: m.name(),
 			plugins: {
 				sort: {
 					disable: false
@@ -61,7 +62,7 @@
 		}),
 		table.column({
 			accessor: 'email',
-			header: 'Email',
+			header: m.email(),
 			plugins: {
 				sort: {
 					disable: false
@@ -73,7 +74,7 @@
 		}),
 		table.column({
 			accessor: 'role',
-			header: 'Role',
+			header: m.role(),
 			plugins: {
 				sort: {
 					disable: false

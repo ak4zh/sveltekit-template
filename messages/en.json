@@ -13,6 +13,7 @@
     "confirmPassword": "Confirm Password",
     "name": "name",
     "email": "Email",
+    "role": "Role",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
     "about": "About",
@@ -40,5 +41,7 @@
     "confirmNewPassword": "Confirm New Password",
     "changeYourPassword": "Change Your Password",
     "changeYourPasswordDescription": "Choose a new password for your account",
-    "updatePassword": "Update Password"
+    "updatePassword": "Update Password",
+    "previous": "Previous",
+    "next": "Next"
 }
