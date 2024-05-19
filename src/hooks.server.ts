@@ -49,11 +49,11 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.session = session;
 
 
-	if (event.route.id?.startsWith('/(protected)')) {
+	if (event.route.id?.startsWith('/(private)')) {
 		if (!user) redirect(302, '/login');
 		if (!user.emailVerified) redirect(302, '/verify/email');
 	};
-	if (event.route.id?.startsWith('/(protected)/(admin)')) {
+	if (event.route.id?.startsWith('/(private)/(admin)')) {
 		if (user?.role !== 'ADMIN') redirect(302, '/profile');
 	};
 	const response = await resolve(event);

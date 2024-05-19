@@ -3,8 +3,7 @@
     let currentYear = new Date().getFullYear();
 </script>
 
-
-<section class="">
+<section>
 	<footer class="flex bottom-0 flex-col gap-4 text-center place-items-center m-4">
 		<div class="container mx-auto flex justify-center space-x-8">
 			<a
