@@ -1,5 +1,7 @@
 import { lucia } from '$lib/server/lucia';
 import { redirect, type Handle } from '@sveltejs/kit';
+import { sequence } from '@sveltejs/kit/hooks';
+import { i18n } from '$lib/i18n'
 
 // import { faker } from "@faker-js/faker";
 // import { nanoid } from 'nanoid';
@@ -19,8 +21,7 @@ import { redirect, type Handle } from '@sveltejs/kit';
 // 	});
 // }
 // await db.insert(userTable).values(data);
-
-export const handle: Handle = async ({ event, resolve }) => {
+export const authHandle: Handle = async ({ event, resolve }) => {
 	const startTimer = Date.now();
 	event.locals.startTimer = startTimer;
 
@@ -59,3 +60,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const response = await resolve(event);
 	return response;
 };
+
+export const handle = sequence(i18n.handle(), authHandle);
+

@@ -3,10 +3,10 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { Sun, Moon, SunMoon, UserRound, LogOut, CircleUserRound } from 'lucide-svelte';
 	import { setMode, resetMode } from 'mode-watcher';
-	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { User } from 'lucia';
 	import { APP_NAME } from '$lib/constants';
+	import * as m from "$paraglide/messages.js"
 
 	let { user }: { user: User | null } = $props();
 	let currentPage = $derived($page.url.pathname);
@@ -23,10 +23,10 @@
 			<a class="flex items-center space-x-2" href="/">{APP_NAME}</a>
 			{#if user}
 				<nav class="flex gap-6">
-					<a class={navClass('/')} href="/">Home</a>
-					<a class={navClass('/profile')} href="/profile">Profile</a>
+					<a class={navClass('/')} href="/">{m.home()}</a>
+					<a class={navClass('/profile')} href="/profile">{m.profile()}</a>
 					{#if user.role === 'ADMIN'}
-						<a class={navClass('/users')} href="/users">Users</a>
+						<a class={navClass('/users')} href="/users">{m.users()}</a>
 					{/if}
 				</nav>
 			{/if}
@@ -34,7 +34,7 @@
 		<div class="flex flex-1 items-center justify-end space-x-4">
 			<nav class="flex items-center space-x-1">
 				{#if !user}
-					<Button href="/login">Log In</Button>
+					<Button href="/login">{m.login()}</Button>
 					<DropdownMenu.Root>
 						<DropdownMenu.Trigger asChild let:builder>
 							<Button builders={[builder]} variant="ghost" size="icon">
@@ -77,9 +77,9 @@
 							</DropdownMenu.Label>
 							<DropdownMenu.Separator />
 							<DropdownMenu.Group>
-								<DropdownMenu.Item on:click={() => goto('/profile')}>
+								<DropdownMenu.Item href="/profile">
 									<UserRound class="mr-2 h-4 w-4" />
-									Profile
+									{m.profile()}
 								</DropdownMenu.Item>
 							</DropdownMenu.Group>
 
@@ -91,17 +91,17 @@
 									<Moon
 										class="absolute mr-2 h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
 									/>
-									Appearance
+									{m.appearance()}
 								</DropdownMenu.SubTrigger>
 								<DropdownMenu.SubContent>
 									<DropdownMenu.Item on:click={() => setMode('light')}
-										><Sun class="mr-2 h-4 w-4" />Light
+										><Sun class="mr-2 h-4 w-4" />{m.light()}
 									</DropdownMenu.Item>
 									<DropdownMenu.Item on:click={() => setMode('dark')}
-										><Moon class="mr-2 h-4 w-4" />Dark
+										><Moon class="mr-2 h-4 w-4" />{m.dark()}
 									</DropdownMenu.Item>
 									<DropdownMenu.Item on:click={() => setMode('system')}
-										><SunMoon class="mr-2 h-4 w-4" />System
+										><SunMoon class="mr-2 h-4 w-4" />{m.system()}
 									</DropdownMenu.Item>
 								</DropdownMenu.SubContent>
 							</DropdownMenu.Sub>
@@ -110,7 +110,7 @@
 								<form action="/logout" method="POST">
 									<button>
 										<LogOut class="mr-2 inline h-4 w-4" />
-										Log Out
+										{m.logout()}
 									</button>
 								</form>
 							</DropdownMenu.Item>

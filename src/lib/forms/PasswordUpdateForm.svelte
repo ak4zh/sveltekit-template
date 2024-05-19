@@ -7,6 +7,7 @@
 	import SuperDebug, { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { browser } from '$app/environment';
+	import * as m from "$paraglide/messages.js"
 
 	let { action, data }: { action: string, data: SuperValidated<Infer<UserUpdatePasswordSchema>> } = $props()
 	const form = superForm(data, {
@@ -21,20 +22,20 @@
 	<form use:enhance method="POST" action={action}>
 		<Card.Root>
 			<Card.Header class="space-y-1">
-				<Card.Title class="text-2xl">Change Your Password</Card.Title>
-				<Card.Description>Choose a new password for your account.</Card.Description>
+				<Card.Title class="text-2xl">{m.changeYourPassword()}</Card.Title>
+				<Card.Description>{m.changeYourPasswordDescription()}</Card.Description>
 			</Card.Header>
 			<Card.Content class="grid gap-4">
 				<Form.Field {form} name="password">
 					<Form.Control let:attrs>
-						<Form.Label>New Password</Form.Label>
+						<Form.Label>{m.newPassword()}</Form.Label>
 						<Input {...attrs} bind:value={$formData.password} type="password" />
 					</Form.Control>
 					<Form.FieldErrors />
 				</Form.Field>
 				<Form.Field {form} name="confirmPassword">
 					<Form.Control let:attrs>
-						<Form.Label>Confirm New Password</Form.Label>
+						<Form.Label>{m.confirmNewPassword()}</Form.Label>
 						<Input {...attrs} bind:value={$formData.confirmPassword} type="password"/>
 					</Form.Control>
 					<Form.FieldErrors />
@@ -45,7 +46,7 @@
 					{#if $submitting || $delayed}
 						<Loader2 class="mr-2 h-4 w-4 animate-spin" />
 						Please wait
-					{:else}Update Password{/if}
+					{:else}{m.updatePassword()}{/if}
 				</Form.Button>
 			</Card.Footer>
 		</Card.Root>

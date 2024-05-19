@@ -8,6 +8,7 @@
 	import * as Select from '$lib/components/ui/select/index.js';
 	import type { Writable } from 'svelte/store';
 	import { User } from 'lucide-svelte';
+	import * as m from "$paraglide/messages.js"
 
 	let {
 		data,
@@ -42,7 +43,7 @@
 		<input hidden name="id" value={$formData.id} />
 		<Form.Field {form} name="role">
 			<Form.Control>
-				<Form.Label>Role</Form.Label>
+				<Form.Label>{m.role()}</Form.Label>
 				<Select.Root
 					onSelectedChange={(e) => ($formData.role = e?.value)}
 					selected={{ label: $formData.role, value: $formData.role }}
@@ -64,14 +65,14 @@
 		</Form.Field>
 		<Form.Field {form} name="name">
 			<Form.Control let:attrs>
-				<Form.Label>Name</Form.Label>
+				<Form.Label>{m.name()}</Form.Label>
 				<Input {...attrs} bind:value={$formData.name} />
 			</Form.Control>
 			<Form.FieldErrors />
 		</Form.Field>
 		<Form.Field {form} name="email">
 			<Form.Control let:attrs>
-				<Form.Label>Email</Form.Label>
+				<Form.Label>{m.email()}</Form.Label>
 				<Input {...attrs} bind:value={$formData.email} />
 			</Form.Control>
 			<Form.FieldErrors />

@@ -1,5 +1,7 @@
 <script lang="ts">
 	import '../app.css';
+	import { ParaglideJS } from '@inlang/paraglide-sveltekit'
+	import { i18n } from '$lib/i18n.js'
 	import { ModeWatcher } from 'mode-watcher';
 	import { getFlash } from 'sveltekit-flash-message';
 	import Navigation from '$lib/components/navigation/navigation.svelte';
@@ -27,15 +29,17 @@
 	});
 </script>
 
-<ModeWatcher />
-<Toaster />
-<div class="relative flex min-h-screen flex-col">
-	<div class="flex-1 flex-col">
-		<Navigation user={data.user} />
-		<div class="mx-auto mt-8 max-w-5xl md:mt-12">
-			{@render children()}
+<ParaglideJS {i18n}>
+	<ModeWatcher />
+	<Toaster />
+	<div class="relative flex min-h-screen flex-col">
+		<div class="flex-1 flex-col">
+			<Navigation user={data.user} />
+			<div class="mx-auto mt-8 max-w-5xl md:mt-12">
+				{@render children()}
+			</div>
 		</div>
-	</div>
-	<Separator />
-	<Footer />
-</div>
+		<Separator />
+		<Footer />
+	</div>	
+</ParaglideJS>
