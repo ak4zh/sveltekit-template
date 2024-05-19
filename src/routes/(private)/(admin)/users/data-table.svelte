@@ -90,6 +90,7 @@
 			header: '',
 			cell: ({ value }) => {
 				return createRender(ActionsCol, {
+					referralCode: value.referralCode,
 					updateFormData: value,
 					deleteFormData: { id: value.id }
 				});
