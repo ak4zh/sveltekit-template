@@ -1,13 +1,39 @@
-import { asc, eq, not, sql } from 'drizzle-orm';
+import { and, asc, desc, eq, ilike, not, sql } from 'drizzle-orm';
 import db from '$lib/server/database/client';
 import { sessionTable, userTable } from '$lib/server/database/schemas';
 import type { User, UpdateUser } from '$lib/server/database/schemas';
 // import { alias } from 'drizzle-orm/pg-core';
 
 // const parent = alias(userTable, "parent")
+export type UserFilters = {
+	name?: string;
+	role?: 'ADMIN' | 'USER';
+	email?: string;
+	search?: string;
+	limit?: string;
+	page?: string;
+	sort?: string;
+	order?: string;
+};
 
-export const getUsers = async (page = 1, pageSize = 10) => {
-	return await db
+const filtersToConditions = async (userFilters: UserFilters, userId: string | undefined = undefined) => {
+	const conditions = [];
+	if (userId) conditions.push(eq(userTable.parentId, userId));
+	if (userFilters.name) conditions.push(ilike(userTable.name, `%${userFilters.name}%`));
+	if (userFilters.email) conditions.push(ilike(userTable.email, `%${userFilters.email}%`));
+	if (userFilters.role) conditions.push(eq(userTable.role, userFilters.role.toUpperCase()));
+	return conditions;
+}
+const getUsersQuery = async (userFilters: UserFilters, userId: string | undefined = undefined) => {
+	const sortableColumns = {
+		name: userTable.name,
+		email: userTable.email,
+		role: userTable.role
+	}
+	const page = Number(userFilters.page) || 1;
+	const limit = Math.min(Number(userFilters.limit) || 10, 50);
+	const offset = (page - 1) * limit;
+	const query = db
 		.select({
 			id: userTable.id,
 			name: userTable.name,
@@ -17,30 +43,27 @@ export const getUsers = async (page = 1, pageSize = 10) => {
 			emailVerified: userTable.emailVerified
 		})
 		.from(userTable)
-		.orderBy(asc(userTable.serial))
-		.limit(pageSize)
-		.offset((page - 1) * pageSize);
+	const countQuery = db.select({ count: sql`count(*)`.mapWith(Number) }).from(userTable);
+	const conditions = await filtersToConditions(userFilters, userId);
+	if (userFilters.order && userFilters.sort && userFilters.sort in sortableColumns) {
+		const colName = sortableColumns[userFilters.sort];
+		query.orderBy(userFilters.order === 'asc' ? asc(colName) : desc(colName))
+	} else {
+		query.orderBy(asc(userTable.serial))
+	};
+	const [total, filtered, users] = await Promise.all([
+		db.select({ count: sql`count(*)`.mapWith(Number) }).from(userTable),
+		countQuery.where(and(...conditions)),
+		query.where(and(...conditions)).limit(limit).offset(offset)
+	])
+	return { users, count: filtered?.[0]?.count, total: total?.[0]?.count };
 };
+
+export const getUsers = async (userFilters: UserFilters) => await getUsersQuery(userFilters);
+export const getMyUsers = async (userFilters: UserFilters, userId: string) => await getUsersQuery(userFilters, userId);
 
 export const countUsers = async () => {
 	return await db.select({ count: sql`count(*)`.mapWith(Number) }).from(userTable);
-};
-
-export const getMyUsers = async (userId: string, page = 1, pageSize = 10) => {
-	return await db
-		.select({
-			id: userTable.id,
-			name: userTable.name,
-			email: userTable.email,
-			referralCode: userTable.referralCode,
-			role: userTable.role,
-			emailVerified: userTable.emailVerified
-		})
-		.from(userTable)
-		.where(eq(userTable.parentId, userId))
-		.orderBy(asc(userTable.serial))
-		.limit(pageSize)
-		.offset((page - 1) * pageSize);
 };
 
 export const getUserByInviteCode = async (inviteCode: string) => {

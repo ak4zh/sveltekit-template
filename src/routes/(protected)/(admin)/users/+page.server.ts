@@ -1,6 +1,6 @@
 import { userUpdateByAdminSchema, userDeleteSchema } from '$lib/forms/schemas';
-import { countUsers, deleteUser, getMyUsers, getUsers, updateUser } from '$lib/server/database/actions/users';
-import { fail } from '@sveltejs/kit';
+import { countUsers, deleteUser, getMyUsers, getUsers, updateUser, type UserFilters } from '$lib/server/database/actions/users';
+import { fail, redirect } from '@sveltejs/kit';
 import { setFlash } from 'sveltekit-flash-message/server';
 import { setError, superValidate, message } from 'sveltekit-superforms/server';
 import { updateEmailAddressSuccessEmail } from '$lib/server/emails/templates';
@@ -10,23 +10,16 @@ import type { UpdateUser } from '$lib/server/database/schemas.js';
 export const load = async (event) => {
 	const form = await superValidate(event, zod(userUpdateByAdminSchema));
 	const deleteForm = await superValidate(event, zod(userDeleteSchema));
-	const pageNum = Number(event.url.searchParams.get('page')) || 1;
-
 	const user = event.locals.user;
-	if (!user) {
-		return fail(400, {
-			form,
-			error: 'You must be signed in to view this page.'
-		});
-	}
+	if (!user) return redirect(302, '/login')
 	// this can be used if there are multiple ADMIN like roles
-	const users = user?.role === 'ADMIN' 
-		? await getUsers(pageNum) || []
-		: await getMyUsers(user?.id, pageNum) || []
-	const totalUsers = await countUsers()
+	const userFilters = Object.fromEntries(event.url.searchParams) as UserFilters;
+
+	const result = user?.role === 'ADMIN' 
+		? await getUsers(userFilters)
+		: await getMyUsers(userFilters, user?.id)
 	return {
-		users: users,
-		total: totalUsers?.[0]?.count || 1,
+		...result,
 		form,
 		deleteForm
 	};
