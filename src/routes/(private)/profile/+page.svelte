@@ -6,6 +6,8 @@
 	import { Button } from "$lib/components/ui/button/index.js";
 	import { Input } from "$lib/components/ui/input/index.js";
 	import { Label } from "$lib/components/ui/label/index.js";
+	import * as m from "$paraglide/messages.js"
+
 	export let data;
 </script>
    
@@ -13,8 +15,8 @@
 
   <Tabs.Root value="account" class="w-[400px]">
 	<Tabs.List class="grid w-full grid-cols-2">
-	  <Tabs.Trigger value="account">Account</Tabs.Trigger>
-	  <Tabs.Trigger value="password">Password</Tabs.Trigger>
+	  <Tabs.Trigger value="account">{m.account()}</Tabs.Trigger>
+	  <Tabs.Trigger value="password">{m.password()}</Tabs.Trigger>
 	</Tabs.List>
 	<Tabs.Content value="account">
 		<ProfileUpdateForm data={data.form} action="/profile?/account" />

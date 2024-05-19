@@ -7,7 +7,7 @@
 		"dev:db:start": "docker run -d --name sveltekit-starter-pg -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:16.2",
 		"dev:db:reset": "docker rm -f sveltekit-starter-pg && pnpm dev:db:start",
 		"dev:db:stop": "docker stop sveltekit-starter-pg",
-		"build": "vite build",
+		"build": "paraglide-js compile --project ./project.inlang --outdir ./src/lib/paraglide && vite build",
 		"preview": "vite preview",
 		"test": "npm run test:integration && npm run test:unit",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -18,10 +18,13 @@
 		"test:unit": "vitest",
 		"studio": "drizzle-kit studio",
 		"generate": "drizzle-kit generate",
-		"migrate": "drizzle-kit push"
+		"migrate": "drizzle-kit push",
+		"postinstall": "paraglide-js compile --project ./project.inlang --outdir ./src/lib/paraglide"
 	},
 	"devDependencies": {
 		"@faker-js/faker": "^8.4.1",
+		"@inlang/paraglide-js": "1.9.0",
+		"@inlang/paraglide-sveltekit": "^0.7.0",
 		"@playwright/test": "^1.44.0",
 		"@sveltejs/adapter-auto": "^3.2.0",
 		"@sveltejs/kit": "^2.5.9",

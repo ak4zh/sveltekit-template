@@ -7,6 +7,7 @@
 	import SuperDebug, { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { browser } from '$app/environment';
+	import * as m from "$paraglide/messages.js"
 
 	const { action, data }: { action: string, data: SuperValidated<Infer<UserUpdateSchema>> } = $props();
 	const form = superForm(data, {
@@ -28,14 +29,14 @@
 			<Card.Content class="grid gap-4">
 				<Form.Field {form} name="name">
 					<Form.Control let:attrs>
-						<Form.Label>Name</Form.Label>
+						<Form.Label>{m.name()}</Form.Label>
 						<Input {...attrs} bind:value={$formData.name} />
 					</Form.Control>
 					<Form.FieldErrors />
 				</Form.Field>
 				<Form.Field {form} name="email">
 					<Form.Control let:attrs>
-						<Form.Label>Email</Form.Label>
+						<Form.Label>{m.email()}</Form.Label>
 						<Input {...attrs} bind:value={$formData.email} />
 					</Form.Control>
 					<Form.FieldErrors />
