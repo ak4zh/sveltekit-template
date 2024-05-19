@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, ilike, not, sql } from 'drizzle-orm';
+import { and, asc, desc, eq, ilike, not, sql, type AnyColumn } from 'drizzle-orm';
 import db from '$lib/server/database/client';
 import { sessionTable, userTable } from '$lib/server/database/schemas';
 import type { User, UpdateUser } from '$lib/server/database/schemas';
@@ -25,11 +25,11 @@ const filtersToConditions = async (userFilters: UserFilters, userId: string | un
 	return conditions;
 }
 const getUsersQuery = async (userFilters: UserFilters, userId: string | undefined = undefined) => {
-	const sortableColumns = {
-		name: userTable.name,
-		email: userTable.email,
-		role: userTable.role
-	}
+	const sortableColumns: { [key: string]: AnyColumn } = {
+	  name: userTable.name,
+	  email: userTable.email,
+	  role: userTable.role
+	};
 	const page = Number(userFilters.page) || 1;
 	const limit = Math.min(Number(userFilters.limit) || 10, 50);
 	const offset = (page - 1) * limit;
@@ -66,8 +66,8 @@ export const countUsers = async () => {
 	return await db.select({ count: sql`count(*)`.mapWith(Number) }).from(userTable);
 };
 
-export const getUserByInviteCode = async (inviteCode: string) => {
-	const user = await db.select().from(userTable).where(eq(userTable.inviteCode, inviteCode));
+export const getUserByReferralCode = async (referralCode: string) => {
+	const user = await db.select().from(userTable).where(eq(userTable.referralCode, referralCode));
 	if (user.length === 0) {
 		return null;
 	} else {
@@ -85,7 +85,7 @@ export const getInsiders = async () => {
 	.orderBy(asc(userTable.serial));
 };
 
-export const getUsersByRole = async (role: string) => {
+export const getUsersByRole = async (role: "ADMIN" | "USER") => {
 	const user = await db.select()
 		.from(userTable)
 		.where(eq(userTable.role, role))
@@ -123,7 +123,6 @@ export const getUserByToken = async (token: string) => {
 };
 
 export const updateUser = async (id: string, user: UpdateUser) => {
-	console.log(id, user)
 	const result = await db.update(userTable).set(user).where(eq(userTable.id, id)).returning();
 	if (result.length === 0) {
 		return null;

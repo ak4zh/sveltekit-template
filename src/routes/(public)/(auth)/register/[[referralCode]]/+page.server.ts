@@ -5,7 +5,7 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { setFlash } from 'sveltekit-flash-message/server';
 import { Argon2id } from 'oslo/password';
 import { lucia } from '$lib/server/lucia';
-import { createUser, getUserByInviteCode } from '$lib/server/database/actions/users';
+import { createUser, getUserByReferralCode } from '$lib/server/database/actions/users';
 import { nanoid } from 'nanoid';
 import { sendVerificationEmail } from '$lib/server/emails/templates';
 import { signUpSchema } from '$lib/forms/schemas.js';
@@ -24,7 +24,7 @@ export const actions = {
 		if (!form.valid) return fail(400, { form })
 		try {
 			const parent = params.referralCode
-				? await getUserByInviteCode(params.referralCode)
+				? await getUserByReferralCode(params.referralCode)
 				: null
 			const token = crypto.randomUUID();
 			const user = {
