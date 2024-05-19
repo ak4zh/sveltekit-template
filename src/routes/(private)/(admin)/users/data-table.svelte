@@ -1,13 +1,9 @@
 <script lang="ts">
     import { createTable, Render, Subscribe, createRender } from "svelte-headless-table";
     import { addSortBy, addTableFilter, addColumnFilters } from "svelte-headless-table/plugins";
-    import { queryParam, ssp } from 'sveltekit-search-params';
+    import { queryParameters, queryParam, ssp } from 'sveltekit-search-params';
     import { writable, type Writable } from "svelte/store";
     import * as Table from "$lib/components/ui/table";
-    import DataTableActions from "./data-table-actions.svelte";
-    import DataTableEdit from "./data-table-edit.svelte";
-    import type { UserDeleteSchema, UserUpdateByAdminSchema } from '$lib/forms/schemas';
-	  import { type SuperValidated, type Infer } from 'sveltekit-superforms';
     import { page } from '$app/stores';
     import * as Pagination from "$lib/components/ui/pagination";
 	  import type { User } from "lucia";
@@ -15,14 +11,35 @@
     import { Button } from '$lib/components/ui/button';
     import { Input } from "$lib/components/ui/input";
     import * as Select from "$lib/components/ui/select/index.js";
-	import ActionsCol from "./actions-col.svelte";
+	  import ActionsCol from "./actions-col.svelte";
 
-    let { form, deleteForm } : { form: SuperValidated<Infer<UserUpdateByAdminSchema>>, deleteForm: SuperValidated<Infer<UserDeleteSchema>> } = $props();
+    const store = queryParameters({
+        page: ssp.number(1),
+        limit: ssp.number(10),
+        sort: ssp.string(),
+        order: ssp.string(),
+        name: ssp.string(),
+        email: ssp.string(),
+        role: ssp.string(),
+    });
+    const sspPage = queryParam('page', ssp.number($store.page));
+    const sspLimit = queryParam('limit', ssp.number($store.limit));
+    const sspSortBy = queryParam('sort', ssp.string($store.sort));
+    const sspSortOrder = queryParam('order', ssp.string($store.order)) as Writable<'asc' | 'desc' | null>;
+    const sspName = queryParam('name', ssp.string($store.name), { debounceHistory: 500 });
+    const sspEmail = queryParam('email', ssp.string($store.email), { debounceHistory: 500 });
+    const sspRole = queryParam('role', ssp.string($store.role));
+
     let users: Writable<User[]> = writable($page.data.users || []);
     let count = writable($page.data.count);
     let table = createTable(users, { 
-      sort: addSortBy({ serverSide: true }),
-      colFilter: addColumnFilters({ serverSide: true }),
+      sort: addSortBy({ 
+        serverSide: true, 
+        initialSortKeys: $sspSortBy && $sspSortOrder ? [{ id: $sspSortBy, order: $sspSortOrder }] : []
+      }),
+      colFilter: addColumnFilters({ 
+        serverSide: true
+      }),
       filter: addTableFilter({
         serverSide: true,
         fn: ({ filterValue, value }) =>
@@ -36,6 +53,9 @@
             plugins: {
               sort: {
                 disable: false,
+              },
+              colFilter: {
+                initialFilterValue: $store.name
               }
             },
         }),
@@ -46,6 +66,9 @@
               sort: {
                 disable: false,
               },
+              colFilter: {
+                initialFilterValue: $store.email
+              }
             },
         }),
         table.column({
@@ -55,6 +78,11 @@
               sort: {
                 disable: false,
               },
+              colFilter: {
+                initialFilterValue: $store.role 
+                  ? { label: $store.role.toUpperCase(), value: $store.role.toLowerCase() }
+                  : undefined
+              }
             },
         }),
         table.column({
@@ -75,25 +103,14 @@
     ]);
     const { headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } =  table.createViewModel(columns);
     const { sortKeys } = pluginStates.sort;
-    const { filterValue } = pluginStates.filter;
     const { filterValues } = pluginStates.colFilter;
     
-    const sspPage = queryParam('page', ssp.number(1), { showDefaults: false });
-    const sspLimit = queryParam('limit', ssp.number(10), { showDefaults: false });
-    const sspSortBy = queryParam('sort', ssp.string());
-    const sspSortOrder = queryParam('order', ssp.string());
-    const sspSearch = queryParam('search', ssp.string(), { debounceHistory: 500 });
-    const sspName = queryParam('name', ssp.string(), { debounceHistory: 500 });
-    const sspEmail = queryParam('email', ssp.string(), { debounceHistory: 500 });
-    const sspRole = queryParam('role', ssp.string());
-
     $effect(() => {
       users.set($page.data.users || []);
       count.set($page.data.count);
     });
 
     $effect(() => {
-      // sspSearch.set($filterValue || null);
       sspName.set($filterValues.name as string || null);
       sspEmail.set($filterValues.email as string || null);
       sspSortBy.set($sortKeys?.[0]?.id || null);

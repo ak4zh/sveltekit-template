@@ -14,7 +14,6 @@ export const load = async (event) => {
 	if (!user) return redirect(302, '/login')
 	// this can be used if there are multiple ADMIN like roles
 	const userFilters = Object.fromEntries(event.url.searchParams) as UserFilters;
-
 	const result = user?.role === 'ADMIN' 
 		? await getUsers(userFilters)
 		: await getMyUsers(userFilters, user?.id)
@@ -48,7 +47,7 @@ export const actions = {
 		try {
 			const user = await getUserById(form.data.id);
 			if (user) {
-				const newEmail = user?.email.toLowerCase() !== form.data.email;
+				const newEmail = user?.email.toLowerCase() !== form.data.email.toLowerCase();
 				console.log('updating user...');
 				const updatedData: UpdateUser = {
 					name: form.data.name,

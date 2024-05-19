@@ -1,5 +1,6 @@
 import { lucia } from '$lib/server/lucia';
 import { redirect, type Handle } from '@sveltejs/kit';
+
 // import { faker } from "@faker-js/faker";
 // import { nanoid } from 'nanoid';
 // import { Argon2id } from 'oslo/password';
@@ -47,7 +48,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 	};
 	event.locals.user = user;
 	event.locals.session = session;
-
 
 	if (event.route.id?.startsWith('/(private)')) {
 		if (!user) redirect(302, '/login');
