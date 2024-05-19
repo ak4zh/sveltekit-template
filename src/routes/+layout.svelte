@@ -3,10 +3,12 @@
 	import { ModeWatcher } from 'mode-watcher';
 	import { getFlash } from 'sveltekit-flash-message';
 	import Navigation from '$lib/components/navigation/navigation.svelte';
+	import Footer from '$lib/components/footer/footer.svelte';
 	import { page } from '$app/stores';
 	import { Toaster } from "$lib/components/ui/sonner";
 	import { toast } from 'svelte-sonner';
-
+	import { Separator } from "$lib/components/ui/separator";
+	
 	const { data, children } = $props();
 	const flash = $state(getFlash(page));
 	$effect(() => {
@@ -34,4 +36,6 @@
 			{@render children()}
 		</div>	
 	</div>
+	<Separator />
+	<Footer />
 </div>
