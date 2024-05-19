@@ -13,7 +13,7 @@
 	const form = superForm(data, {
 		validators: zodClient(signUpSchema)
 	});
-	const { form: formData, enhance, submitting, delayed, allErrors } = form;
+	const { form: formData, enhance, submitting, delayed } = form;
 </script>
 
 <form use:enhance method="POST" class="w-fit">
