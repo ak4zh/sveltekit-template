@@ -5,7 +5,6 @@
     let { updateFormData, deleteFormData } = $props()
 </script>
 
-<div class="flex gap-2">
-    <DataTableEdit data={updateFormData} />
-    <DataTableActions data={deleteFormData} />
-</div>
+
+<DataTableEdit data={updateFormData} />
+<DataTableActions data={deleteFormData} />

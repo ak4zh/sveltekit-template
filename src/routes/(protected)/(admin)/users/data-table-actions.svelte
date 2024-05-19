@@ -35,9 +35,7 @@
                 <DropdownMenu.Separator />
                 <DropdownMenu.Item>
                         <AlertDialog.Trigger>
-                            <button>
                                 <Trash2 class="mr-2 h-4 w-4 inline" />Delete
-                            </button>
                         </AlertDialog.Trigger>
                 </DropdownMenu.Item>
             </DropdownMenu.Content>
