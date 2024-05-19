@@ -15,7 +15,7 @@
     })
 </script>
 
-<div class="flex gap-4 mx-auto">
+<div class="container flex gap-4 mx-auto">
   <div class="w-full">
     <Card.Root>
       <Card.Header
@@ -44,5 +44,5 @@
   </div>
 </div>
 <div class="container mx-auto py-10">
-	  <DataTable deleteForm={data.deleteForm} />
+	  <DataTable form={data.form} deleteForm={data.deleteForm} />
 </div>

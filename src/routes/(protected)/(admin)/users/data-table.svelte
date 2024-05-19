@@ -5,7 +5,8 @@
     import { writable, type Writable } from "svelte/store";
     import * as Table from "$lib/components/ui/table";
     import DataTableActions from "./data-table-actions.svelte";
-    import type { UserDeleteSchema } from '$lib/forms/schemas';
+    import DataTableEdit from "./data-table-edit.svelte";
+    import type { UserDeleteSchema, UserUpdateByAdminSchema } from '$lib/forms/schemas';
 	  import { type SuperValidated, type Infer } from 'sveltekit-superforms';
     import { page } from '$app/stores';
     import * as Pagination from "$lib/components/ui/pagination";
@@ -14,8 +15,9 @@
     import { Button } from '$lib/components/ui/button';
     import { Input } from "$lib/components/ui/input";
     import * as Select from "$lib/components/ui/select/index.js";
+	import ActionsCol from "./actions-col.svelte";
 
-    let { deleteForm } : { deleteForm: SuperValidated<Infer<UserDeleteSchema>> } = $props();
+    let { form, deleteForm } : { form: SuperValidated<Infer<UserUpdateByAdminSchema>>, deleteForm: SuperValidated<Infer<UserDeleteSchema>> } = $props();
     let users: Writable<User[]> = writable($page.data.users || []);
     let count = writable($page.data.count);
     let table = createTable(users, { 
@@ -56,10 +58,10 @@
             },
         }),
         table.column({
-            accessor: ({ id }) => id,
+            accessor: (user) => user,
             header: "",
             cell: ({ value }) => {
-              return createRender(DataTableActions, { id: value, deleteForm });
+              return createRender(ActionsCol, { updateFormData: value, deleteFormData: { id: value.id } });
             },
             plugins: {
               sort: {
@@ -166,7 +168,7 @@
                 {#each row.cells as cell (cell.id)}
                   <Subscribe attrs={cell.attrs()} let:attrs>
                     <Table.Cell {...attrs}>
-                      <Render of={cell.render()} />
+                        <Render of={cell.render()} />
                     </Table.Cell>
                   </Subscribe>
                 {/each}

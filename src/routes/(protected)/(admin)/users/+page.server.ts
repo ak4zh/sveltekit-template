@@ -1,5 +1,5 @@
 import { userUpdateByAdminSchema, userDeleteSchema } from '$lib/forms/schemas';
-import { countUsers, deleteUser, getMyUsers, getUsers, updateUser, type UserFilters } from '$lib/server/database/actions/users';
+import { countUsers, deleteUser, getMyUsers, getUserById, getUsers, updateUser, type UserFilters } from '$lib/server/database/actions/users';
 import { fail, redirect } from '@sveltejs/kit';
 import { setFlash } from 'sveltekit-flash-message/server';
 import { setError, superValidate, message } from 'sveltekit-superforms/server';
@@ -45,11 +45,10 @@ export const actions = {
 	update: async (event) => {
 		const form = await superValidate(event, zod(userUpdateByAdminSchema));
 		if (!form.valid) return fail(400, { form });
-
 		try {
-			const user = event.locals.user;
+			const user = await getUserById(form.data.id);
 			if (user) {
-				const newEmail = user?.email !== form.data.email;
+				const newEmail = user?.email.toLowerCase() !== form.data.email;
 				console.log('updating user...');
 				const updatedData: UpdateUser = {
 					name: form.data.name,

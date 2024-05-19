@@ -123,6 +123,7 @@ export const getUserByToken = async (token: string) => {
 };
 
 export const updateUser = async (id: string, user: UpdateUser) => {
+	console.log(id, user)
 	const result = await db.update(userTable).set(user).where(eq(userTable.id, id)).returning();
 	if (result.length === 0) {
 		return null;
