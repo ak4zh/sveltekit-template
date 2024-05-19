@@ -22,7 +22,9 @@ export const actions = {
 		console.log(form);
 		if (!form.valid) return fail(400, { form });
 		try {
-			const parent = params.referralCode ? await getUserByReferralCode(params.referralCode) : null;
+			const parent = params.referralCode
+				? await getUserByReferralCode(params.referralCode)
+				: null;
 			const token = crypto.randomUUID();
 			const user = {
 				email: form.data.email.toLowerCase(),

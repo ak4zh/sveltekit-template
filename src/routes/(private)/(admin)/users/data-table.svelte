@@ -35,7 +35,8 @@
 	let table = createTable(users, {
 		sort: addSortBy({
 			serverSide: true,
-			initialSortKeys: $sspSortBy && $sspSortOrder ? [{ id: $sspSortBy, order: $sspSortOrder }] : []
+			initialSortKeys:
+				$sspSortBy && $sspSortOrder ? [{ id: $sspSortBy, order: $sspSortOrder }] : []
 		}),
 		colFilter: addColumnFilters({
 			serverSide: true
@@ -131,12 +132,20 @@
 					<Subscribe rowAttrs={headerRow.attrs()}>
 						<Table.Row>
 							{#each headerRow.cells as cell (cell.id)}
-								<Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props>
+								<Subscribe
+									attrs={cell.attrs()}
+									let:attrs
+									props={cell.props()}
+									let:props
+								>
 									<Table.Head {...attrs}>
 										{#if props.sort.disabled}
 											<Render of={cell.render()} />
 										{:else}
-											<Button variant="ghost" on:click={(e) => props.sort.toggle(e)}>
+											<Button
+												variant="ghost"
+												on:click={(e) => props.sort.toggle(e)}
+											>
 												<Render of={cell.render()} />
 												{#if props.sort.order === 'asc'}
 													<ArrowUp class={'ml-2 h-4 w-4'} />
@@ -150,16 +159,29 @@
 												<div class="flex items-center py-4">
 													<Select.Root bind:selected={$filterValues.role}>
 														<Select.Trigger class="w-[180px]">
-															<Select.Value placeholder="Select a role" />
+															<Select.Value
+																placeholder="Select a role"
+															/>
 														</Select.Trigger>
 														<Select.Content>
 															<Select.Group>
-																<Select.Item value="" label="">-</Select.Item>
-																<Select.Item value="user" label="USER">USER</Select.Item>
-																<Select.Item value="admin" label="ADMIN">ADMIN</Select.Item>
+																<Select.Item value="" label=""
+																	>-</Select.Item
+																>
+																<Select.Item
+																	value="user"
+																	label="USER">USER</Select.Item
+																>
+																<Select.Item
+																	value="admin"
+																	label="ADMIN">ADMIN</Select.Item
+																>
 															</Select.Group>
 														</Select.Content>
-														<Select.Input name="role" bind:value={$filterValues[cell.id]} />
+														<Select.Input
+															name="role"
+															bind:value={$filterValues[cell.id]}
+														/>
 													</Select.Root>
 												</div>
 											{:else}
@@ -206,10 +228,18 @@
 				<Select.Content>
 					<Select.Group>
 						<Select.Item value="" label="">-</Select.Item>
-						<Select.Item value="5" label="5 users per page">5 users per page</Select.Item>
-						<Select.Item value="10" label="10 users per page">10 users per page</Select.Item>
-						<Select.Item value="25" label="25 users per page">25 users per page</Select.Item>
-						<Select.Item value="50" label="50 users per page">50 users per page</Select.Item>
+						<Select.Item value="5" label="5 users per page"
+							>5 users per page</Select.Item
+						>
+						<Select.Item value="10" label="10 users per page"
+							>10 users per page</Select.Item
+						>
+						<Select.Item value="25" label="25 users per page"
+							>25 users per page</Select.Item
+						>
+						<Select.Item value="50" label="50 users per page"
+							>50 users per page</Select.Item
+						>
 					</Select.Group>
 				</Select.Content>
 			</Select.Root>

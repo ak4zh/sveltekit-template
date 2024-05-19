@@ -22,7 +22,9 @@ export const load = async (event) => {
 	// this can be used if there are multiple ADMIN like roles
 	const userFilters = Object.fromEntries(event.url.searchParams) as UserFilters;
 	const result =
-		user?.role === 'ADMIN' ? await getUsers(userFilters) : await getMyUsers(userFilters, user?.id);
+		user?.role === 'ADMIN'
+			? await getUsers(userFilters)
+			: await getMyUsers(userFilters, user?.id);
 	return {
 		...result,
 		form,

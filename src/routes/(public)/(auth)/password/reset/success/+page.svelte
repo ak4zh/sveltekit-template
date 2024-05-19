@@ -4,8 +4,8 @@
 			Password Reset Email Sent
 		</h1>
 		<p class="max-w-[700px] text-lg text-muted-foreground">
-			Check your email account for a link to reset your password. If it doesn’t appear within a few
-			minutes, check your spam folder.
+			Check your email account for a link to reset your password. If it doesn’t appear within
+			a few minutes, check your spam folder.
 		</p>
 	</div>
 </section>

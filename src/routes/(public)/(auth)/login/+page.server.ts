@@ -35,7 +35,10 @@ export const actions = {
 					form.data.password
 				);
 				if (!validPassword) {
-					setFlash({ type: 'error', message: 'The email or password is incorrect.' }, event);
+					setFlash(
+						{ type: 'error', message: 'The email or password is incorrect.' },
+						event
+					);
 					return setError(form, 'The email or password is incorrect.');
 				} else {
 					//password valid - set session

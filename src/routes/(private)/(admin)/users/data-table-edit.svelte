@@ -58,7 +58,12 @@
 			<UserUpdateForm {data} {disabled} {dialogOpen} {sheetOpen} />
 			<Sheet.Footer class="py-4">
 				<Sheet.Close asChild let:builder>
-					<Button builders={[builder]} type="submit" form="edit-${data.id}" disabled={$disabled}>
+					<Button
+						builders={[builder]}
+						type="submit"
+						form="edit-${data.id}"
+						disabled={$disabled}
+					>
 						{#if $disabled}
 							<Loader2 class="mr-2 h-4 w-4 animate-spin" /> Please wait
 						{:else}

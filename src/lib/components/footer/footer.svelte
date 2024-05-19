@@ -14,10 +14,13 @@
 
 			<a
 				href="/disclaimer"
-				class="mr-4 text-sm text-gray-500 hover:underline dark:text-gray-400 md:mr-6">Disclaimer</a
+				class="mr-4 text-sm text-gray-500 hover:underline dark:text-gray-400 md:mr-6"
+				>Disclaimer</a
 			>
 
-			<a href="/terms" class="mr-4 text-sm text-gray-500 hover:underline dark:text-gray-400 md:mr-6"
+			<a
+				href="/terms"
+				class="mr-4 text-sm text-gray-500 hover:underline dark:text-gray-400 md:mr-6"
 				>Terms of service</a
 			>
 		</div>

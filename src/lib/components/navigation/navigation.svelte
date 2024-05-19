@@ -48,9 +48,15 @@
 							</Button>
 						</DropdownMenu.Trigger>
 						<DropdownMenu.Content align="end">
-							<DropdownMenu.Item on:click={() => setMode('light')}>Light</DropdownMenu.Item>
-							<DropdownMenu.Item on:click={() => setMode('dark')}>Dark</DropdownMenu.Item>
-							<DropdownMenu.Item on:click={() => resetMode()}>System</DropdownMenu.Item>
+							<DropdownMenu.Item on:click={() => setMode('light')}
+								>Light</DropdownMenu.Item
+							>
+							<DropdownMenu.Item on:click={() => setMode('dark')}
+								>Dark</DropdownMenu.Item
+							>
+							<DropdownMenu.Item on:click={() => resetMode()}
+								>System</DropdownMenu.Item
+							>
 						</DropdownMenu.Content>
 					</DropdownMenu.Root>
 				{:else}
@@ -64,7 +70,9 @@
 							<DropdownMenu.Label class="font-normal">
 								<div class="flex flex-col space-y-1">
 									<p class="text-sm font-medium leading-none">{user?.name}</p>
-									<p class="text-xs leading-none text-muted-foreground">{user?.email}</p>
+									<p class="text-xs leading-none text-muted-foreground">
+										{user?.email}
+									</p>
 								</div>
 							</DropdownMenu.Label>
 							<DropdownMenu.Separator />

@@ -23,7 +23,9 @@
 			<Card.Header class="space-y-1">
 				<div class="mx-auto">
 					<Avatar.Root class="h-16 w-16 text-2xl">
-						<Avatar.Fallback>{$formData.name.slice(0, 2)?.toUpperCase()}</Avatar.Fallback>
+						<Avatar.Fallback
+							>{$formData.name.slice(0, 2)?.toUpperCase()}</Avatar.Fallback
+						>
 					</Avatar.Root>
 				</div>
 				<Card.Title class="text-2xl">Profile</Card.Title>

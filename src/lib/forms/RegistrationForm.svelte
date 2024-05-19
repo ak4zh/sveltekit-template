@@ -80,7 +80,8 @@
 					<input name={attrs.name} value={$formData.terms} hidden />
 				</Form.Control>
 				<Form.Description>
-					You agree to the <a href="/terms" class="text-primaryHover underline">terms</a> and
+					You agree to the <a href="/terms" class="text-primaryHover underline">terms</a>
+					and
 					<a href="/privacy" class="text-primaryHover underline">privacy policy</a>.
 				</Form.Description>
 				<Form.FieldErrors />
