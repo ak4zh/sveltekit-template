@@ -22,7 +22,8 @@ export const lucia = new Lucia(adapter, {
 			name: attributes.name,
 			role: attributes.role,
 			email: attributes.email,
-			emailVerified: attributes.emailVerified
+			emailVerified: attributes.emailVerified,
+			referralCode: attributes.referralCode
 		};
 	}
 });
@@ -41,6 +42,7 @@ interface DatabaseUserAttributes {
 	role: string;
 	email: string;
 	emailVerified: boolean;
+	referralCode: string;
 }
 
 /*interface DatabaseSessionAttributes {

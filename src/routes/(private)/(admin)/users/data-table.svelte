@@ -11,10 +11,10 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select/index.js';
-	import ActionsCol from './actions-col.svelte';
+	import DataTableActionsCell from './data-table-actions-cell.svelte';
 	import * as m from "$paraglide/messages.js"
 
-	const store = queryParameters({
+	const queryStore = queryParameters({
 		page: ssp.number(),
 		limit: ssp.number(),
 		sort: ssp.string(),
@@ -56,7 +56,7 @@
 					disable: false
 				},
 				colFilter: {
-					initialFilterValue: $store.name
+					initialFilterValue: $queryStore.name
 				}
 			}
 		}),
@@ -68,7 +68,7 @@
 					disable: false
 				},
 				colFilter: {
-					initialFilterValue: $store.email
+					initialFilterValue: $queryStore.email
 				}
 			}
 		}),
@@ -80,8 +80,8 @@
 					disable: false
 				},
 				colFilter: {
-					initialFilterValue: $store.role
-						? { label: $store.role.toUpperCase(), value: $store.role.toLowerCase() }
+					initialFilterValue: $queryStore.role
+						? { label: $queryStore.role.toUpperCase(), value: $queryStore.role.toLowerCase() }
 						: undefined
 				}
 			}
@@ -90,7 +90,7 @@
 			accessor: (user) => user,
 			header: '',
 			cell: ({ value }) => {
-				return createRender(ActionsCol, {
+				return createRender(DataTableActionsCell, {
 					referralCode: value.referralCode,
 					updateFormData: value,
 					deleteFormData: { id: value.id }
