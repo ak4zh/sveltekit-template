@@ -10,7 +10,7 @@
     "register": "Registro",
     "password": "Contraseña",
     "confirmPassword": "confirmar Contraseña",
-    "name": "nombre",
+    "name": "",
     "email": "Correo electrónico",
     "role": "Role",
     "privacy": "política de privacidad",
