@@ -1,12 +1,14 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
-	import { Sun, Moon, SunMoon, UserRound, LogOut, CircleUserRound } from 'lucide-svelte';
+	import { Sun, Moon, SunMoon, UserRound, LogOut, CircleUserRound, Globe } from 'lucide-svelte';
 	import { setMode, resetMode } from 'mode-watcher';
 	import { page } from '$app/stores';
 	import type { User } from 'lucia';
 	import { APP_NAME } from '$lib/constants';
 	import * as m from "$paraglide/messages.js"
+	import { availableLanguageTags, languageTag } from "$lib/paraglide/runtime"
+	import { i18n } from '$lib/i18n.js'
 
 	let { user }: { user: User | null } = $props();
 	let currentPage = $derived($page.url.pathname);
@@ -15,6 +17,9 @@
 		let textClass = currentPage === path ? 'text-primary' : '';
 		return `flex items-center text-sm font-medium text-muted-foreground ${textClass}`.trim();
 	}
+	const languageNames = new Intl.DisplayNames(['en'], {
+		type: 'language'
+	});
 </script>
 
 <header class="sticky top-0 z-40 w-full border-b bg-background">
@@ -103,6 +108,23 @@
 									<DropdownMenu.Item on:click={() => setMode('system')}
 										><SunMoon class="mr-2 h-4 w-4" />{m.system()}
 									</DropdownMenu.Item>
+								</DropdownMenu.SubContent>
+							</DropdownMenu.Sub>
+							<DropdownMenu.Sub>
+								<DropdownMenu.SubTrigger>
+									<Globe class="mr-2 h-4 w-4" />
+									{m.language()}
+								</DropdownMenu.SubTrigger>
+								<DropdownMenu.SubContent>
+									{#each availableLanguageTags as lang}
+										<DropdownMenu.Item 
+											href={i18n.route($page.url.pathname)}
+											hreflang={lang}
+											aria-current={lang === languageTag() ? "page" : undefined}
+										>
+											{languageNames.of(lang)}
+										</DropdownMenu.Item>
+									{/each}
 								</DropdownMenu.SubContent>
 							</DropdownMenu.Sub>
 							<DropdownMenu.Separator />
