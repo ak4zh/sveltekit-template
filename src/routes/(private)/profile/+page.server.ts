@@ -35,7 +35,12 @@ export const actions = {
 	account: async (event) => {
 		const form = await superValidate(event, zod(userUpdateSchema));
 		if (!form.valid) return fail(400, { form });
-
+		if (
+			DEMO_ACCOUNT_IDS.includes(event.locals.user?.id as string)
+		) {
+			setFlash({ type: 'error', message: 'Cannot modify demo accounts!' }, event);
+			return fail(400, { form });
+		};
 		try {
 			const user = event.locals.user;
 			if (user) {
@@ -65,7 +70,7 @@ export const actions = {
 		const passwordUpdateForm = await superValidate(event, zod(userUpdatePasswordSchema));
 		if (!passwordUpdateForm.valid) return fail(400, { passwordUpdateForm });
 		if (
-			DEMO_ACCOUNT_IDS.includes(passwordUpdateForm.data.id)
+			DEMO_ACCOUNT_IDS.includes(event.locals.user?.id as string)
 		) {
 			setFlash({ type: 'error', message: 'Cannot modify demo accounts!' }, event);
 			return fail(400, { passwordUpdateForm });

@@ -8,7 +8,8 @@ import { lucia } from '$lib/server/lucia';
 import { createUser, getUserByReferralCode } from '$lib/server/database/actions/users';
 import { nanoid } from 'nanoid';
 import { sendVerificationEmail } from '$lib/server/emails/templates';
-import { signUpSchema } from '$lib/forms/schemas.js';
+import { signUpSchema } from '$lib/forms/schemas';
+import { HAS_SMTP } from '$lib/server/demo';
 
 export const load = async (event) => {
 	if (event.locals.user) redirect(302, '/profile');
@@ -32,7 +33,8 @@ export const actions = {
 				passwordHash: await new Argon2id().hash(form.data.password),
 				token,
 				referralCode: nanoid(7),
-				parentId: parent?.id
+				parentId: parent?.id,
+				emailVerified: HAS_SMTP ? false : true
 			};
 			const newUser = await createUser(user);
 			if (!newUser) throw Error('User already exists');
