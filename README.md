@@ -1,38 +1,33 @@
-# create-svelte
+# SvelteKit Template
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+- [Lucia](https://lucia-auth.com/) for authentication
+- [Paraglide JS](https://inlang.com) dead simple i18n
+- [Drizzle ORM](https://orm.drizzle.team/) for database connectivity and type safety
+- [shadcn-svelte](shadcn-svelte.com) for beautifully designed components
+- [Lucide](https://lucide.dev) for icons
+- [Zod](https://zod.dev) Type safety with Zod integration
+- [Superforms](https://superforms.vercel.app) to handle form validation and management.
+- [Formsnap](https://formsnap.dev) Accessible form components that take SvelteKit Superforms to the next level.
 
-## Creating a project
+# Inspirations
 
-If you're seeing this, you've probably already done this step. Congrats!
+This template draws inspiration from the following projects:
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+- [Sveltekit Auth](https://github.com/delay/sveltekit-auth)
+- [Slide](https://github.com/ak4zh/slide)
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+Feel free to explore, customize, and innovate with this SvelteKit template!
 
-## Developing
+# Important highlights
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## /(public)
 
-```bash
-npm run dev
+Accessible by everyone
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+## /(private)
 
-## Building
+All routes inside this will required an authenticated user
 
-To create a production version of your app:
+## /(private)/(admin)/users
 
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+Shows example of admin only route with a filterable and sortable Data Table along with edit and delete function implemented.
