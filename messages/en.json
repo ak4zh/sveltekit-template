@@ -43,11 +43,5 @@
     "changeYourPasswordDescription": "Choose a new password for your account",
     "updatePassword": "Update Password",
     "previous": "Previous",
-    "next": "Next",
-    "emails": {
-
-    },
-    "pages": {
-        
-    }
+    "next": "Next"
 }
