@@ -122,7 +122,7 @@
 											hreflang={lang}
 											aria-current={lang === languageTag() ? "page" : undefined}
 										>
-											{languageNames.of(lang)}
+											<Globe class="mr-2 h-4 w-4" />{languageNames.of(lang)}
 										</DropdownMenu.Item>
 									{/each}
 								</DropdownMenu.SubContent>
