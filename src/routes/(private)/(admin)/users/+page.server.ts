@@ -13,6 +13,7 @@ import { setError, superValidate, message } from 'sveltekit-superforms/server';
 import { updateEmailAddressSuccessEmail } from '$lib/server/emails/templates';
 import { zod } from 'sveltekit-superforms/adapters';
 import type { UpdateUser } from '$lib/server/database/schemas.js';
+import { DEMO_ACCOUNT_IDS } from '$lib/constants.js';
 
 export const load = async (event) => {
 	const form = await superValidate(event, zod(userUpdateByAdminSchema));
@@ -38,8 +39,7 @@ export const actions = {
 		if (!deleteForm.valid) return fail(400, { deleteForm });
 		const user = event.locals.user;
 		if (
-			["f7a0e6cc-ec0a-40c5-a28c-20322b534c8b", "f87e48b0-a209-4b75-84e7-3156ff897859"]
-			.includes(deleteForm.data.id)
+			DEMO_ACCOUNT_IDS.includes(deleteForm.data.id)
 		) {
 			setFlash({ type: 'error', message: 'Cannot delete demo accounts!' }, event);
 			return fail(400, { deleteForm });
@@ -59,6 +59,12 @@ export const actions = {
 	update: async (event) => {
 		const form = await superValidate(event, zod(userUpdateByAdminSchema));
 		if (!form.valid) return fail(400, { form });
+		if (
+			DEMO_ACCOUNT_IDS.includes(form.data.id)
+		) {
+			setFlash({ type: 'error', message: 'Cannot modify demo accounts!' }, event);
+			return fail(400, { form });
+		};
 		try {
 			const user = await getUserById(form.data.id);
 			if (user) {

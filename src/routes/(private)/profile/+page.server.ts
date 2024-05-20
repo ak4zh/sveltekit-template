@@ -7,6 +7,7 @@ import { updateUser } from '$lib/server/database/actions/users';
 import type { UpdateUser } from '$lib/server/database/schemas';
 import { zod } from 'sveltekit-superforms/adapters';
 import { Argon2id } from 'oslo/password';
+import { DEMO_ACCOUNT_IDS } from '$lib/constants.js';
 
 export const load = async (event) => {
 	const form = await superValidate(event, zod(userUpdateSchema));
@@ -63,6 +64,12 @@ export const actions = {
 	password: async (event) => {
 		const passwordUpdateForm = await superValidate(event, zod(userUpdatePasswordSchema));
 		if (!passwordUpdateForm.valid) return fail(400, { passwordUpdateForm });
+		if (
+			DEMO_ACCOUNT_IDS.includes(passwordUpdateForm.data.id)
+		) {
+			setFlash({ type: 'error', message: 'Cannot modify demo accounts!' }, event);
+			return fail(400, { passwordUpdateForm });
+		};
 		try {
 			const newToken = crypto.randomUUID();
 			//get email from token

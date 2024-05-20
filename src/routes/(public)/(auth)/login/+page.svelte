@@ -1,7 +1,6 @@
 <script lang="ts">
 	import LoginForm from '$lib/forms/LoginForm.svelte';
 	import { Button }from '$lib/components/ui/button';
-	import { goto } from '$app/navigation';
 	import { Copy } from 'lucide-svelte';
 	let { data } = $props();
 	let creds = $state({ email: data.form?.email, password: data.form?.password });
