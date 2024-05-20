@@ -5,6 +5,7 @@
     "users": "Gebruikers",
     "appearance": "Verschijning",
     "settings": "Instellingen",
+    "documentation": "Documentatie",
     "logout": "Uitloggen",
     "login": "Log in",
     "register": "Register",
@@ -29,11 +30,18 @@
     "searchResults": "Zoekresultaten",
     "copyright": "auteursrechten",
     "account": "Rekening",
+    "passwordReset": "Wachtwoord reset",
+    "resetPassword": "Wachtwoord opnieuw instellen",
+    "sendPasswordReset": "Wachtwoord opnieuw instellen",
+    "passwordResetToken": "Token voor wachtwoordherstel",
+    "passwordResetTokenInfo": "Voer het token in dat u in uw e-mail heeft ontvangen om uw wachtwoord opnieuw in te stellen",
     "createAccount": "Account aanmaken",
     "notRegistered": "Heeft u geen account?",
     "newPassword": "nieuw paswoord",
     "confirmNewPassword": "Bevestig nieuw wachtwoord",
     "changeYourPassword": "Verander uw wachtwoord",
     "changeYourPasswordDescription": "Kies een nieuw wachtwoord voor uw account",
-    "updatePassword": "Vernieuw wachtwoord"
+    "updatePassword": "Vernieuw wachtwoord",
+    "previous": "Vorig",
+    "next": "Volgende"
 }
