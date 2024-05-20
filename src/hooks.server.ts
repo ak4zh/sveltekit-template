@@ -3,24 +3,6 @@ import { redirect, type Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { i18n } from '$lib/i18n'
 
-// import { faker } from "@faker-js/faker";
-// import { nanoid } from 'nanoid';
-// import { Argon2id } from 'oslo/password';
-// import { userTable } from '$lib/server/database/schemas';
-// import db from '$lib/server/database/client';
-// const data: (typeof userTable.$inferInsert)[] = [];
-// for (let i = 0; i < 200; i++) {
-// 	data.push({
-// 		name: faker.person.fullName(),
-// 		email: faker.internet.email(),
-// 		referralCode: nanoid(7),
-// 		passwordHash: await new Argon2id().hash(faker.internet.password()),
-// 		token: crypto.randomUUID(),
-// 		createdAt: new Date(),
-// 		updatedAt: new Date(),
-// 	});
-// }
-// await db.insert(userTable).values(data);
 export const authHandle: Handle = async ({ event, resolve }) => {
 	const startTimer = Date.now();
 	event.locals.startTimer = startTimer;
@@ -49,7 +31,6 @@ export const authHandle: Handle = async ({ event, resolve }) => {
 	}
 	event.locals.user = user;
 	event.locals.session = session;
-
 	if (event.route.id?.startsWith('/(private)')) {
 		if (!user) redirect(302, '/login');
 		if (!user.emailVerified) redirect(302, '/verify/email');

@@ -1,24 +1,22 @@
-import { drizzle } from 'drizzle-orm/postgres-js';
-import { userTable } from './schemas';
-import { faker } from '@faker-js/faker';
 import * as dotenv from 'dotenv';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import { faker } from '@faker-js/faker';
 import postgres from 'postgres';
 import { nanoid } from 'nanoid';
 import { Argon2id } from 'oslo/password';
-
-dotenv.config({ path: './.env' });
+import { userTable } from './schemas.ts';
+dotenv.config();
 
 if (!('DATABASE_URL' in process.env)) throw new Error('DATABASE_URL not found on .env.development');
-
 const main = async () => {
-	const queryClient = postgres(DATABASE_URL);
+	const queryClient = postgres(process.env.DATABASE_URL);
 	const db = drizzle(queryClient);
-	const data: (typeof users.$inferInsert)[] = [];
+	const data: (typeof userTable.$inferInsert)[] = [];
 
-	for (let i = 0; i < 20; i++) {
+	for (let i = 0; i < 10; i++) {
 		data.push({
 			name: faker.person.fullName(),
-			email: faker.internet.email(),
+			email: faker.internet.email().toLowerCase(),
 			referralCode: nanoid(7),
 			passwordHash: await new Argon2id().hash(faker.internet.password()),
 			token: crypto.randomUUID()

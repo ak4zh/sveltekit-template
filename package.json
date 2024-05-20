@@ -19,7 +19,8 @@
 		"studio": "drizzle-kit studio",
 		"generate": "drizzle-kit generate",
 		"migrate": "drizzle-kit push",
-		"postinstall": "paraglide-js compile --project ./project.inlang --outdir ./src/lib/paraglide"
+		"postinstall": "paraglide-js compile --project ./project.inlang --outdir ./src/lib/paraglide",
+		"seed": "npx tsx ./src/lib/server/database/seed.ts"
 	},
 	"devDependencies": {
 		"@faker-js/faker": "^8.4.1",
@@ -35,6 +36,7 @@
 		"@typescript-eslint/eslint-plugin": "^7.9.0",
 		"@typescript-eslint/parser": "^7.9.0",
 		"autoprefixer": "^10.4.19",
+		"dotenv": "^16.4.5",
 		"drizzle-kit": "^0.21.2",
 		"eslint": "^8.57.0",
 		"eslint-config-prettier": "^9.1.0",
@@ -63,7 +65,6 @@
 		"bits-ui": "^0.21.8",
 		"clsx": "^2.1.1",
 		"cmdk-sv": "^0.0.17",
-		"dotenv": "^16.4.5",
 		"drizzle-orm": "^0.30.10",
 		"formsnap": "^1.0.0",
 		"lucide-svelte": "^0.378.0",

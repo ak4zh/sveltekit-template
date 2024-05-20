@@ -37,6 +37,13 @@ export const actions = {
 		const deleteForm = await superValidate(event, zod(userDeleteSchema));
 		if (!deleteForm.valid) return fail(400, { deleteForm });
 		const user = event.locals.user;
+		if (
+			["f7a0e6cc-ec0a-40c5-a28c-20322b534c8b", "f87e48b0-a209-4b75-84e7-3156ff897859"]
+			.includes(deleteForm.data.id)
+		) {
+			setFlash({ type: 'error', message: 'Cannot delete demo accounts!' }, event);
+			return fail(400, { deleteForm });
+		};
 		if (user?.id === deleteForm.data.id) {
 			setFlash({ type: 'error', message: 'Cannot delete self account!' }, event);
 			return fail(400, { deleteForm });
