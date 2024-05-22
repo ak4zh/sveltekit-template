@@ -11,7 +11,7 @@
 			{m.heading_confirm_your_email()}
 		</h1>
 		<p class="max-w-[700px] text-lg text-muted-foreground">
-			m.confirm_your_email_description({ appName: APP_NAME })
+			{m.confirm_your_email_description({ appName: APP_NAME })}
 		</p>
 		<form method="POST" use:enhance>
 			<Button type="submit">{m.button_resend_verification_email()}</Button>
