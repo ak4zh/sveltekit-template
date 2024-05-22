@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { createTable, Render, Subscribe, createRender } from 'svelte-headless-table';
 	import { addSortBy, addTableFilter, addColumnFilters } from 'svelte-headless-table/plugins';
-	import { queryParameters, queryParam, ssp } from 'sveltekit-search-params';
-	import { writable, type Writable } from 'svelte/store';
+	import { queryParam, ssp } from 'sveltekit-search-params';
+	import { get, writable, type Writable } from 'svelte/store';
 	import * as Table from '$lib/components/ui/table';
 	import { page } from '$app/stores';
 	import * as Pagination from '$lib/components/ui/pagination';
@@ -14,22 +14,15 @@
 	import DataTableActionsCell from './data-table-actions-cell.svelte';
 	import * as m from "$paraglide/messages.js"
 
-	const queryStore = queryParameters({
-		page: ssp.number(),
-		limit: ssp.number(),
-		sort: ssp.string(),
-		order: ssp.string(),
-		name: ssp.string(),
-		email: ssp.string(),
-		role: ssp.string()
-	});
-	const sspPage = queryParam('page', ssp.number(1), { showDefaults: false });
-	const sspLimit = queryParam('limit', ssp.number(10), { showDefaults: false });
+	const sspPage = queryParam('page', ssp.number());
+	const sspLimit = queryParam('limit', ssp.number());
 	const sspSortBy = queryParam('sort', ssp.string());
 	const sspSortOrder = queryParam('order', ssp.string()) as Writable<'asc' | 'desc' | null>;
 	const sspName = queryParam('name', ssp.string(), { debounceHistory: 500 });
 	const sspEmail = queryParam('email', ssp.string(), { debounceHistory: 500 });
 	const sspRole = queryParam('role', ssp.string());
+	const getPage = () => $sspPage || 1;
+	const getLimit = () => $sspLimit || 10;
 
 	let users: Writable<User[]> = writable($page.data.users || []);
 	let count = writable($page.data.count);
@@ -56,7 +49,7 @@
 					disable: false
 				},
 				colFilter: {
-					initialFilterValue: $queryStore.name
+					initialFilterValue: $sspName
 				}
 			}
 		}),
@@ -68,7 +61,7 @@
 					disable: false
 				},
 				colFilter: {
-					initialFilterValue: $queryStore.email
+					initialFilterValue: $sspEmail
 				}
 			}
 		}),
@@ -80,8 +73,8 @@
 					disable: false
 				},
 				colFilter: {
-					initialFilterValue: $queryStore.role
-						? { label: $queryStore.role.toUpperCase(), value: $queryStore.role.toLowerCase() }
+					initialFilterValue: $sspRole
+						? { label: $sspRole.toUpperCase(), value: $sspRole.toLowerCase() }
 						: undefined
 				}
 			}
@@ -116,13 +109,18 @@
 		count.set($page.data.count);
 	});
 
+	function updateIfChanged<T>(store: Writable<T>, value: any) {
+		value = value || null;
+		if (get(store) !== value) store.set(value);
+	}
+
 	$effect(() => {
-		sspName.set(($filterValues.name as string) || null);
-		sspEmail.set(($filterValues.email as string) || null);
-		sspSortBy.set($sortKeys?.[0]?.id || null);
-		sspSortOrder.set($sortKeys?.[0]?.order || null);
-		sspRole.set($filterValues.role?.value || null);
-		sspLimit.set($filterValues.limit?.value || null);
+		updateIfChanged(sspName, $filterValues.name);
+		updateIfChanged(sspEmail, $filterValues.email);
+		updateIfChanged(sspRole, $filterValues.role?.value);
+		updateIfChanged(sspSortBy, $sortKeys?.[0]?.id);
+		updateIfChanged(sspSortOrder, $sortKeys?.[0]?.order);
+		updateIfChanged(sspLimit, $filterValues.limit?.value);
 	});
 </script>
 
@@ -223,7 +221,10 @@
 	</div>
 	<div class="flex flex-col-reverse items-center gap-4 py-4 md:flex-row md:justify-between">
 		<div>
-			<Select.Root bind:selected={$filterValues.limit}>
+			<Select.Root 
+				selected={{ label: m.users_per_page({ count: getLimit() }), value: getLimit()}}
+				onSelectedChange={(e) => $sspLimit = e.value}
+			>
 				<Select.Trigger class="w-[180px]">
 					<Select.Value placeholder={m.users_per_page({ count: ""})} />
 				</Select.Trigger>
@@ -231,9 +232,9 @@
 					<Select.Group>
 						<Select.Item value="" label="">-</Select.Item>
 						{#each [5, 10, 25, 50] as userCount}
-							<Select.Item value="{userCount}" label="{m.users_per_page({ count: userCount })}"
-								>{m.users_per_page({ count: userCount })}</Select.Item
-							>
+							<Select.Item value="{userCount}" label="{m.users_per_page({ count: userCount })}">
+								{m.users_per_page({ count: userCount })}
+							</Select.Item>
 						{/each}
 					</Select.Group>
 				</Select.Content>
@@ -243,9 +244,9 @@
 			<Pagination.Root
 				class="mx-auto w-auto flex-row"
 				count={$count}
-				page={$sspPage}
-				perPage={$sspLimit}
-				onPageChange={(page) => ($sspPage = page)}
+				page={getPage()}
+				perPage={getLimit()}
+				onPageChange={(page) => $sspPage = page}
 				let:pages
 				let:currentPage
 			>

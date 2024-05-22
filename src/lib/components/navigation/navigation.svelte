@@ -134,10 +134,11 @@
 							</DropdownMenu.Sub>
 							<DropdownMenu.Separator />
 							<DropdownMenu.Item>
-								<form action="/logout" method="POST">
-									<button>
+								<!-- TODO: make it work with keyboard -->
+								<form action="/logout" method="POST" class="w-full">
+									<button type="submit">
 										<LogOut class="mr-2 inline h-4 w-4" />
-										{m.logout()}
+											{m.logout()}
 									</button>
 								</form>
 							</DropdownMenu.Item>
