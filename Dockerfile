@@ -6,7 +6,7 @@ COPY package*.json .
 COPY pnpm-lock.yaml .
 COPY project.inlang/ ./project.inlang
 
-RUN npm i -g pnpm && pnpm install
+RUN npm ci --force
 COPY . .
 
 ARG IS_DOCKER \
@@ -33,8 +33,8 @@ ENV IS_DOCKER=$IS_DOCKER \
 	PUBLIC_DOMAIN=$PUBLIC_DOMAIN \
 	PUBLIC_EMAIL=$PUBLIC_EMAIL
 
-RUN pnpm run build && pnpm prune --prod
-RUN ls -a
+RUN npm run build
+
 FROM node:18.8.0-alpine AS deployer
 WORKDIR /app
 
