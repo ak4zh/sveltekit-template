@@ -11,7 +11,23 @@ if (!('DATABASE_URL' in process.env)) throw new Error('DATABASE_URL not found on
 const main = async () => {
 	const queryClient = postgres(process.env.DATABASE_URL);
 	const db = drizzle(queryClient);
-	const data: (typeof userTable.$inferInsert)[] = [];
+	const data: (typeof userTable.$inferInsert)[] = [
+		{
+			name: "Admin",
+			email: "admin@example.com",
+			passwordHash: await new Argon2id().hash("admin123"),
+			token: crypto.randomUUID(),
+			referralCode: nanoid(7),
+			role: "ADMIN"
+		},
+		{
+			name: "Demo",
+			email: "demo@example.com",
+			passwordHash: await new Argon2id().hash("demo123"),
+			token: crypto.randomUUID(),
+			referralCode: nanoid(7),
+		},
+	];
 
 	for (let i = 0; i < 10; i++) {
 		data.push({

@@ -1,9 +1,12 @@
-FROM node:18-alpine
+FROM node:18.18.0-alpine AS builder
+
 WORKDIR /app
-COPY package*.json ./
-# TODO: it fails with --force because 
-# many libraries currently don't support svelte 5
-RUN npm i --force
+
+COPY package*.json .
+COPY pnpm-lock.yaml .
+COPY project.inlang/ ./project.inlang
+
+RUN npm i -g pnpm && pnpm install
 COPY . .
 
 ARG DATABASE_URL \
@@ -28,7 +31,16 @@ ENV DATABASE_URL=$DATABASE_URL \
 	PUBLIC_DOMAIN=$PUBLIC_DOMAIN \
 	PUBLIC_EMAIL=$PUBLIC_EMAIL
 
-RUN npm run build
+RUN pnpm run build && pnpm prune --prod
+RUN ls -a
+FROM node:18.8.0-alpine AS deployer
+WORKDIR /app
+
+COPY --from=builder /app/build build/
+COPY --from=builder /app/package.json .
+
 EXPOSE 3000
+
 ENV NODE_ENV=production
+
 CMD [ "node", "build" ]

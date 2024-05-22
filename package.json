@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "docker start sveltekit-starter-pg && vite dev",
 		"dev:db:start": "docker run -d --name sveltekit-starter-pg -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:16.2",
 		"dev:db:reset": "docker rm -f sveltekit-starter-pg && pnpm dev:db:start",
 		"dev:db:stop": "docker stop sveltekit-starter-pg",
@@ -20,7 +20,8 @@
 		"generate": "drizzle-kit generate",
 		"migrate": "drizzle-kit push",
 		"postinstall": "paraglide-js compile --project ./project.inlang --outdir ./src/lib/paraglide",
-		"seed": "npx tsx ./src/lib/server/database/seed.ts"
+		"seed": "npx tsx ./src/lib/server/database/seed.ts",
+		"translate": "npx @inlang/cli machine translate --project ./project.inlang"
 	},
 	"devDependencies": {
 		"@faker-js/faker": "^8.4.1",

@@ -1,9 +1,8 @@
 import nodemailer from 'nodemailer';
-import { env } from '$env/dynamic/private';
-import { FROM_EMAIL } from '$env/static/private';
+import * as env from '$env/static/private';
 import { dev } from '$app/environment';
-import { HAS_SMTP } from '$lib/server/demo';
 
+export const CAN_SEND_EMAILS = env.SMTP_HOST && env.SMTP_PORT && env.SMTP_USER && env.SMTP_PASS;
 const transporter = nodemailer.createTransport({
 	auth: {
 		pass: env.SMTP_PASS,
@@ -21,7 +20,7 @@ export default async function sendEmail(
 	bodyText?: string
 ) {
 	const mailOptions = {
-		from: FROM_EMAIL,
+		from: env.FROM_EMAIL,
 		to: email,
 		subject: subject,
 		html: bodyHtml,
@@ -30,7 +29,7 @@ export default async function sendEmail(
 	if (!mailOptions.text) delete mailOptions.text;
 	if (!mailOptions.html) delete mailOptions.html;
 	try {
-		if (dev || !HAS_SMTP) {
+		if (dev || !CAN_SEND_EMAILS) {
 			console.log(mailOptions);
 		} else {
 			transporter.sendMail(mailOptions, (err) => {

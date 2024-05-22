@@ -9,7 +9,7 @@ import { createUser, getUserByReferralCode } from '$lib/server/database/actions/
 import { nanoid } from 'nanoid';
 import { sendVerificationEmail } from '$lib/server/emails/templates';
 import { signUpSchema } from '$lib/forms/schemas';
-import { HAS_SMTP } from '$lib/server/demo';
+import { CAN_SEND_EMAILS } from '$lib/server/emails/client';
 
 export const load = async (event) => {
 	if (event.locals.user) redirect(302, '/profile');
@@ -34,7 +34,7 @@ export const actions = {
 				token,
 				referralCode: nanoid(7),
 				parentId: parent?.id,
-				emailVerified: HAS_SMTP ? false : true
+				emailVerified: CAN_SEND_EMAILS ? false : true
 			};
 			const newUser = await createUser(user);
 			if (!newUser) throw Error('User already exists');
