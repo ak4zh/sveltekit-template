@@ -6,9 +6,7 @@ COPY package*.json .
 COPY pnpm-lock.yaml .
 COPY project.inlang/ ./project.inlang
 
-RUN npm i -g pnpm && \
-	npx @inlang/paraglide-js@latest init && \
-	pnpm install
+RUN npm i -g pnpm && pnpm install
 COPY . .
 
 ARG IS_DOCKER \
