@@ -1,4 +1,4 @@
-FROM node:18.18.0-alpine AS builder
+FROM node:18.18.0-alpine
 
 WORKDIR /app
 
@@ -34,12 +34,6 @@ ENV IS_DOCKER=$IS_DOCKER \
 	PUBLIC_EMAIL=$PUBLIC_EMAIL
 
 RUN npm run build
-
-FROM node:18.8.0-alpine AS deployer
-WORKDIR /app
-
-COPY --from=builder /app/build build/
-COPY --from=builder /app/package.json .
 
 EXPOSE 3000
 
