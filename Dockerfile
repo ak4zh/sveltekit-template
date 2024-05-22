@@ -6,7 +6,7 @@ COPY package*.json ./
 COPY pnpm-lock.yaml .
 COPY project.inlang/ ./project.inlang
 
-RUN npm ci --force
+RUN npm i -g pnpm && pnpm i
 COPY . .
 
 ARG IS_DOCKER \
@@ -33,7 +33,7 @@ ENV IS_DOCKER=$IS_DOCKER \
 	PUBLIC_DOMAIN=$PUBLIC_DOMAIN \
 	PUBLIC_EMAIL=$PUBLIC_EMAIL
 
-RUN npm run build
+RUN pnpm build
 
 EXPOSE 3000
 
