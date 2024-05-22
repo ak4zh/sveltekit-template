@@ -2,6 +2,7 @@ import { redirect } from '@sveltejs/kit';
 import { sendVerificationEmail } from '$lib/server/emails/templates';
 import { getUserById, updateUser } from '$lib/server/database/actions/users';
 import { setFlash } from 'sveltekit-flash-message/server';
+import * as m from "$paraglide/messages.js"
 
 export const load = async (event) => {
 	if (!event.locals.user) redirect(302, '/login');
@@ -19,7 +20,7 @@ export const actions = {
 		setFlash(
 			{
 				type: 'success',
-				message: 'A new verification email was sent. Please check your email.'
+				message: m.flash_new_verification_email_sent()
 			},
 			event
 		);

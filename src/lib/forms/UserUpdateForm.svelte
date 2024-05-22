@@ -49,7 +49,7 @@
 					selected={{ label: $formData.role, value: $formData.role }}
 				>
 					<Select.Trigger class="w-[180px]">
-						<Select.Value placeholder="Select a role" />
+						<Select.Value placeholder="{m.select_role()}" />
 					</Select.Trigger>
 					<Select.Content>
 						<Select.Group>

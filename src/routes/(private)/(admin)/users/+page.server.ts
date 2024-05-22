@@ -14,14 +14,15 @@ import { updateEmailAddressSuccessEmail } from '$lib/server/emails/templates';
 import { zod } from 'sveltekit-superforms/adapters';
 import type { UpdateUser } from '$lib/server/database/schemas.js';
 import { DEMO_ACCOUNT_IDS } from '$lib/constants.js';
+import * as m from '$paraglide/messages.js'
 
-export const load = async (event) => {
-	const form = await superValidate(event, zod(userUpdateByAdminSchema));
-	const deleteForm = await superValidate(event, zod(userDeleteSchema));
-	const user = event.locals.user;
+export const load = async ({ locals, request, url }) => {
+	const form = await superValidate(request, zod(userUpdateByAdminSchema));
+	const deleteForm = await superValidate(request, zod(userDeleteSchema));
+	const user = locals.user;
 	if (!user) return redirect(302, '/login');
 	// this can be used if there are multiple ADMIN like roles
-	const userFilters = Object.fromEntries(event.url.searchParams) as UserFilters;
+	const userFilters = Object.fromEntries(url.searchParams) as UserFilters;
 	const result =
 		user?.role === 'ADMIN'
 			? await getUsers(userFilters)
@@ -45,16 +46,16 @@ export const actions = {
 			return fail(400, { deleteForm });
 		};
 		if (user?.id === deleteForm.data.id) {
-			setFlash({ type: 'error', message: 'Cannot delete self account!' }, event);
+			setFlash({ type: 'error', message: m.cannot_delete_own_account()}, event);
 			return fail(400, { deleteForm });
 		}
 		try {
 			await deleteUser(deleteForm.data.id);
-			setFlash({ type: 'success', message: 'User deleted successfully!' }, event);
+			setFlash({ type: 'success', message: m.user_deleted_successfully() }, event);
 		} catch (err) {
 			console.log(err);
 		}
-		return message(deleteForm, 'User deleted successfully!');
+		return message(deleteForm, m.user_deleted_successfully());
 	},
 	update: async (event) => {
 		const form = await superValidate(event, zod(userUpdateByAdminSchema));
@@ -84,13 +85,13 @@ export const actions = {
 				} else {
 					await updateUser(user.id, updatedData);
 				}
-				setFlash({ type: 'success', message: 'User update successful.' }, event);
+				setFlash({ type: 'success', message: m.user_update_successful() }, event);
 			}
 		} catch (e) {
 			console.error(e);
-			return setError(form, 'There was a problem updating your profile.');
+			return setError(form, m.user_update_error());
 		}
 		console.log('User updated successfully');
-		return message(form, 'User updated successfully');
+		return message(form, m.user_update_successful());
 	}
 };

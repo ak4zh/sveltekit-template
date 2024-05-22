@@ -4,6 +4,8 @@ import { sendPasswordResetEmail } from '$lib/server/emails/templates';
 import { getUserByEmail, updateUser } from '$lib/server/database/actions/users';
 import { resetPasswordSchema } from '$lib/forms/schemas.js';
 import { zod } from 'sveltekit-superforms/adapters';
+import * as m from "$paraglide/messages.js"
+import { setFlash } from 'sveltekit-flash-message/server';
 
 export const load = async (event) => {
 	const form = await superValidate(event, zod(resetPasswordSchema));
@@ -18,17 +20,18 @@ export const actions = {
 		try {
 			const user = await getUserByEmail(form.data.email);
 			if (!user) {
-				return setError(form, 'The email address does not have an account.');
+				return setError(form, m.account_not_found());
 			}
 			console.log('reset user password');
 			const token = crypto.randomUUID();
 			await updateUser(user.id, { token: token });
 			await sendPasswordResetEmail(form.data.email, token);
+			setFlash({ type: 'success', message: m.flash_password_update_successful()}, event)
 		} catch (e) {
 			console.error(e);
 			return setError(
 				form,
-				'The was a problem resetting your password. Please contact support if you need further help.'
+				m.password_reset_error()
 			);
 		}
 		return redirect(302, '/password/reset/success');

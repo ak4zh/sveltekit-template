@@ -8,6 +8,7 @@ import type { UpdateUser } from '$lib/server/database/schemas';
 import { zod } from 'sveltekit-superforms/adapters';
 import { Argon2id } from 'oslo/password';
 import { DEMO_ACCOUNT_IDS } from '$lib/constants.js';
+import * as m from "$paraglide/messages.js"
 
 export const load = async (event) => {
 	const form = await superValidate(event, zod(userUpdateSchema));
@@ -58,11 +59,11 @@ export const actions = {
 				} else {
 					await updateUser(user.id, updatedData);
 				}
-				setFlash({ type: 'success', message: 'Profile update successful.' }, event);
+				setFlash({ type: 'success', message: m.flash_profile_update_successful() }, event);
 			}
 		} catch (e) {
 			console.error(e);
-			return setError(form, 'There was a problem updating your profile.');
+			return setError(form, m.user_update_error());
 		}
 		return { form };
 	},
@@ -85,18 +86,18 @@ export const actions = {
 				// and needs a new verification token in case user has not verified their account
 				// and already forgot their password before verifying. Now they can get a new one resent.
 				await updateUser(user.id, { token: newToken, passwordHash: password });
-				setFlash({ type: 'success', message: 'Password update successful.' }, event);
+				setFlash({ type: 'success', message: m.flash_password_update_successful() }, event);
 			} else {
 				return setError(
 					passwordUpdateForm,
-					'Something went wrong. Please contact support if you need further help.'
+					m.something_went_wrong()
 				);
 			}
 		} catch (e) {
 			console.error(e);
 			return setError(
 				passwordUpdateForm,
-				'The was a problem resetting your password. Please contact support if you need further help.'
+				m.flash_password_update_error()
 			);
 		}
 		return { passwordUpdateForm }

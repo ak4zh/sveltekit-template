@@ -10,6 +10,7 @@ import { nanoid } from 'nanoid';
 import { sendVerificationEmail } from '$lib/server/emails/templates';
 import { signUpSchema } from '$lib/forms/schemas';
 import { CAN_SEND_EMAILS } from '$lib/server/emails/client';
+import * as m from "$paraglide/messages.js"
 
 export const load = async (event) => {
 	if (event.locals.user) redirect(302, '/profile');
@@ -20,7 +21,6 @@ export const load = async (event) => {
 export const actions = {
 	default: async ({ request, params, cookies }) => {
 		const form = await superValidate(request, zod(signUpSchema));
-		console.log(form);
 		if (!form.valid) return fail(400, { form });
 		try {
 			const parent = params.referralCode
@@ -48,16 +48,16 @@ export const actions = {
 			setFlash(
 				{
 					type: 'success',
-					message: 'Account created. Please check your email to verify your account.'
+					message: m.flash_account_created_check_email()
 				},
 				cookies
 			);
 		} catch (e) {
 			console.error(e);
-			setFlash({ type: 'error', message: 'Account was not able to be created.' }, cookies);
+			setFlash({ type: 'error', message: m.flash_failed_to_create_account() }, cookies);
 			// email already in use
 			// might be other type of error but this is most common and this is how lucia docs sets the error to duplicate user
-			return setError(form, 'email', 'A user with that email already exists.');
+			return setError(form, 'email', m.flash_email_already_exists());
 		}
 		return { form };
 	}

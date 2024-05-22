@@ -7,6 +7,7 @@
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import * as AlertDialog from '$lib/components/ui/alert-dialog';
+	import * as m from '$paraglide/messages.js'
 
 	let { data }: { data: SuperValidated<Infer<UserDeleteSchema>> } = $props();
 	const form = superForm(data, {
@@ -19,32 +20,31 @@
 	<DropdownMenu.Root>
 		<DropdownMenu.Trigger asChild let:builder>
 			<Button variant="ghost" builders={[builder]} size="icon" class="relative h-8 w-8 p-0">
-				<span class="sr-only">Open menu</span>
+				<span class="sr-only">{m.open_actions()}</span>
 				<Ellipsis class="h-4 w-4" />
 			</Button>
 		</DropdownMenu.Trigger>
 		<DropdownMenu.Content>
 			<DropdownMenu.Group>
-				<DropdownMenu.Label>Actions</DropdownMenu.Label>
+				<DropdownMenu.Label>{m.actions()}</DropdownMenu.Label>
 			</DropdownMenu.Group>
 			<DropdownMenu.Separator />
 			<DropdownMenu.Item>
 				<AlertDialog.Trigger>
-					<Trash2 class="mr-2 inline h-4 w-4" />Delete
+					<Trash2 class="mr-2 inline h-4 w-4" />{m.button_delete()}
 				</AlertDialog.Trigger>
 			</DropdownMenu.Item>
 		</DropdownMenu.Content>
 	</DropdownMenu.Root>
 	<AlertDialog.Content>
 		<AlertDialog.Header>
-			<AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
+			<AlertDialog.Title>{m.are_you_sure()}</AlertDialog.Title>
 			<AlertDialog.Description>
-				This action cannot be undone. This will permanently delete your account and remove
-				your data from our servers.
+				{m.user_delete_warning()}
 			</AlertDialog.Description>
 		</AlertDialog.Header>
 		<AlertDialog.Footer>
-			<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+			<AlertDialog.Cancel>{m.cancel()}</AlertDialog.Cancel>
 			<form action="/users?/delete" method="POST" use:enhance>
 				<input hidden value={$formData.id} name="id" />
 				<AlertDialog.Action

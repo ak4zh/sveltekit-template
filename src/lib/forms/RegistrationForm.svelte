@@ -20,9 +20,9 @@
 	<form use:enhance method="POST" >
 		<Card.Root>
 			<Card.Header class="space-y-1">
-				<Card.Title class="text-2xl">Create an account</Card.Title>
+				<Card.Title class="text-2xl">{m.createAccount()}</Card.Title>
 				<Card.Description
-					>Already have an account? <a href="/login" class="underline">Log in here.</a
+					>{m.already_have_account()} <a href="/login" class="underline">{m.login_here()}</a
 					></Card.Description
 				>
 			</Card.Header>
@@ -75,15 +75,13 @@
 								for="terms"
 								class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
 							>
-								Accept terms and conditions
+								{m.accept_terms()}
 							</Form.Label>
 						</div>
 						<input name={attrs.name} value={$formData.terms} hidden />
 					</Form.Control>
 					<Form.Description>
-						You agree to the <a href="/terms" class="text-primaryHover underline">terms</a>
-						and
-						<a href="/privacy" class="text-primaryHover underline">privacy policy</a>.
+						{@html m.accept_terms_description()}.
 					</Form.Description>
 					<Form.FieldErrors />
 				</Form.Field>
@@ -92,7 +90,7 @@
 				<Form.Button class="w-full" disabled={$submitting || $delayed}>
 					{#if $submitting || $delayed}
 						<Loader2 class="mr-2 h-4 w-4 animate-spin" />
-						Please wait
+						{m.pleaseWait()}
 					{:else}Sign Up{/if}
 				</Form.Button>
 			</Card.Footer>

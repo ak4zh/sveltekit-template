@@ -2,6 +2,8 @@
 	import LoginForm from '$lib/forms/LoginForm.svelte';
 	import { Button }from '$lib/components/ui/button';
 	import { Copy } from 'lucide-svelte';
+	import * as m from "$paraglide/messages.js"
+
 	let { data } = $props();
 	let creds = $state({ email: data.form?.email, password: data.form?.password });
 </script>

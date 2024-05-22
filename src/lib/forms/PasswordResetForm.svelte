@@ -7,6 +7,7 @@
 	import SuperDebug, { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { browser } from '$app/environment';
+	import * as m from "$paraglide/messages.js"
 
 	export let data: SuperValidated<Infer<ResetPasswordSchema>>;
 	const form = superForm(data, {
@@ -19,8 +20,8 @@
 	<form use:enhance method="POST">
 		<Card.Root>
 			<Card.Header class="space-y-1">
-				<Card.Title class="text-2xl">Reset Your Password</Card.Title>
-				<Card.Description>Receive email instructions to reset your password.</Card.Description>
+				<Card.Title class="text-2xl">{m.resetYourPassword()}</Card.Title>
+				<Card.Description>{m.password_reset_description()}</Card.Description>
 			</Card.Header>
 			<Card.Content class="grid gap-4">
 				<Form.Field {form} name="email">
@@ -35,8 +36,8 @@
 				<Form.Button class="w-full" disabled={$submitting || $delayed}>
 					{#if $submitting || $delayed}
 						<Loader2 class="mr-2 h-4 w-4 animate-spin" />
-						Please wait
-					{:else}Send Password Reset Email{/if}
+						{m.pleaseWait()}
+					{:else}{m.send_password_reset_email()}{/if}
 				</Form.Button>
 			</Card.Footer>
 		</Card.Root>

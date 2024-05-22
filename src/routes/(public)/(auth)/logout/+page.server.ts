@@ -1,5 +1,6 @@
-import { redirect } from 'sveltekit-flash-message/server';
+import { redirect, setFlash } from 'sveltekit-flash-message/server';
 import { lucia } from '$lib/server/lucia';
+import * as m from "$paraglide/messages.js"
 
 export const actions = {
 	default: async (event) => {
@@ -11,7 +12,8 @@ export const actions = {
 				path: '.',
 				...sessionCookie.attributes
 			});
-			const message = { type: 'success', message: 'Logged out' } as const;
+			const message = { type: 'success', message: m.logout_successful() } as const;
+			setFlash(message, event);
 			redirect(302, '/login', message, event.cookies);
 		}
 		redirect(302, '/login');

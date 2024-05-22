@@ -2,19 +2,19 @@
 	import { APP_NAME } from '$lib/constants';
 	import { enhance } from '$app/forms';
 	import { Button } from '$lib/components/ui/button';
+	import * as m from "$paraglide/messages.js"
 </script>
 
 <section class="container grid items-center gap-6">
 	<div class="flex max-w-[980px] flex-col items-start gap-2">
 		<h1 class="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl">
-			Confirm Your Email Address
+			{m.heading_confirm_your_email()}
 		</h1>
 		<p class="max-w-[700px] text-lg text-muted-foreground">
-			Check your email to confirm your email address to log in at {APP_NAME}. If necessary,
-			also check your junk mail/spam folder.
+			m.confirm_your_email_description({ appName: APP_NAME })
 		</p>
 		<form method="POST" use:enhance>
-			<Button type="submit">Resend Verification Email</Button>
+			<Button type="submit">{m.button_resend_verification_email()}</Button>
 		</form>
 	</div>
 </section>

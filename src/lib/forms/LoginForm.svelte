@@ -22,7 +22,7 @@
 			<Card.Header class="space-y-1">
 				<Card.Title class="text-2xl">Log In</Card.Title>
 				<Card.Description
-					>Don't have an account? <a href="/register" class="underline">Register here.</a
+					>{m.notRegistered()} <a href="/register" class="underline">{m.createAccount()} here.</a
 					></Card.Description
 				>
 			</Card.Header>
@@ -47,7 +47,7 @@
 					<Form.Button class="w-full" disabled={$submitting || $delayed}
 						>{#if $submitting || $delayed}
 							<Loader2 class="mr-2 h-4 w-4 animate-spin" />
-							Please wait{:else}Log In{/if}
+							{m.pleaseWait()}{:else}{m.login()}{/if}
 					</Form.Button>
 	
 					<div class="mt-6 text-center text-sm">

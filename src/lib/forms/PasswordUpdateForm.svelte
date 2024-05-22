@@ -45,7 +45,7 @@
 				<Form.Button class="w-full" disabled={disabled}>
 					{#if $submitting || $delayed}
 						<Loader2 class="mr-2 h-4 w-4 animate-spin" />
-						Please wait
+						{m.pleaseWait()}
 					{:else}{m.updatePassword()}{/if}
 				</Form.Button>
 			</Card.Footer>

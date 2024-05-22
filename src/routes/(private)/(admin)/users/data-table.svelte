@@ -162,7 +162,7 @@
 													<Select.Root bind:selected={$filterValues.role}>
 														<Select.Trigger class="w-[180px]">
 															<Select.Value
-																placeholder="Select a role"
+																placeholder="{m.select_role()}"
 															/>
 														</Select.Trigger>
 														<Select.Content>
@@ -225,23 +225,16 @@
 		<div>
 			<Select.Root bind:selected={$filterValues.limit}>
 				<Select.Trigger class="w-[180px]">
-					<Select.Value placeholder="users per page" />
+					<Select.Value placeholder={m.users_per_page({ count: ""})} />
 				</Select.Trigger>
 				<Select.Content>
 					<Select.Group>
 						<Select.Item value="" label="">-</Select.Item>
-						<Select.Item value="5" label="5 users per page"
-							>5 users per page</Select.Item
-						>
-						<Select.Item value="10" label="10 users per page"
-							>10 users per page</Select.Item
-						>
-						<Select.Item value="25" label="25 users per page"
-							>25 users per page</Select.Item
-						>
-						<Select.Item value="50" label="50 users per page"
-							>50 users per page</Select.Item
-						>
+						{#each [5, 10, 25, 50] as userCount}
+							<Select.Item value="{userCount}" label="{m.users_per_page({ count: userCount })}"
+								>{m.users_per_page({ count: userCount })}</Select.Item
+							>
+						{/each}
 					</Select.Group>
 				</Select.Content>
 			</Select.Root>

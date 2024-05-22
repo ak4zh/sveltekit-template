@@ -24,7 +24,7 @@
 		<Card.Root>
 			<Card.Header class="space-y-1">
 				<Card.Title class="text-2xl">{m.account()}</Card.Title>
-				<Card.Description>Update your account details</Card.Description>
+				<Card.Description>{m.update_account_details()}</Card.Description>
 			</Card.Header>
 			<Card.Content class="grid gap-4">
 				<Form.Field {form} name="name">
@@ -47,7 +47,7 @@
 					<Form.Button class="w-full" disabled={disabled}
 						>{#if $submitting || $delayed}
 							<Loader2 class="mr-2 h-4 w-4 animate-spin" />
-							Please wait{:else}Update{/if}
+							{m.pleaseWait()}{:else}{m.update()}{/if}
 					</Form.Button>
 				</div>
 			</Card.Footer>

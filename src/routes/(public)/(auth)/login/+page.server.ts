@@ -6,6 +6,7 @@ import { Argon2id } from 'oslo/password';
 import { getUserByEmail } from '$lib/server/database/actions/users';
 import { loginSchema } from '$lib/forms/schemas.js';
 import { zod } from 'sveltekit-superforms/adapters';
+import * as m from "$paraglide/messages.js"
 
 export const load = async (event) => {
 	if (event.locals.user) redirect(302, '/profile');
@@ -25,8 +26,8 @@ export const actions = {
 			const email = form.data.email.toLowerCase();
 			const existingUser = await getUserByEmail(email);
 			if (!existingUser) {
-				setFlash({ type: 'error', message: 'The email or password is incorrect.' }, event);
-				return setError(form, 'The email or password is incorrect.');
+				setFlash({ type: 'error', message: m.flash_incorrect_credentials() }, event);
+				return setError(form, m.flash_incorrect_credentials());
 			}
 
 			if (existingUser.passwordHash) {
@@ -36,10 +37,10 @@ export const actions = {
 				);
 				if (!validPassword) {
 					setFlash(
-						{ type: 'error', message: 'The email or password is incorrect.' },
+						{ type: 'error', message: m.flash_incorrect_credentials() },
 						event
 					);
-					return setError(form, 'The email or password is incorrect.');
+					return setError(form, m.flash_incorrect_credentials());
 				} else {
 					//password valid - set session
 					const session = await lucia.createSession(existingUser.id, {});
@@ -48,7 +49,7 @@ export const actions = {
 						path: '.',
 						...sessionCookie.attributes
 					});
-					setFlash({ type: 'success', message: 'Sign in successful.' }, event);
+					setFlash({ type: 'success', message: m.flash_login_successful() }, event);
 				}
 			}
 		} catch (e) {
@@ -56,8 +57,8 @@ export const actions = {
 			console.error(e);
 			// email already in use
 			//const { fieldErrors: errors } = e.flatten();
-			setFlash({ type: 'error', message: 'The email or password is incorrect.' }, event);
-			return setError(form, 'The email or password is incorrect.');
+			setFlash({ type: 'error', message: m.flash_incorrect_credentials() }, event);
+			return setError(form, m.flash_incorrect_credentials());
 		}
 
 		return { form };

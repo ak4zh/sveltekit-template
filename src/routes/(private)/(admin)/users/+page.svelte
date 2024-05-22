@@ -4,6 +4,8 @@
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { linear } from 'svelte/easing';
 	import { tweened } from 'svelte/motion';
+	import * as m from '$paraglide/messages.js'
+
 	let { data } = $props();
 	let tweenConfig = { duration: 500, easing: linear };
 
@@ -19,7 +21,7 @@
 	<div class="w-full">
 		<Card.Root>
 			<Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
-				<Card.Title class="text-sm font-medium">Total Users</Card.Title>
+				<Card.Title class="text-sm font-medium">{m.total_users()}</Card.Title>
 				<Users class="h-4 w-4 text-muted-foreground" />
 			</Card.Header>
 			<Card.Content>
@@ -30,7 +32,7 @@
 	<div class="w-full">
 		<Card.Root>
 			<Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
-				<Card.Title class="text-sm font-medium">Filtered Users</Card.Title>
+				<Card.Title class="text-sm font-medium">{m.filtered_users()}</Card.Title>
 				<UserSearch class="h-4 w-4 text-muted-foreground" />
 			</Card.Header>
 			<Card.Content>
