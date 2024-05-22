@@ -41,9 +41,6 @@ importers:
       nodemailer:
         specifier: ^6.9.13
         version: 6.9.13
-      oslo:
-        specifier: ^1.2.0
-        version: 1.2.0
       postgres:
         specifier: ^3.4.4
         version: 3.4.4
@@ -123,6 +120,9 @@ importers:
       lucia:
         specifier: ^3.2.0
         version: 3.2.0
+      oslo:
+        specifier: ^1.2.0
+        version: 1.2.0
       postcss:
         specifier: ^8.4.38
         version: 8.4.38
