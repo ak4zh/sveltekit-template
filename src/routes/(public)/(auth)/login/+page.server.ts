@@ -1,4 +1,4 @@
-import { fail, redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 import { setFlash } from 'sveltekit-flash-message/server';
 import { setError, superValidate } from 'sveltekit-superforms';
 import { lucia } from '$lib/server/lucia';
@@ -7,9 +7,10 @@ import { getUserByEmail } from '$lib/server/database/actions/users';
 import { loginSchema } from '$lib/forms/schemas.js';
 import { zod } from 'sveltekit-superforms/adapters';
 import * as m from "$paraglide/messages.js"
+import { redirectI18n } from '$lib/i18n.js';
 
 export const load = async (event) => {
-	if (event.locals.user) redirect(302, '/profile');
+	if (event.locals.user) redirectI18n(302, '/profile', event);
 	const form = await superValidate(event, zod(loginSchema));
 	return {
 		form

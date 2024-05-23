@@ -1,7 +1,7 @@
 import { lucia } from '$lib/server/lucia';
-import { redirect, type Handle } from '@sveltejs/kit';
+import { type Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
-import { i18n } from '$lib/i18n'
+import { i18n, redirectI18n } from '$lib/i18n'
 
 export const authHandle: Handle = async ({ event, resolve }) => {
 	const startTimer = Date.now();
@@ -32,11 +32,11 @@ export const authHandle: Handle = async ({ event, resolve }) => {
 	event.locals.user = user;
 	event.locals.session = session;
 	if (event.route.id?.startsWith('/(private)')) {
-		if (!user) redirect(302, '/login');
-		if (!user.emailVerified) redirect(302, '/verify/email');
+		if (!user) redirectI18n(302, '/login', event);
+		if (!user.emailVerified) redirectI18n(302, '/verify/email', event);
 	}
 	if (event.route.id?.startsWith('/(private)/(admin)')) {
-		if (user?.role !== 'ADMIN') redirect(302, '/profile');
+		if (user?.role !== 'ADMIN') redirectI18n(302, '/profile', event);
 	}
 	const response = await resolve(event);
 	return response;

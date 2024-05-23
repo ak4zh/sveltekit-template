@@ -1,4 +1,3 @@
-import { redirect } from '@sveltejs/kit';
 import { setError, superValidate } from 'sveltekit-superforms';
 import { fail } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
@@ -11,9 +10,10 @@ import { sendVerificationEmail } from '$lib/server/emails/templates';
 import { signUpSchema } from '$lib/forms/schemas';
 import { CAN_SEND_EMAILS } from '$lib/server/emails/client';
 import * as m from "$paraglide/messages.js"
+import { redirectI18n } from '$lib/i18n.js';
 
 export const load = async (event) => {
-	if (event.locals.user) redirect(302, '/profile');
+	if (event.locals.user) redirectI18n(302, '/profile', event);
 	const form = await superValidate(event, zod(signUpSchema));
 	return { form };
 };

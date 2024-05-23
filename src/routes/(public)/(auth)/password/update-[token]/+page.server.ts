@@ -1,9 +1,10 @@
-import { fail, redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 import { setError, superValidate } from 'sveltekit-superforms/server';
 import { userUpdatePasswordSchema } from '$lib/forms/schemas';
 import { getUserByToken, updateUser } from '$lib/server/database/actions/users';
 import { Argon2id } from 'oslo/password';
 import { zod } from 'sveltekit-superforms/adapters';
+import { redirectI18n } from '$lib/i18n.js';
 
 export const load = async (event) => {
 	const form = await superValidate(event, zod(userUpdatePasswordSchema));
@@ -44,7 +45,7 @@ export const actions = {
 			);
 		}
 		const token = event.params.token as string;
-		redirect(302, `/password/update-${token}/success`);
+		redirectI18n(302, `/password/update-${token}/success`, event);
 		//		return { form };
 	}
 };

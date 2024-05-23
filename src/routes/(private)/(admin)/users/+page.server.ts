@@ -7,7 +7,7 @@ import {
 	updateUser,
 	type UserFilters
 } from '$lib/server/database/actions/users';
-import { fail, redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 import { setFlash } from 'sveltekit-flash-message/server';
 import { setError, superValidate, message } from 'sveltekit-superforms/server';
 import { updateEmailAddressSuccessEmail } from '$lib/server/emails/templates';
@@ -15,14 +15,15 @@ import { zod } from 'sveltekit-superforms/adapters';
 import type { UpdateUser } from '$lib/server/database/schemas.js';
 import { DEMO_ACCOUNT_IDS } from '$lib/constants.js';
 import * as m from '$paraglide/messages.js'
+import { redirectI18n } from '$lib/i18n.js';
 
-export const load = async ({ locals, request, url }) => {
-	const form = await superValidate(request, zod(userUpdateByAdminSchema));
-	const deleteForm = await superValidate(request, zod(userDeleteSchema));
-	const user = locals.user;
-	if (!user) return redirect(302, '/login');
+export const load = async (event) => {
+	const form = await superValidate(event, zod(userUpdateByAdminSchema));
+	const deleteForm = await superValidate(event, zod(userDeleteSchema));
+	const user = event.locals.user;
+	if (!user) return redirectI18n(302, '/login', event);
 	// this can be used if there are multiple ADMIN like roles
-	const userFilters = Object.fromEntries(url.searchParams) as UserFilters;
+	const userFilters = Object.fromEntries(event.url.searchParams) as UserFilters;
 	const result =
 		user?.role === 'ADMIN'
 			? await getUsers(userFilters)
