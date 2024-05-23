@@ -20,7 +20,7 @@
 	<form use:enhance method="POST">
 		<Card.Root>
 			<Card.Header class="space-y-1">
-				<Card.Title class="text-2xl">{m.resetYourPassword()}</Card.Title>
+				<Card.Title class="text-2xl">{m.reset_your_password()}</Card.Title>
 				<Card.Description>{m.password_reset_description()}</Card.Description>
 			</Card.Header>
 			<Card.Content class="grid gap-4">
@@ -36,7 +36,7 @@
 				<Form.Button class="w-full" disabled={$submitting || $delayed}>
 					{#if $submitting || $delayed}
 						<Loader2 class="mr-2 h-4 w-4 animate-spin" />
-						{m.pleaseWait()}
+						{m.please_wait()}
 					{:else}{m.send_password_reset_email()}{/if}
 				</Form.Button>
 			</Card.Footer>

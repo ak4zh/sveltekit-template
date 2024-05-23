@@ -22,7 +22,7 @@
 			<Card.Header class="space-y-1">
 				<Card.Title class="text-2xl">Log In</Card.Title>
 				<Card.Description
-					>{m.notRegistered()} <a href="/register" class="underline">{m.createAccount()} here.</a
+					>{m.not_registered()} <a href="/register" class="underline">{m.create_account()} here.</a
 					></Card.Description
 				>
 			</Card.Header>

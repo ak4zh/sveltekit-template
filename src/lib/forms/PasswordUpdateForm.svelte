@@ -22,20 +22,20 @@
 	<form use:enhance method="POST" action={action}>
 		<Card.Root>
 			<Card.Header class="space-y-1">
-				<Card.Title class="text-2xl">{m.changeYourPassword()}</Card.Title>
-				<Card.Description>{m.changeYourPasswordDescription()}</Card.Description>
+				<Card.Title class="text-2xl">{m.change_pour_password()}</Card.Title>
+				<Card.Description>{m.change_your_password_description()}</Card.Description>
 			</Card.Header>
 			<Card.Content class="grid gap-4">
 				<Form.Field {form} name="password">
 					<Form.Control let:attrs>
-						<Form.Label>{m.newPassword()}</Form.Label>
+						<Form.Label>{m.new_password()}</Form.Label>
 						<Input {...attrs} bind:value={$formData.password} type="password" />
 					</Form.Control>
 					<Form.FieldErrors />
 				</Form.Field>
 				<Form.Field {form} name="confirmPassword">
 					<Form.Control let:attrs>
-						<Form.Label>{m.confirmNewPassword()}</Form.Label>
+						<Form.Label>{m.confirm_new_password()}</Form.Label>
 						<Input {...attrs} bind:value={$formData.confirmPassword} type="password"/>
 					</Form.Control>
 					<Form.FieldErrors />
@@ -45,8 +45,8 @@
 				<Form.Button class="w-full" disabled={disabled}>
 					{#if $submitting || $delayed}
 						<Loader2 class="mr-2 h-4 w-4 animate-spin" />
-						{m.pleaseWait()}
-					{:else}{m.updatePassword()}{/if}
+						{m.please_wait()}
+					{:else}{m.update_password()}{/if}
 				</Form.Button>
 			</Card.Footer>
 		</Card.Root>

@@ -20,7 +20,7 @@
 	<form use:enhance method="POST" >
 		<Card.Root>
 			<Card.Header class="space-y-1">
-				<Card.Title class="text-2xl">{m.createAccount()}</Card.Title>
+				<Card.Title class="text-2xl">{m.create_account()}</Card.Title>
 				<Card.Description
 					>{m.already_have_account()} <a href="/login" class="underline">{m.login_here()}</a
 					></Card.Description
@@ -90,7 +90,7 @@
 				<Form.Button class="w-full" disabled={$submitting || $delayed}>
 					{#if $submitting || $delayed}
 						<Loader2 class="mr-2 h-4 w-4 animate-spin" />
-						{m.pleaseWait()}
+						{m.please_wait()}
 					{:else}Sign Up{/if}
 				</Form.Button>
 			</Card.Footer>

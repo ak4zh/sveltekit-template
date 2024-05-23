@@ -32,7 +32,7 @@
 			<Dialog.Footer>
 				<Button type="submit" form="edit-${data.id}" disabled={$disabled}>
 					{#if $disabled}
-						<Loader2 class="mr-2 h-4 w-4 animate-spin" /> {m.pleaseWait()}
+						<Loader2 class="mr-2 h-4 w-4 animate-spin" /> {m.please_wait()}
 					{:else}
 						{m.save_changes()}
 					{/if}
@@ -66,7 +66,7 @@
 						disabled={$disabled}
 					>
 						{#if $disabled}
-							<Loader2 class="mr-2 h-4 w-4 animate-spin" />{m.pleaseWait()}
+							<Loader2 class="mr-2 h-4 w-4 animate-spin" />{m.please_wait()}
 						{:else}
 							{m.save_changes()}
 						{/if}

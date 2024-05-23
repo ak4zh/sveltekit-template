@@ -47,7 +47,7 @@
 					<Form.Button class="w-full" disabled={disabled}
 						>{#if $submitting || $delayed}
 							<Loader2 class="mr-2 h-4 w-4 animate-spin" />
-							{m.pleaseWait()}{:else}{m.update()}{/if}
+							{m.please_wait()}{:else}{m.update()}{/if}
 					</Form.Button>
 				</div>
 			</Card.Footer>
