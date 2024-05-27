@@ -64,7 +64,7 @@
 	"dependencies": {
 		"@aws-sdk/client-ses": "^3.577.0",
 		"@lucia-auth/adapter-drizzle": "^1.0.7",
-		"bits-ui": "^0.21.8",
+		"bits-ui": "^0.21.10",
 		"clsx": "^2.1.1",
 		"cmdk-sv": "^0.0.17",
 		"drizzle-orm": "^0.30.10",
