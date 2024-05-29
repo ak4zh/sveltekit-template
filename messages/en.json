@@ -98,5 +98,6 @@
     "confirm_your_email_description": "Check your email to confirm your email address to log in at {appName}. If necessary,\nalso check your junk mail/spam folder.",
     "flash_account_created_check_email": "Account created. Please check your email to verify your account.",
     "flash_email_already_exists": "A user with that email already exists.",
-    "flash_failed_to_create_account": "Account was not able to be created."
+    "flash_failed_to_create_account": "Account was not able to be created.",
+    "forgot_password": "Forgot your password?"
 }

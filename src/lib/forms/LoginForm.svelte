@@ -20,7 +20,7 @@
 	<form use:enhance method="POST">
 		<Card.Root>
 			<Card.Header class="space-y-1">
-				<Card.Title class="text-2xl">Log In</Card.Title>
+				<Card.Title class="text-2xl">{m.login()}</Card.Title>
 				<Card.Description
 					>{m.not_registered()} <a href="/register" class="underline">{m.create_account()} here.</a
 					></Card.Description
@@ -47,11 +47,11 @@
 					<Form.Button class="w-full" disabled={$submitting || $delayed}
 						>{#if $submitting || $delayed}
 							<Loader2 class="mr-2 h-4 w-4 animate-spin" />
-							{m.pleaseWait()}{:else}{m.login()}{/if}
+							{m.please_wait()}{:else}{m.login()}{/if}
 					</Form.Button>
 	
 					<div class="mt-6 text-center text-sm">
-						<a href="/password/reset" class="underline">Forgot your password?</a>
+						<a href="/password/reset" class="underline">{m.forgot_password()}</a>
 					</div>
 				</div>
 			</Card.Footer>
