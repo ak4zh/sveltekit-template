@@ -16,7 +16,7 @@ export const actions = {
 		if (!user) return redirectI18n(302, '/login', event);
 		const token = crypto.randomUUID();
 		await updateUser(user.id, { emailVerified: false, token });
-		await sendVerificationEmail(user.email, token);
+		await sendVerificationEmail(event, user.email, token);
 		setFlash(
 			{
 				type: 'success',

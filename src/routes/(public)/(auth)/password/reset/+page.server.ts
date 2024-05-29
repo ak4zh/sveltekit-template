@@ -26,7 +26,7 @@ export const actions = {
 			console.log('reset user password');
 			const token = crypto.randomUUID();
 			await updateUser(user.id, { token: token });
-			await sendPasswordResetEmail(form.data.email, token);
+			await sendPasswordResetEmail(event, form.data.email, token);
 			setFlash({ type: 'success', message: m.flash_password_update_successful()}, event)
 		} catch (e) {
 			console.error(e);

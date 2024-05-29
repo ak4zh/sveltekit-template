@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "docker start sveltekit-starter-pg && vite dev",
+		"dev": "vite dev",
 		"dev:db:start": "docker run -d --name sveltekit-starter-pg -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:16.2",
 		"dev:db:reset": "docker rm -f sveltekit-starter-pg && pnpm dev:db:start",
 		"dev:db:stop": "docker stop sveltekit-starter-pg",

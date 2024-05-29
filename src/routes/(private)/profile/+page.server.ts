@@ -55,7 +55,7 @@ export const actions = {
 					updatedData.emailVerified = false;
 					updatedData.token = token;
 					await updateUser(user.id, updatedData);
-					await updateEmailAddressSuccessEmail(form.data.email, user?.email, token);
+					await updateEmailAddressSuccessEmail(event, form.data.email, user?.email, token);
 				} else {
 					await updateUser(user.id, updatedData);
 				}
