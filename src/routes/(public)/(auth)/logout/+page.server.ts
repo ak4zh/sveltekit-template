@@ -1,6 +1,6 @@
 import { setFlash } from 'sveltekit-flash-message/server';
 import { lucia } from '$lib/server/lucia';
-import * as m from "$paraglide/messages.js"
+import * as m from '$paraglide/messages.js';
 import { redirectI18n } from '$lib/i18n.js';
 
 export const actions = {

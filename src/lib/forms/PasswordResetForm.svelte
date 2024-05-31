@@ -7,7 +7,7 @@
 	import SuperDebug, { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { browser } from '$app/environment';
-	import * as m from "$paraglide/messages.js"
+	import * as m from '$paraglide/messages.js';
 
 	export let data: SuperValidated<Infer<ResetPasswordSchema>>;
 	const form = superForm(data, {

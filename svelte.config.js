@@ -14,9 +14,9 @@ const config = {
 		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
 		adapter: process.env.IS_DOCKER ? nodeAdapter.default() : adapter(),
 		alias: {
-			$paraglide: "./src/lib/paraglide/",
-			$lib: "./src/lib/",
-		},
+			$paraglide: './src/lib/paraglide/',
+			$lib: './src/lib/'
+		}
 	}
 };
 

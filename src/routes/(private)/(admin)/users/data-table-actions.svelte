@@ -7,7 +7,7 @@
 	import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import * as AlertDialog from '$lib/components/ui/alert-dialog';
-	import * as m from '$paraglide/messages.js'
+	import * as m from '$paraglide/messages.js';
 
 	let { data }: { data: SuperValidated<Infer<UserDeleteSchema>> } = $props();
 	const form = superForm(data, {

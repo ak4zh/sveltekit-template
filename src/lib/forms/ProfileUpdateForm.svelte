@@ -7,20 +7,23 @@
 	import SuperDebug, { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { browser } from '$app/environment';
-	import * as m from "$paraglide/messages.js"
+	import * as m from '$paraglide/messages.js';
 
-	const { action, data }: { action: string, data: SuperValidated<Infer<UserUpdateSchema>> } = $props();
+	const { action, data }: { action: string; data: SuperValidated<Infer<UserUpdateSchema>> } =
+		$props();
 	const form = superForm(data, {
 		validators: zodClient(userUpdateSchema),
 		resetForm: false
 	});
 	const { form: formData, enhance, submitting, delayed, tainted } = form;
-	let disabled = $state(false)
-	$effect(() => { disabled = !$tainted || $submitting || $delayed})
+	let disabled = $state(false);
+	$effect(() => {
+		disabled = !$tainted || $submitting || $delayed;
+	});
 </script>
 
 <div class="flex flex-col gap-4">
-	<form use:enhance method="POST" action={action}>
+	<form use:enhance method="POST" {action}>
 		<Card.Root>
 			<Card.Header class="space-y-1">
 				<Card.Title class="text-2xl">{m.account()}</Card.Title>
@@ -44,7 +47,7 @@
 			</Card.Content>
 			<Card.Footer>
 				<div class="block w-full">
-					<Form.Button class="w-full" disabled={disabled}
+					<Form.Button class="w-full" {disabled}
 						>{#if $submitting || $delayed}
 							<Loader2 class="mr-2 h-4 w-4 animate-spin" />
 							{m.please_wait()}{:else}{m.update()}{/if}
@@ -59,4 +62,3 @@
 		{/if}
 	</div>
 </div>
-

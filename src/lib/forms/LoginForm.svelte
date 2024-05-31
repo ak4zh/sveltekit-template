@@ -7,7 +7,7 @@
 	import SuperDebug, { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { browser } from '$app/environment';
-	import * as m from "$paraglide/messages.js"
+	import * as m from '$paraglide/messages.js';
 
 	export let data: SuperValidated<Infer<LoginSchema>>;
 	const form = superForm(data, {
@@ -22,7 +22,8 @@
 			<Card.Header class="space-y-1">
 				<Card.Title class="text-2xl">{m.login()}</Card.Title>
 				<Card.Description
-					>{m.not_registered()} <a href="/register" class="underline">{m.create_account()} here.</a
+					>{m.not_registered()}
+					<a href="/register" class="underline">{m.create_account()} here.</a
 					></Card.Description
 				>
 			</Card.Header>
@@ -49,7 +50,7 @@
 							<Loader2 class="mr-2 h-4 w-4 animate-spin" />
 							{m.please_wait()}{:else}{m.login()}{/if}
 					</Form.Button>
-	
+
 					<div class="mt-6 text-center text-sm">
 						<a href="/password/reset" class="underline">{m.forgot_password()}</a>
 					</div>
@@ -62,5 +63,4 @@
 			<SuperDebug data={$formData} />
 		{/if}
 	</div>
-	
 </div>

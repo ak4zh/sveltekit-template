@@ -9,7 +9,7 @@ import { nanoid } from 'nanoid';
 import { sendVerificationEmail } from '$lib/server/emails/templates';
 import { signUpSchema } from '$lib/forms/schemas';
 import { CAN_SEND_EMAILS } from '$lib/server/emails/client';
-import * as m from "$paraglide/messages.js"
+import * as m from '$paraglide/messages.js';
 import { redirectI18n } from '$lib/i18n.js';
 
 export const load = async (event) => {

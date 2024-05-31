@@ -8,7 +8,7 @@
 	import * as Select from '$lib/components/ui/select/index.js';
 	import type { Writable } from 'svelte/store';
 	import { User } from 'lucide-svelte';
-	import * as m from "$paraglide/messages.js"
+	import * as m from '$paraglide/messages.js';
 
 	let {
 		data,
@@ -49,7 +49,7 @@
 					selected={{ label: $formData.role, value: $formData.role }}
 				>
 					<Select.Trigger class="w-[180px]">
-						<Select.Value placeholder="{m.select_role()}" />
+						<Select.Value placeholder={m.select_role()} />
 					</Select.Trigger>
 					<Select.Content>
 						<Select.Group>

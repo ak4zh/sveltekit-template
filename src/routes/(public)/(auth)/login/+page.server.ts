@@ -6,7 +6,7 @@ import { Argon2id } from 'oslo/password';
 import { getUserByEmail } from '$lib/server/database/actions/users';
 import { loginSchema } from '$lib/forms/schemas.js';
 import { zod } from 'sveltekit-superforms/adapters';
-import * as m from "$paraglide/messages.js"
+import * as m from '$paraglide/messages.js';
 import { redirectI18n } from '$lib/i18n.js';
 
 export const load = async (event) => {
@@ -37,10 +37,7 @@ export const actions = {
 					form.data.password
 				);
 				if (!validPassword) {
-					setFlash(
-						{ type: 'error', message: m.flash_incorrect_credentials() },
-						event
-					);
+					setFlash({ type: 'error', message: m.flash_incorrect_credentials() }, event);
 					return setError(form, m.flash_incorrect_credentials());
 				} else {
 					//password valid - set session

@@ -1,5 +1,5 @@
 <script>
-	import * as m from "$paraglide/messages.js"
+	import * as m from '$paraglide/messages.js';
 </script>
 
 <section class="container grid items-center gap-6">

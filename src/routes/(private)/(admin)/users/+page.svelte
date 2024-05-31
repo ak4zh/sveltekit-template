@@ -4,13 +4,13 @@
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { linear } from 'svelte/easing';
 	import { tweened } from 'svelte/motion';
-	import * as m from '$paraglide/messages.js'
+	import * as m from '$paraglide/messages.js';
 
 	let { data } = $props();
 	let tweenConfig = { duration: 500, easing: linear };
 
-	let total = tweened(data.total, tweenConfig);
-	let count = tweened(data.count, tweenConfig);
+	let total = tweened(0, tweenConfig);
+	let count = tweened(0, tweenConfig);
 	$effect(() => {
 		total.set(data.total);
 		count.set(data.count);

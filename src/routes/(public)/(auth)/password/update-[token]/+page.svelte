@@ -4,5 +4,5 @@
 </script>
 
 <div class="mx-auto flex max-w-lg flex-col items-center gap-8 py-8">
-	<PasswordUpdateForm data={data.form} action=""/>
+	<PasswordUpdateForm data={data.form} action="" />
 </div>

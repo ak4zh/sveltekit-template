@@ -1,7 +1,7 @@
 import { sendVerificationEmail } from '$lib/server/emails/templates';
 import { getUserById, updateUser } from '$lib/server/database/actions/users';
 import { setFlash } from 'sveltekit-flash-message/server';
-import * as m from "$paraglide/messages.js"
+import * as m from '$paraglide/messages.js';
 import { redirectI18n } from '$lib/i18n.js';
 
 export const load = async (event) => {

@@ -13,20 +13,20 @@ const main = async () => {
 	const db = drizzle(queryClient);
 	const data: (typeof userTable.$inferInsert)[] = [
 		{
-			name: "Admin",
-			email: "admin@example.com",
-			passwordHash: await new Argon2id().hash("admin123"),
+			name: 'Admin',
+			email: 'admin@example.com',
+			passwordHash: await new Argon2id().hash('admin123'),
 			token: crypto.randomUUID(),
 			referralCode: nanoid(7),
-			role: "ADMIN"
+			role: 'ADMIN'
 		},
 		{
-			name: "Demo",
-			email: "demo@example.com",
-			passwordHash: await new Argon2id().hash("demo123"),
+			name: 'Demo',
+			email: 'demo@example.com',
+			passwordHash: await new Argon2id().hash('demo123'),
 			token: crypto.randomUUID(),
-			referralCode: nanoid(7),
-		},
+			referralCode: nanoid(7)
+		}
 	];
 
 	for (let i = 0; i < 10; i++) {

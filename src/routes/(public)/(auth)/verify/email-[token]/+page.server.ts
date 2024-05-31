@@ -1,7 +1,7 @@
 import { getUserByToken, updateUser } from '$lib/server/database/actions/users';
 import { fail } from '@sveltejs/kit';
 import { sendWelcomeEmail } from '$lib/server/emails/templates';
-import * as m from "$paraglide/messages.js"
+import * as m from '$paraglide/messages.js';
 
 export async function load(event) {
 	try {

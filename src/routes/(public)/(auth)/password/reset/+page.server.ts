@@ -4,7 +4,7 @@ import { sendPasswordResetEmail } from '$lib/server/emails/templates';
 import { getUserByEmail, updateUser } from '$lib/server/database/actions/users';
 import { resetPasswordSchema } from '$lib/forms/schemas.js';
 import { zod } from 'sveltekit-superforms/adapters';
-import * as m from "$paraglide/messages.js"
+import * as m from '$paraglide/messages.js';
 import { setFlash } from 'sveltekit-flash-message/server';
 import { redirectI18n } from '$lib/i18n.js';
 
@@ -27,13 +27,10 @@ export const actions = {
 			const token = crypto.randomUUID();
 			await updateUser(user.id, { token: token });
 			await sendPasswordResetEmail(event, form.data.email, token);
-			setFlash({ type: 'success', message: m.flash_password_update_successful()}, event)
+			setFlash({ type: 'success', message: m.flash_password_update_successful() }, event);
 		} catch (e) {
 			console.error(e);
-			return setError(
-				form,
-				m.password_reset_error()
-			);
+			return setError(form, m.password_reset_error());
 		}
 		return redirectI18n(302, '/password/reset/success', event);
 	}

@@ -12,7 +12,7 @@
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select/index.js';
 	import DataTableActionsCell from './data-table-actions-cell.svelte';
-	import * as m from "$paraglide/messages.js"
+	import * as m from '$paraglide/messages.js';
 
 	const sspPage = queryParam('page', ssp.number());
 	const sspLimit = queryParam('limit', ssp.number());
@@ -160,7 +160,7 @@
 													<Select.Root bind:selected={$filterValues.role}>
 														<Select.Trigger class="w-[180px]">
 															<Select.Value
-																placeholder="{m.select_role()}"
+																placeholder={m.select_role()}
 															/>
 														</Select.Trigger>
 														<Select.Content>
@@ -221,18 +221,21 @@
 	</div>
 	<div class="flex flex-col-reverse items-center gap-4 py-4 md:flex-row md:justify-between">
 		<div>
-			<Select.Root 
-				selected={{ label: m.users_per_page({ count: getLimit() }), value: getLimit()}}
-				onSelectedChange={(e) => $sspLimit = e.value}
+			<Select.Root
+				selected={{ label: m.users_per_page({ count: getLimit() }), value: getLimit() }}
+				onSelectedChange={(e) => ($sspLimit = e.value)}
 			>
 				<Select.Trigger class="w-[180px]">
-					<Select.Value placeholder={m.users_per_page({ count: ""})} />
+					<Select.Value placeholder={m.users_per_page({ count: '' })} />
 				</Select.Trigger>
 				<Select.Content>
 					<Select.Group>
 						<Select.Item value="" label="">-</Select.Item>
 						{#each [5, 10, 25, 50] as userCount}
-							<Select.Item value="{userCount}" label="{m.users_per_page({ count: userCount })}">
+							<Select.Item
+								value={userCount}
+								label={m.users_per_page({ count: userCount })}
+							>
 								{m.users_per_page({ count: userCount })}
 							</Select.Item>
 						{/each}
@@ -246,7 +249,7 @@
 				count={$count}
 				page={getPage()}
 				perPage={getLimit()}
-				onPageChange={(page) => $sspPage = page}
+				onPageChange={(page) => ($sspPage = page)}
 				let:pages
 				let:currentPage
 			>

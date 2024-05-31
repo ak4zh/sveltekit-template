@@ -8,7 +8,7 @@
 	import SuperDebug, { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { browser } from '$app/environment';
-	import * as m from "$paraglide/messages.js"
+	import * as m from '$paraglide/messages.js';
 
 	export let data: SuperValidated<Infer<SignUpSchema>>;
 	const form = superForm(data, {
@@ -16,14 +16,15 @@
 	});
 	const { form: formData, enhance, submitting, delayed } = form;
 </script>
+
 <div class="flex flex-col gap-4">
-	<form use:enhance method="POST" >
+	<form use:enhance method="POST">
 		<Card.Root>
 			<Card.Header class="space-y-1">
 				<Card.Title class="text-2xl">{m.create_account()}</Card.Title>
 				<Card.Description
-					>{m.already_have_account()} <a href="/login" class="underline">{m.login_here()}</a
-					></Card.Description
+					>{m.already_have_account()}
+					<a href="/login" class="underline">{m.login_here()}</a></Card.Description
 				>
 			</Card.Header>
 			<Card.Content class="grid gap-4">

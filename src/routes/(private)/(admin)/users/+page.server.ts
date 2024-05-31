@@ -14,14 +14,13 @@ import { updateEmailAddressSuccessEmail } from '$lib/server/emails/templates';
 import { zod } from 'sveltekit-superforms/adapters';
 import type { UpdateUser } from '$lib/server/database/schemas.js';
 import { DEMO_ACCOUNT_IDS } from '$lib/constants.js';
-import * as m from '$paraglide/messages.js'
+import * as m from '$paraglide/messages.js';
 import { redirectI18n } from '$lib/i18n.js';
 
 export const load = async (event) => {
 	const form = await superValidate(event, zod(userUpdateByAdminSchema));
 	const deleteForm = await superValidate(event, zod(userDeleteSchema));
 	const user = event.locals.user;
-	if (!user) return redirectI18n(302, '/login', event);
 	// this can be used if there are multiple ADMIN like roles
 	const userFilters = Object.fromEntries(event.url.searchParams) as UserFilters;
 	const result =
@@ -40,14 +39,12 @@ export const actions = {
 		const deleteForm = await superValidate(event, zod(userDeleteSchema));
 		if (!deleteForm.valid) return fail(400, { deleteForm });
 		const user = event.locals.user;
-		if (
-			DEMO_ACCOUNT_IDS.includes(deleteForm.data.id)
-		) {
+		if (DEMO_ACCOUNT_IDS.includes(deleteForm.data.id)) {
 			setFlash({ type: 'error', message: 'Cannot delete demo accounts!' }, event);
 			return fail(400, { deleteForm });
-		};
+		}
 		if (user?.id === deleteForm.data.id) {
-			setFlash({ type: 'error', message: m.cannot_delete_own_account()}, event);
+			setFlash({ type: 'error', message: m.cannot_delete_own_account() }, event);
 			return fail(400, { deleteForm });
 		}
 		try {
@@ -61,12 +58,10 @@ export const actions = {
 	update: async (event) => {
 		const form = await superValidate(event, zod(userUpdateByAdminSchema));
 		if (!form.valid) return fail(400, { form });
-		if (
-			DEMO_ACCOUNT_IDS.includes(form.data.id)
-		) {
+		if (DEMO_ACCOUNT_IDS.includes(form.data.id)) {
 			setFlash({ type: 'error', message: 'Cannot modify demo accounts!' }, event);
 			return fail(400, { form });
-		};
+		}
 		try {
 			const user = await getUserById(form.data.id);
 			if (user) {
@@ -82,7 +77,12 @@ export const actions = {
 					updatedData.emailVerified = false;
 					updatedData.token = token;
 					await updateUser(user.id, updatedData);
-					await updateEmailAddressSuccessEmail(event, form.data.email, user?.email, token);
+					await updateEmailAddressSuccessEmail(
+						event,
+						form.data.email,
+						user?.email,
+						token
+					);
 				} else {
 					await updateUser(user.id, updatedData);
 				}

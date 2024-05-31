@@ -5,7 +5,7 @@
 	import { Loader2, Pencil } from 'lucide-svelte';
 	import { writable } from 'svelte/store';
 	import * as Sheet from '$lib/components/ui/sheet/index.js';
-	import * as m from "$paraglide/messages.js"
+	import * as m from '$paraglide/messages.js';
 
 	let { data } = $props();
 	let dialogOpen = writable(false);
@@ -21,7 +21,7 @@
 				<Pencil class="h-4 w-4" />
 			</Button>
 		</Dialog.Trigger>
-		<Dialog.Content >
+		<Dialog.Content>
 			<Dialog.Header>
 				<Dialog.Title>{m.edit_user()}</Dialog.Title>
 				<Dialog.Description>

@@ -2,7 +2,7 @@
 	import { APP_NAME } from '$lib/constants';
 	import { enhance } from '$app/forms';
 	import { Button } from '$lib/components/ui/button';
-	import * as m from "$paraglide/messages.js"
+	import * as m from '$paraglide/messages.js';
 </script>
 
 <section class="container grid items-center gap-6">
