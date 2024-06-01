@@ -68,8 +68,8 @@ devDependencies:
     specifier: 1.9.1
     version: 1.9.1
   '@inlang/paraglide-sveltekit':
-    specifier: ^0.8.1
-    version: 0.8.7(@sveltejs/kit@2.5.10)
+    specifier: ^0.9.2
+    version: 0.9.2(@sveltejs/kit@2.5.10)
   '@playwright/test':
     specifier: ^1.44.0
     version: 1.44.1
@@ -1686,14 +1686,14 @@ packages:
       - debug
     dev: true
 
-  /@inlang/paraglide-sveltekit@0.8.7(@sveltejs/kit@2.5.10):
-    resolution: {integrity: sha512-bA/GVTVIRr77Tr+uLA9xS8ZZqT48cHo9N3AmSHZIV3ZPAgNOkqpnZ/5pdWVPXTkPgIJ4gRtIdOEDpLSL+Mh0mw==}
+  /@inlang/paraglide-sveltekit@0.9.2(@sveltejs/kit@2.5.10):
+    resolution: {integrity: sha512-w3rNIbg0riqfQDq7K7PeO+xtKB8mR2vIEEn3sk1BY6ViCgo1I2Q0PZkPBU0qjtEz8U6EIkq52SVIt8UsYJLmBg==}
     hasBin: true
     peerDependencies:
       '@sveltejs/kit': ^2.4.3
     dependencies:
       '@inlang/paraglide-js': 1.9.1
-      '@inlang/paraglide-vite': 1.2.63
+      '@inlang/paraglide-vite': 1.2.64
       '@lix-js/client': 2.2.0
       '@sveltejs/kit': 2.5.10(@sveltejs/vite-plugin-svelte@3.1.1)(svelte@5.0.0-next.136)(vite@5.2.12)
       commander: 12.1.0
@@ -1707,11 +1707,11 @@ packages:
       - supports-color
     dev: true
 
-  /@inlang/paraglide-unplugin@1.6.13:
-    resolution: {integrity: sha512-cheH5iYXOz5XOLam1EAmJxe7ljkZN2npoXum3mLLo5qllfPLdXA7hbu9ZSbrz1ND6Jqqyh9qK2irPsnIyNY1zQ==}
+  /@inlang/paraglide-unplugin@1.6.14:
+    resolution: {integrity: sha512-MmT+JiG3hXDGU0o0Bv6uBd4cEXH7Fdnd6407qluAjL/Kg4hIo2Lh2T7F+lolMyJt5MExj9N1FEEIH8II1SCPgA==}
     dependencies:
       '@inlang/paraglide-js': 1.9.1
-      '@inlang/sdk': 0.35.5
+      '@inlang/sdk': 0.35.6
       '@lix-js/client': 2.2.0
       unplugin: 1.5.1
     transitivePeerDependencies:
@@ -1720,10 +1720,10 @@ packages:
       - supports-color
     dev: true
 
-  /@inlang/paraglide-vite@1.2.63:
-    resolution: {integrity: sha512-2GOzjBSiGLEHUxuOPH64L6p48HAXhfeLCvJpPJPC0CkW1UnBPSnY64k5fbWAkpNDQZ4BOyyQX3C9io24vRsXxg==}
+  /@inlang/paraglide-vite@1.2.64:
+    resolution: {integrity: sha512-B/JEIkrOo3AVzBMeZFKdrKXPfXjgXElEKAT5IER5CcetEVpfO1NaPRGZXTlvnc8nxGRq+CZYas2S7kZOxxfUig==}
     dependencies:
-      '@inlang/paraglide-unplugin': 1.6.13
+      '@inlang/paraglide-unplugin': 1.6.14
     transitivePeerDependencies:
       - babel-plugin-macros
       - debug
@@ -1758,8 +1758,8 @@ packages:
     resolution: {integrity: sha512-zLGroi9EUiHuOjUOaglUVTFO7EWdo2OARMJLBO1Q5Ga/xJmSQb6XS1lhqEXBFAjgFarfEMX5YEJWWALogYV3wA==}
     dev: true
 
-  /@inlang/sdk@0.35.5:
-    resolution: {integrity: sha512-zCpqVxmx5f9hGmFx23H7B81YaTF52bZOIePJZa9Ma9WoBXXf63cKL3rJDdmJtxfMsGzL0S4ZsqngNtBphqIf2Q==}
+  /@inlang/sdk@0.35.6:
+    resolution: {integrity: sha512-99DnUCtQNFdgnz6VBSepCmGDYOFbvArp6Nw4383YQsMCACp66GKJcP3u3r/xuzlzMHySxXY/BAP0h7XWydDX2Q==}
     engines: {node: '>=18.0.0'}
     dependencies:
       '@inlang/json-types': 1.1.0(@sinclair/typebox@0.31.28)
