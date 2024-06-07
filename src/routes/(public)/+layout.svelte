@@ -7,7 +7,7 @@
 <div class="flex min-h-screen w-full flex-col bg-muted/40">
 	<div class="flex flex-col sm:gap-4 sm:py-4">
 		<Navigation user={data.user} />
-		<main class="p-4">
+		<main class="container">
 			{@render children()}
 		</main>
 	</div>

@@ -12,7 +12,7 @@
 	<!-- <div class="flex flex-col sm:gap-4 sm:pl-14">
 		<Breadcrumb />
 	</div> -->
-	<main class="m-4">
+	<main class="container">
 		{@render children()}
 	</main>
 	<Footer />
