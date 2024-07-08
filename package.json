@@ -69,7 +69,7 @@
 		"cmdk-sv": "^0.0.17",
 		"drizzle-orm": "^0.31.2",
 		"formsnap": "^1.0.0",
-		"lucide-svelte": "^0.390.0",
+		"lucide-svelte": "^0.399.0",
 		"mode-watcher": "^0.3.0",
 		"nanoid": "^5.0.7",
 		"nodemailer": "^6.9.13",
