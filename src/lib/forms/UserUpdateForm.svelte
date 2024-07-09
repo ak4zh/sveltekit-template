@@ -31,15 +31,15 @@
 			}
 		}
 	});
-	const { form: formData, enhance, submitting, delayed } = form;
+	const { form: formData, enhance, submitting, delayed, errors } = form;
 	$effect(() => {
 		$disabled = $submitting || $delayed;
 	});
-	$effect(() => console.log('Comp:', open));
+	$inspect(errors)
 </script>
 
 <div class="flex flex-col gap-4">
-	<form use:enhance method="POST" action="?/update" id="edit-${$formData.id}">
+	<form use:enhance method="POST" action="?/update" id="edit-{$formData.id}">
 		<input hidden name="id" value={$formData.id} />
 		<Form.Field {form} name="role">
 			<Form.Control>
