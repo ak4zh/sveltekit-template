@@ -18,7 +18,6 @@
 <Tooltip.Root>
 	<Tooltip.Trigger asChild>
 		<Button
-			class="relative h-8 w-8 p-0"
 			size="icon"
 			variant="ghost"
 			on:click={() => {

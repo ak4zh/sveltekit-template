@@ -19,7 +19,7 @@
 <AlertDialog.Root>
 	<DropdownMenu.Root>
 		<DropdownMenu.Trigger asChild let:builder>
-			<Button variant="ghost" builders={[builder]} size="icon" class="relative h-8 w-8 p-0">
+			<Button variant="ghost" builders={[builder]} size="icon">
 				<span class="sr-only">{m.open_actions()}</span>
 				<Ellipsis class="h-4 w-4" />
 			</Button>
