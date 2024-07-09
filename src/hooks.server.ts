@@ -29,14 +29,13 @@ export const authHandle: Handle = async ({ event, resolve }) => {
 	event.locals.user = user;
 	event.locals.session = session;
 	if (event.route.id?.startsWith('/(private)')) {
-		if (!user) redirectI18n(302, '/login', event);
-		if (!user.emailVerified) redirectI18n(302, '/verify/email', event);
+		if (!user) return redirectI18n(302, '/login', event);
+		if (!user.emailVerified) return redirectI18n(302, '/verify/email', event);
 	}
 	if (event.route.id?.startsWith('/(private)/(admin)')) {
-		if (user?.role !== 'ADMIN') redirectI18n(302, '/profile', event);
+		if (user?.role !== 'ADMIN') return redirectI18n(302, '/profile', event);
 	}
-	const response = await resolve(event);
-	return response;
+	return resolve(event);
 };
 
 export const handle = sequence(i18n.handle(), authHandle);
