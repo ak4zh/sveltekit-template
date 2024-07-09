@@ -5,7 +5,7 @@
 	let currentYear = new Date().getFullYear();
 </script>
 
-<footer class="sticky top-[100vh] m-4 flex flex-col place-items-center gap-4 text-center">
+<footer class="sticky top-[100vh] m-4 flex flex-col place-items-center gap-4 text-center py-8">
 	<Separator />
 	<div class="container mx-auto flex justify-center space-x-8">
 		<a

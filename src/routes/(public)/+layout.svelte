@@ -1,6 +1,7 @@
 <script>
 	import Footer from '$lib/components/footer/footer.svelte';
 	import Navigation from '$lib/components/navigation/navigation.svelte';
+	import BottomBar from '$lib/components/bottom-bar/bottom-bar.svelte';
 	const { data, children } = $props();
 </script>
 
@@ -12,4 +13,5 @@
 		</main>
 	</div>
 	<Footer />
+	<BottomBar />
 </div>

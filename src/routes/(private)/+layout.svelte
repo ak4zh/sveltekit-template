@@ -1,8 +1,9 @@
 <script lang="ts">
-	import Breadcrumb from '$lib/components/breadcrumb/breadcrumb.svelte';
 	import Footer from '$lib/components/footer/footer.svelte';
 	import Navigation from '$lib/components/navigation/navigation.svelte';
 	import Sidebar from '$lib/components/sidebar/sidebar.svelte';
+	import BottomBar from '$lib/components/bottom-bar/bottom-bar.svelte';
+
 	const { data, children } = $props();
 </script>
 
@@ -16,4 +17,5 @@
 		{@render children()}
 	</main>
 	<Footer />
+	<BottomBar />
 </div>
