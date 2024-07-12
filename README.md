@@ -9,6 +9,13 @@
 -   [Superforms](https://superforms.vercel.app) to handle form validation and management.
 -   [Formsnap](https://formsnap.dev) Accessible form components that take SvelteKit Superforms to the next level.
 
+# TODO
+
+- [ ] Payments with Stripe
+- [ ] Mobile Tab Bar
+- [ ] Multi organization setup (with / without url param)
+
+
 # Inspirations
 
 This template draws inspiration from the following projects:
