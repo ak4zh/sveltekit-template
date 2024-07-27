@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Footer from '$lib/components/footer/footer.svelte';
 	import Navigation from '$lib/components/navigation/navigation.svelte';
 	import Sidebar from '$lib/components/sidebar/sidebar.svelte';
 	import BottomBar from '$lib/components/bottom-bar/bottom-bar.svelte';
@@ -7,15 +6,17 @@
 	const { data, children } = $props();
 </script>
 
-<Sidebar />
-<div class="flex flex-col min-h-screen sm:gap-4 sm:py-4 sm:pl-14">
-	<Navigation user={data.user} />
-	<!-- <div class="flex flex-col sm:gap-4 sm:pl-14">
-		<Breadcrumb />
-	</div> -->
-	<main class="container">
-		{@render children()}
-	</main>
-	<Footer />
-	<BottomBar />
+<div class="grid md:grid-cols-[auto_1fr] divide-x-2">
+	<div class="hidden md:block p-4">
+		<Sidebar />
+	</div>
+	<div class="grid grid-rows-[auto_1fr_auto] h-dvh">
+		<Navigation user={data.user} />
+		<main class="container overflow-y-auto">
+			{@render children()}
+		</main>
+		<div class="md:hidden bg-secondary w-screen">
+			<BottomBar />
+		</div>
+	</div>
 </div>

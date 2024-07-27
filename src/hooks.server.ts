@@ -36,7 +36,10 @@ export const sessionHandle: Handle = async ({ event, resolve }) => {
 
 export const authHandle: Handle = async ({ event, resolve }) => {
 	const user = event.locals.user;
-	if (isPublicRoute(event)) return resolve(event);
+	if (isPublicRoute(event)) {
+		if (user) return redirectI18n(302, '/profile', event);
+		return resolve(event)
+	};
 	if (!user) return redirectI18n(302, '/login', event);
 
 	if (isPrivateRoute(event)) {

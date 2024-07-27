@@ -9,14 +9,10 @@
 	import * as m from '$paraglide/messages.js';
 	import { availableLanguageTags, languageTag } from '$lib/paraglide/runtime';
 	import { i18n } from '$lib/i18n.js';
+	import Hamburger from '../hamburger/hamburger.svelte';
 
 	let { user }: { user: User | null } = $props();
-	let currentPage = $derived($page.url.pathname);
 
-	function navClass(path: string) {
-		let textClass = currentPage === path ? 'text-primary' : '';
-		return `flex items-center text-sm font-medium text-muted-foreground ${textClass}`.trim();
-	}
 	const languageNames = new Intl.DisplayNames(['en'], {
 		type: 'language'
 	});
@@ -25,7 +21,12 @@
 <header class="sticky top-0 flex h-16 items-center gap-4 border-b bg-background">
 	<div class="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
 		<div class="flex gap-6 md:gap-10">
+			<div class="md:hidden">
+				<Hamburger />
+			</div>
 			<a class="flex items-center space-x-2" href="/">{APP_NAME}</a>
+		</div>
+		<div class="flex flex-1 items-center justify-end">
 			<a
 				class="flex items-center space-x-2"
 				href="https://github.com/ak4zh/sveltekit-template"
@@ -44,18 +45,7 @@
 					></path>
 				</svg>
 			</a>
-			{#if user}
-				<nav class="flex gap-6">
-					<a class={navClass('/')} href="/">{m.home()}</a>
-					<a class={navClass('/profile')} href="/profile">{m.profile()}</a>
-					{#if user.role === 'ADMIN'}
-						<a class={navClass('/users')} href="/users">{m.users()}</a>
-					{/if}
-				</nav>
-			{/if}
-		</div>
-		<div class="flex flex-1 items-center justify-end space-x-4">
-			<nav class="flex items-center space-x-1">
+			<nav class="flex items-center">
 				{#if !user}
 					<Button href="/login">{m.login()}</Button>
 					<DropdownMenu.Root>

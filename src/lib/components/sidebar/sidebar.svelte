@@ -1,69 +1,59 @@
 <script lang="ts">
-	import { User, UsersRound, Settings, Package2 } from 'lucide-svelte';
-	import * as Tooltip from '$lib/components/ui/tooltip/index.js';
-    import { page } from '$app/stores';
-    import * as m from '$paraglide/messages.js';
+	import { HomeIcon, FileIcon, Grid2x2CheckIcon, DatabaseIcon, CogIcon } from 'lucide-svelte';
+	import { page } from '$app/stores';
+	import Button from '../ui/button/button.svelte';
 
-    function currentPage(path: string) { 
-        return $page.url.pathname === path 
-            ? 'group bg-primary text-primary-foreground' 
-            : 'text-muted-foreground hover:text-foreground' 
-    };
+	function currentPage(path: string) {
+		return $page.url.pathname === path
+			? 'group bg-muted text-primary'
+			: 'text-muted-foreground hover:text-primary';
+	}
 
-    const items = [
-        {
-            title: m.profile(),
-            path: '/profile',
-            icon: User,
-        },
-        {
-            title: m.users(),
-            path: '/users',
-            icon: UsersRound,
-        },
-    ]
+	const items = [
+		{
+			title: 'Dashboard',
+			path: '/dashboard',
+			icon: HomeIcon
+		},
+		{
+			title: 'Profile',
+			path: '/profile',
+			icon: FileIcon
+		},
+	];
 </script>
 
-<aside class="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
-	<nav class="flex flex-col items-center gap-4 px-2 sm:py-5">
-		<a
-			href="##"
-			class="button group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
-		>
-			<Package2 class="h-4 w-4 transition-all group-hover:scale-110" />
-			<span class="sr-only">Acme Inc</span>
-		</a>
-        {#each items as item}
-            <Tooltip.Root>
-                <Tooltip.Trigger asChild let:builder>
+
+<div class="grid grid-rows-[auto_1fr_auto] gap-4 h-[95svh]">
+	<div class="flex flex-col justify-center items-center items-center pt-4">
+		<!-- <div class="bg-primary p-2 rounded-full">
+			<img class="w-8 h-8" src="/logo-white.svg" alt="{$page.data.userOrgs.find(o => o.id === $page.data.user.orgId)?.name}"/>
+		</div>
+		<p class="text-sm font-bold border-b px-4 py-2 md:hidden">
+			{$page.data.userOrgs.find(o => o.id === $page.data.user.orgId)?.name}
+		</p> -->
+	</div>
+    <nav class="text-sm font-medium">
+        <ul>
+            {#each items as item}
+                <li>
                     <a
-                        href="{item.path}"
-                        class="{currentPage(item.path)} transition-colors flex h-9 w-9 items-center justify-center rounded-lg md:h-8 md:w-8"
-                        use:builder.action
-                        {...builder}
+                        href={item.path}
+                        class="flex items-center gap-2 rounded-lg px-3 py-2 transition-all {currentPage(item.path)}"
                     >
-                        <svelte:component this={item.icon} class="h-5 w-5 group-hover:scale-110" />
-                        <span class="sr-only">{item.title}</span>
+                        <svelte:component this={item.icon} class="h-4 w-4" />
+                        {item.title}
                     </a>
-                </Tooltip.Trigger>
-                <Tooltip.Content side="right">{item.title}</Tooltip.Content>
-            </Tooltip.Root>
-        {/each}
-	</nav>
-	<nav class="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
-		<Tooltip.Root>
-			<Tooltip.Trigger asChild let:builder>
-				<a
-					href="##"
-					class="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-					use:builder.action
-					{...builder}
-				>
-					<Settings class="h-5 w-5" />
-					<span class="sr-only">Settings</span>
-				</a>
-			</Tooltip.Trigger>
-			<Tooltip.Content side="right">Settings</Tooltip.Content>
-		</Tooltip.Root>
-	</nav>
-</aside>
+                </li>
+            {/each}
+        </ul>
+    </nav>
+	<div class="mx-auto">
+		<div class="flex gap-4 flex-col">
+			<Button href="/orgs">
+				<CogIcon class="mr-2 w-4 h-4" />
+                Manage Organizations
+			</Button>
+		</div>
+	</div>
+</div>
