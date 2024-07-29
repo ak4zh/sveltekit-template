@@ -70,7 +70,7 @@
 		"drizzle-orm": "^0.32.1",
 		"formsnap": "^1.0.1",
 		"lucide-svelte": "^0.416.0",
-		"mode-watcher": "^0.4.0",
+		"mode-watcher": "^0.4.1",
 		"nanoid": "^5.0.7",
 		"nodemailer": "^6.9.14",
 		"oslo": "^1.2.1",
