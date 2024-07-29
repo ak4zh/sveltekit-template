@@ -30,8 +30,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1(svelte@5.0.0-next.200)(sveltekit-superforms@2.16.1(@sveltejs/kit@2.5.18(@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.200)(vite@5.3.5(@types/node@20.14.12)))(svelte@5.0.0-next.200)(vite@5.3.5(@types/node@20.14.12)))(svelte@5.0.0-next.200))
       lucide-svelte:
-        specifier: ^0.416.0
-        version: 0.416.0(svelte@5.0.0-next.200)
+        specifier: ^0.417.0
+        version: 0.417.0(svelte@5.0.0-next.200)
       mode-watcher:
         specifier: ^0.4.0
         version: 0.4.0(svelte@5.0.0-next.200)
@@ -2697,8 +2697,8 @@ packages:
   lucia@3.2.0:
     resolution: {integrity: sha512-eXMxXwk6hqtjRTj4W/x3EnTUtAztLPm0p2N2TEBMDEbakDLXiYnDQ9z/qahjPdPdhPguQc+vwO0/88zIWxlpuw==}
 
-  lucide-svelte@0.416.0:
-    resolution: {integrity: sha512-1tEN4VZhUXGmV0UCSDPdUjHgdRVZocZFYB2ufoIFie1ux6kQEiwc64gx8WBUGQY9AoN9CPMlTbGMNb6NzaSMmg==}
+  lucide-svelte@0.417.0:
+    resolution: {integrity: sha512-JizgL7FFw2vfYj0bkXUyivOvDx+rrbAdJrVzK2Yt/X2/OvUu/9IcOrcOyQcMxwztCvylS4q4MvxsAEnh2NZkLQ==}
     peerDependencies:
       svelte: ^3 || ^4 || ^5.0.0-next.42
 
@@ -6340,7 +6340,7 @@ snapshots:
     dependencies:
       oslo: 1.2.0
 
-  lucide-svelte@0.416.0(svelte@5.0.0-next.200):
+  lucide-svelte@0.417.0(svelte@5.0.0-next.200):
     dependencies:
       svelte: 5.0.0-next.200
 
