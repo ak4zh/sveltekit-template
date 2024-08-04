@@ -18,15 +18,15 @@
 	});
 </script>
 
-<header class="sticky top-0 flex h-16 items-center gap-4 border-b bg-background">
-	<div class="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
+<header class="bg-secondary p-4">
+	<div class="flex justify-between place-items-center">
 		<div class="flex gap-6 md:gap-10">
 			<div class="md:hidden">
 				<Hamburger />
 			</div>
 			<a class="flex items-center space-x-2" href="/">{APP_NAME}</a>
 		</div>
-		<div class="flex flex-1 items-center justify-end">
+		<nav class="flex gap-2 items-center">
 			<a
 				class="flex items-center space-x-2"
 				href="https://github.com/ak4zh/sveltekit-template"
@@ -45,112 +45,110 @@
 					></path>
 				</svg>
 			</a>
-			<nav class="flex items-center">
-				{#if !user}
-					<Button href="/login">{m.login()}</Button>
-					<DropdownMenu.Root>
-						<DropdownMenu.Trigger asChild let:builder>
-							<Button builders={[builder]} variant="ghost" size="icon">
+			{#if !user}
+				<Button href="/login">{m.login()}</Button>
+				<DropdownMenu.Root>
+					<DropdownMenu.Trigger asChild let:builder>
+						<Button builders={[builder]} variant="ghost" size="icon">
+							<Sun
+								class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
+							/>
+							<Moon
+								class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
+							/>
+							<span class="sr-only">{m.toggle_theme()}</span>
+						</Button>
+					</DropdownMenu.Trigger>
+					<DropdownMenu.Content align="end">
+						<DropdownMenu.Item on:click={() => setMode('light')}
+							>Light</DropdownMenu.Item
+						>
+						<DropdownMenu.Item on:click={() => setMode('dark')}
+							>Dark</DropdownMenu.Item
+						>
+						<DropdownMenu.Item on:click={() => resetMode()}
+							>System</DropdownMenu.Item
+						>
+					</DropdownMenu.Content>
+				</DropdownMenu.Root>
+			{:else}
+				<DropdownMenu.Root>
+					<DropdownMenu.Trigger asChild let:builder>
+						<Button variant="ghost" builders={[builder]}>
+							<CircleUserRound />
+						</Button>
+					</DropdownMenu.Trigger>
+					<DropdownMenu.Content class="w-56" align="end">
+						<DropdownMenu.Label class="font-normal">
+							<div class="flex flex-col space-y-1">
+								<p class="text-sm font-medium leading-none">{user?.name}</p>
+								<p class="text-xs leading-none text-muted-foreground">
+									{user?.email}
+								</p>
+							</div>
+						</DropdownMenu.Label>
+						<DropdownMenu.Separator />
+						<DropdownMenu.Group>
+							<DropdownMenu.Item href="/profile">
+								<UserRound class="mr-2 h-4 w-4" />
+								{m.profile()}
+							</DropdownMenu.Item>
+						</DropdownMenu.Group>
+
+						<DropdownMenu.Sub>
+							<DropdownMenu.SubTrigger>
 								<Sun
-									class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
+									class="mr-2 h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
 								/>
 								<Moon
-									class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
+									class="absolute mr-2 h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
 								/>
-								<span class="sr-only">{m.toggle_theme()}</span>
-							</Button>
-						</DropdownMenu.Trigger>
-						<DropdownMenu.Content align="end">
-							<DropdownMenu.Item on:click={() => setMode('light')}
-								>Light</DropdownMenu.Item
-							>
-							<DropdownMenu.Item on:click={() => setMode('dark')}
-								>Dark</DropdownMenu.Item
-							>
-							<DropdownMenu.Item on:click={() => resetMode()}
-								>System</DropdownMenu.Item
-							>
-						</DropdownMenu.Content>
-					</DropdownMenu.Root>
-				{:else}
-					<DropdownMenu.Root>
-						<DropdownMenu.Trigger asChild let:builder>
-							<Button variant="ghost" builders={[builder]}>
-								<CircleUserRound />
-							</Button>
-						</DropdownMenu.Trigger>
-						<DropdownMenu.Content class="w-56" align="end">
-							<DropdownMenu.Label class="font-normal">
-								<div class="flex flex-col space-y-1">
-									<p class="text-sm font-medium leading-none">{user?.name}</p>
-									<p class="text-xs leading-none text-muted-foreground">
-										{user?.email}
-									</p>
-								</div>
-							</DropdownMenu.Label>
-							<DropdownMenu.Separator />
-							<DropdownMenu.Group>
-								<DropdownMenu.Item href="/profile">
-									<UserRound class="mr-2 h-4 w-4" />
-									{m.profile()}
+								{m.appearance()}
+							</DropdownMenu.SubTrigger>
+							<DropdownMenu.SubContent>
+								<DropdownMenu.Item on:click={() => setMode('light')}
+									><Sun class="mr-2 h-4 w-4" />{m.light()}
 								</DropdownMenu.Item>
-							</DropdownMenu.Group>
-
-							<DropdownMenu.Sub>
-								<DropdownMenu.SubTrigger>
-									<Sun
-										class="mr-2 h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
-									/>
-									<Moon
-										class="absolute mr-2 h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
-									/>
-									{m.appearance()}
-								</DropdownMenu.SubTrigger>
-								<DropdownMenu.SubContent>
-									<DropdownMenu.Item on:click={() => setMode('light')}
-										><Sun class="mr-2 h-4 w-4" />{m.light()}
+								<DropdownMenu.Item on:click={() => setMode('dark')}
+									><Moon class="mr-2 h-4 w-4" />{m.dark()}
+								</DropdownMenu.Item>
+								<DropdownMenu.Item on:click={() => setMode('system')}
+									><SunMoon class="mr-2 h-4 w-4" />{m.system()}
+								</DropdownMenu.Item>
+							</DropdownMenu.SubContent>
+						</DropdownMenu.Sub>
+						<DropdownMenu.Sub>
+							<DropdownMenu.SubTrigger>
+								<Globe class="mr-2 h-4 w-4" />
+								{m.language()}
+							</DropdownMenu.SubTrigger>
+							<DropdownMenu.SubContent>
+								{#each availableLanguageTags as lang}
+									<DropdownMenu.Item
+										href={i18n.route($page.url.pathname)}
+										hreflang={lang}
+										aria-current={lang === languageTag()
+											? 'page'
+											: undefined}
+									>
+										<Globe class="mr-2 h-4 w-4" />{languageNames.of(lang)}
 									</DropdownMenu.Item>
-									<DropdownMenu.Item on:click={() => setMode('dark')}
-										><Moon class="mr-2 h-4 w-4" />{m.dark()}
-									</DropdownMenu.Item>
-									<DropdownMenu.Item on:click={() => setMode('system')}
-										><SunMoon class="mr-2 h-4 w-4" />{m.system()}
-									</DropdownMenu.Item>
-								</DropdownMenu.SubContent>
-							</DropdownMenu.Sub>
-							<DropdownMenu.Sub>
-								<DropdownMenu.SubTrigger>
-									<Globe class="mr-2 h-4 w-4" />
-									{m.language()}
-								</DropdownMenu.SubTrigger>
-								<DropdownMenu.SubContent>
-									{#each availableLanguageTags as lang}
-										<DropdownMenu.Item
-											href={i18n.route($page.url.pathname)}
-											hreflang={lang}
-											aria-current={lang === languageTag()
-												? 'page'
-												: undefined}
-										>
-											<Globe class="mr-2 h-4 w-4" />{languageNames.of(lang)}
-										</DropdownMenu.Item>
-									{/each}
-								</DropdownMenu.SubContent>
-							</DropdownMenu.Sub>
-							<DropdownMenu.Separator />
-							<DropdownMenu.Item>
-								<!-- TODO: make it work with keyboard -->
-								<form action="/logout" method="POST" class="w-full">
-									<button type="submit">
-										<LogOut class="mr-2 inline h-4 w-4" />
-										{m.logout()}
-									</button>
-								</form>
-							</DropdownMenu.Item>
-						</DropdownMenu.Content>
-					</DropdownMenu.Root>
-				{/if}
-			</nav>
-		</div>
+								{/each}
+							</DropdownMenu.SubContent>
+						</DropdownMenu.Sub>
+						<DropdownMenu.Separator />
+						<DropdownMenu.Item>
+							<!-- TODO: make it work with keyboard -->
+							<form action="/logout" method="POST" class="w-full">
+								<button type="submit">
+									<LogOut class="mr-2 inline h-4 w-4" />
+									{m.logout()}
+								</button>
+							</form>
+						</DropdownMenu.Item>
+					</DropdownMenu.Content>
+				</DropdownMenu.Root>
+			{/if}
+		</nav>
 	</div>
 </header>
