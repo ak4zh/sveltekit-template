@@ -1,0 +1,1 @@
+// this file exists so redirect to (private) works when user is logged in but try to access (public)

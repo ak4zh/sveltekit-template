@@ -18,7 +18,7 @@
 	});
 </script>
 
-<header class="bg-secondary p-4">
+<header class="bg-secondary px-4 py-2">
 	<div class="flex justify-between place-items-center">
 		<div class="flex gap-6 md:gap-10">
 			<div class="md:hidden">

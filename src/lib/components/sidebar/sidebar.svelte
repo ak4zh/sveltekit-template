@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { HomeIcon, FileIcon, Grid2x2CheckIcon, DatabaseIcon, CogIcon } from 'lucide-svelte';
+	import { HomeIcon, FileIcon, CogIcon } from 'lucide-svelte';
 	import { page } from '$app/stores';
 	import Button from '../ui/button/button.svelte';
 
@@ -50,8 +50,8 @@
     </nav>
 	<div class="mx-auto">
 		<div class="flex gap-4 flex-col">
-			<Button href="/orgs">
-				<CogIcon class="mr-2 w-4 h-4" />
+			<Button href="/orgs" class="text-xs" size="sm">
+				<CogIcon class="mr-2 w-4 h-4 " />
                 Manage Organizations
 			</Button>
 		</div>
