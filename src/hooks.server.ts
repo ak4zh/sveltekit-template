@@ -8,6 +8,9 @@ const isPublicRoute = (event: RequestEvent) => event.route.id?.startsWith('/(pub
 const isPrivateRoute = (event: RequestEvent) => event.route.id?.startsWith('/(private)');
 const isAdminRoute = (event: RequestEvent) => event.route.id?.startsWith('/(private)/(admin)');
 
+const dashboardURL = '/profile';
+const loginURL = '/login';
+
 export const sessionHandle: Handle = async ({ event, resolve }) => {
 	const startTimer = Date.now();
 	event.locals.startTimer = startTimer;
@@ -37,16 +40,16 @@ export const sessionHandle: Handle = async ({ event, resolve }) => {
 export const authHandle: Handle = async ({ event, resolve }) => {
 	const user = event.locals.user;
 	if (isPublicRoute(event)) {
-		if (user) return redirectI18n(302, '/profile', event);
+		if (user) return redirectI18n(302, dashboardURL, event);
 		return resolve(event)
 	};
-	if (!user) return redirectI18n(302, '/login', event);
+	if (!user) return redirectI18n(302, loginURL, event);
 
 	if (isPrivateRoute(event)) {
-		if (!user.emailVerified) return redirectI18n(302, '/verify/email', event);
+		if (!user.emailVerified) return redirectI18n(302, loginURL, event);
 	}
 	if (isAdminRoute(event)) {
-		if (user.role !== 'ADMIN') return redirectI18n(302, '/profile', event);
+		if (user.role !== 'ADMIN') return redirectI18n(302, dashboardURL, event);
 	}
 	return resolve(event);
 };
