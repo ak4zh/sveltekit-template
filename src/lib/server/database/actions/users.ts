@@ -1,10 +1,10 @@
 import { and, asc, desc, eq, ilike, not, sql, type AnyColumn } from 'drizzle-orm';
-import db from '$lib/server/database/client';
-import { sessionTable, userTable } from '$lib/server/database/schemas';
-import type { User, UpdateUser } from '$lib/server/database/schemas';
+import { db } from '$lib/server/database/client';
+import * as table from '$lib/server/database/schemas';
+import { encodeBase32LowerCase } from '@oslojs/encoding';
 // import { alias } from 'drizzle-orm/pg-core';
 
-// const parent = alias(userTable, "parent")
+// const parent = alias(table.users, "parent")
 export type UserFilters = {
 	name?: string;
 	role?: 'ADMIN' | 'USER';
@@ -21,41 +21,41 @@ const filtersToConditions = async (
 	userId: string | undefined = undefined
 ) => {
 	const conditions = [];
-	if (userId) conditions.push(eq(userTable.parentId, userId));
-	if (userFilters.name) conditions.push(ilike(userTable.name, `%${userFilters.name}%`));
-	if (userFilters.email) conditions.push(ilike(userTable.email, `%${userFilters.email}%`));
-	if (userFilters.role) conditions.push(eq(userTable.role, userFilters.role.toUpperCase()));
+	if (userId) conditions.push(eq(table.users.parentId, userId));
+	if (userFilters.name) conditions.push(ilike(table.users.name, `%${userFilters.name}%`));
+	if (userFilters.email) conditions.push(ilike(table.users.email, `%${userFilters.email}%`));
+	if (userFilters.role) conditions.push(eq(table.users.role, userFilters.role.toUpperCase()));
 	return conditions;
 };
 const getUsersQuery = async (userFilters: UserFilters, userId: string | undefined = undefined) => {
 	const sortableColumns: { [key: string]: AnyColumn } = {
-		name: userTable.name,
-		email: userTable.email,
-		role: userTable.role
+		name: table.users.name,
+		email: table.users.email,
+		role: table.users.role
 	};
 	const page = Number(userFilters.page) || 1;
 	const limit = Math.min(Number(userFilters.limit) || 10, 50);
 	const offset = (page - 1) * limit;
 	const query = db
 		.select({
-			id: userTable.id,
-			name: userTable.name,
-			email: userTable.email,
-			referralCode: userTable.referralCode,
-			role: userTable.role,
-			emailVerified: userTable.emailVerified
+			id: table.users.id,
+			name: table.users.name,
+			email: table.users.email,
+			referralCode: table.users.referralCode,
+			role: table.users.role,
+			emailVerified: table.users.emailVerified
 		})
-		.from(userTable);
-	const countQuery = db.select({ count: sql`count(*)`.mapWith(Number) }).from(userTable);
+		.from(table.users);
+	const countQuery = db.select({ count: sql`count(*)`.mapWith(Number) }).from(table.users);
 	const conditions = await filtersToConditions(userFilters, userId);
 	if (userFilters.order && userFilters.sort && userFilters.sort in sortableColumns) {
 		const colName = sortableColumns[userFilters.sort];
 		query.orderBy(userFilters.order === 'asc' ? asc(colName) : desc(colName));
 	} else {
-		query.orderBy(asc(userTable.serial));
+		query.orderBy(asc(table.users.serial));
 	}
 	const [total, filtered, users] = await Promise.all([
-		db.select({ count: sql`count(*)`.mapWith(Number) }).from(userTable),
+		db.select({ count: sql`count(*)`.mapWith(Number) }).from(table.users),
 		countQuery.where(and(...conditions)),
 		query
 			.where(and(...conditions))
@@ -70,11 +70,11 @@ export const getMyUsers = async (userFilters: UserFilters, userId: string) =>
 	await getUsersQuery(userFilters, userId);
 
 export const countUsers = async () => {
-	return await db.select({ count: sql`count(*)`.mapWith(Number) }).from(userTable);
+	return await db.select({ count: sql`count(*)`.mapWith(Number) }).from(table.users);
 };
 
 export const getUserByReferralCode = async (referralCode: string) => {
-	const user = await db.select().from(userTable).where(eq(userTable.referralCode, referralCode));
+	const user = await db.select().from(table.users).where(eq(table.users.referralCode, referralCode));
 	if (user.length === 0) {
 		return null;
 	} else {
@@ -85,20 +85,20 @@ export const getUserByReferralCode = async (referralCode: string) => {
 export const getInsiders = async () => {
 	return await db
 		.select({
-			label: userTable.name,
-			value: userTable.id
+			label: table.users.name,
+			value: table.users.id
 		})
-		.from(userTable)
-		.where(not(eq(userTable.role, 'USER')))
-		.orderBy(asc(userTable.serial));
+		.from(table.users)
+		.where(not(eq(table.users.role, 'USER')))
+		.orderBy(asc(table.users.serial));
 };
 
 export const getUsersByRole = async (role: 'ADMIN' | 'USER') => {
 	const user = await db
 		.select()
-		.from(userTable)
-		.where(eq(userTable.role, role))
-		.orderBy(asc(userTable.serial));
+		.from(table.users)
+		.where(eq(table.users.role, role))
+		.orderBy(asc(table.users.serial));
 	if (user.length === 0) {
 		return null;
 	} else {
@@ -106,7 +106,7 @@ export const getUsersByRole = async (role: 'ADMIN' | 'USER') => {
 	}
 };
 export const getUserById = async (id: string) => {
-	const user = await db.select().from(userTable).where(eq(userTable.id, id));
+	const user = await db.select().from(table.users).where(eq(table.users.id, id));
 	if (user.length === 0) {
 		return null;
 	} else {
@@ -114,7 +114,7 @@ export const getUserById = async (id: string) => {
 	}
 };
 export const getUserByEmail = async (email: string) => {
-	const user = await db.select().from(userTable).where(eq(userTable.email, email));
+	const user = await db.select().from(table.users).where(eq(table.users.email, email));
 	if (user.length === 0) {
 		return null;
 	} else {
@@ -123,7 +123,7 @@ export const getUserByEmail = async (email: string) => {
 };
 
 export const getUserByToken = async (token: string) => {
-	const user = await db.select().from(userTable).where(eq(userTable.token, token));
+	const user = await db.select().from(table.users).where(eq(table.users.token, token));
 	if (user.length === 0) {
 		return null;
 	} else {
@@ -131,8 +131,8 @@ export const getUserByToken = async (token: string) => {
 	}
 };
 
-export const updateUser = async (id: string, user: UpdateUser) => {
-	const result = await db.update(userTable).set(user).where(eq(userTable.id, id)).returning();
+export const updateUser = async (id: string, user: table.UserUpdate) => {
+	const result = await db.update(table.users).set(user).where(eq(table.users.id, id)).returning();
 	if (result.length === 0) {
 		return null;
 	} else {
@@ -140,8 +140,8 @@ export const updateUser = async (id: string, user: UpdateUser) => {
 	}
 };
 
-export const createUser = async (user: User) => {
-	const result = await db.insert(userTable).values(user).onConflictDoNothing().returning();
+export const createUser = async (user: table.UserNew) => {
+	const result = await db.insert(table.users).values(user).onConflictDoNothing().returning();
 	if (result.length === 0) {
 		return null;
 	} else {
@@ -150,6 +150,6 @@ export const createUser = async (user: User) => {
 };
 
 export const deleteUser = async (id: string) => {
-	await db.delete(sessionTable).where(eq(sessionTable.userId, id));
-	return await db.delete(userTable).where(eq(userTable.id, id));
+	await db.delete(table.sessions).where(eq(table.sessions.userId, id));
+	return await db.delete(table.users).where(eq(table.users.id, id));
 };

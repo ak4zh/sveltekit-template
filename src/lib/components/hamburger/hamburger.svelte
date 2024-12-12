@@ -10,11 +10,13 @@
     afterNavigate(() => open = false )
   </script>
    
-<Sheet.Root bind:open openFocus={"#nav-items"}>
-    <Sheet.Trigger asChild let:builder>
-        <Button variant="outline" size="icon" builders={[builder]}>
-            <MenuIcon class="w-4 h-4" />
-        </Button>
+<Sheet.Root bind:open>
+    <Sheet.Trigger>
+        {#snippet children()}
+            <Button variant="outline" size="icon">
+                <MenuIcon class="w-4 h-4" />
+            </Button>
+        {/snippet}
     </Sheet.Trigger>
     <Sheet.Content side="left" class="overflow-auto w-64" id="nav-items">
         <!-- <div> -->

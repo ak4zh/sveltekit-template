@@ -10,7 +10,11 @@
 	import { browser } from '$app/environment';
 	import * as m from '$paraglide/messages.js';
 
-	export let data: SuperValidated<Infer<SignUpSchema>>;
+	interface Props {
+		data: SuperValidated<Infer<SignUpSchema>>;
+	}
+
+	let { data }: Props = $props();
 	const form = superForm(data, {
 		validators: zodClient(signUpSchema)
 	});
@@ -42,45 +46,62 @@
 					</Alert.Root>
 				{/if} -->
 				<Form.Field {form} name="name">
-					<Form.Control let:attrs>
-						<Form.Label>{m.name()}</Form.Label>
-						<Input {...attrs} bind:value={$formData.name} />
-					</Form.Control>
+					<Form.Control >
+						{#snippet children({ attrs })}
+												<Form.Label>{m.name()}</Form.Label>
+							<Input {...attrs} bind:value={$formData.name} />
+																	{/snippet}
+										</Form.Control>
+					<Form.FieldErrors />
+				</Form.Field>
+				<Form.Field {form} name="username">
+					<Form.Control >
+						{#snippet children({ attrs })}
+												<Form.Label>Username</Form.Label>
+							<Input {...attrs} bind:value={$formData.username} />
+																	{/snippet}
+										</Form.Control>
 					<Form.FieldErrors />
 				</Form.Field>
 				<Form.Field {form} name="email">
-					<Form.Control let:attrs>
-						<Form.Label>{m.email()}</Form.Label>
-						<Input {...attrs} bind:value={$formData.email} />
-					</Form.Control>
+					<Form.Control >
+						{#snippet children({ attrs })}
+												<Form.Label>{m.email()}</Form.Label>
+							<Input {...attrs} bind:value={$formData.email} />
+																	{/snippet}
+										</Form.Control>
 					<Form.FieldErrors />
 				</Form.Field>
 				<Form.Field {form} name="password">
-					<Form.Control let:attrs>
-						<Form.Label>{m.password()}</Form.Label>
-						<Input {...attrs} type="password" bind:value={$formData.password} />
-					</Form.Control>
+					<Form.Control >
+						{#snippet children({ attrs })}
+												<Form.Label>{m.password()}</Form.Label>
+							<Input {...attrs} type="password" bind:value={$formData.password} />
+																	{/snippet}
+										</Form.Control>
 					<Form.FieldErrors />
 				</Form.Field>
 				<Form.Field {form} name="terms">
-					<Form.Control let:attrs>
-						<div class="flex items-center space-x-2">
-							<Checkbox
-								{...attrs}
-								id="terms"
-								bind:checked={$formData.terms}
-								aria-labelledby="terms-label"
-							/>
-							<Form.Label
-								id="terms-label"
-								for="terms"
-								class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-							>
-								{m.accept_terms()}
-							</Form.Label>
-						</div>
-						<input name={attrs.name} value={$formData.terms} hidden />
-					</Form.Control>
+					<Form.Control >
+						{#snippet children({ attrs })}
+												<div class="flex items-center space-x-2">
+								<Checkbox
+									{...attrs}
+									id="terms"
+									bind:checked={$formData.terms}
+									aria-labelledby="terms-label"
+								/>
+								<Form.Label
+									id="terms-label"
+									for="terms"
+									class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+								>
+									{m.accept_terms()}
+								</Form.Label>
+							</div>
+							<input name={attrs.name} value={$formData.terms} hidden />
+																	{/snippet}
+										</Form.Control>
 					<Form.Description>
 						{@html m.accept_terms_description()}.
 					</Form.Description>

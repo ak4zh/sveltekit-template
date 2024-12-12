@@ -6,7 +6,7 @@
 	import * as Table from '$lib/components/ui/table';
 	import { page } from '$app/stores';
 	import * as Pagination from '$lib/components/ui/pagination';
-	import type { User } from 'lucia';
+	import type { User } from '$lib/server/database/schemas';
 	import { ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-svelte';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
@@ -134,69 +134,71 @@
 							{#each headerRow.cells as cell (cell.id)}
 								<Subscribe
 									attrs={cell.attrs()}
-									let:attrs
+									
 									props={cell.props()}
-									let:props
+									
 								>
-									<Table.Head {...attrs}>
-										{#if props.sort.disabled}
-											<Render of={cell.render()} />
-										{:else}
-											<Button
-												variant="ghost"
-												on:click={(e) => props.sort.toggle(e)}
-											>
+									{#snippet children({ attrs, props })}
+																		<Table.Head {...attrs}>
+											{#if props.sort.disabled}
 												<Render of={cell.render()} />
-												{#if props.sort.order === 'asc'}
-													<ArrowUp class={'ml-2 h-4 w-4'} />
-												{:else if props.sort.order === 'desc'}
-													<ArrowDown class={'ml-2 h-4 w-4'} />
-												{:else}
-													<ArrowUpDown class={'ml-2 h-4 w-4'} />
-												{/if}
-											</Button>
-											{#if cell.id === 'role'}
-												<div class="flex items-center py-4">
-													<Select.Root bind:selected={$filterValues.role}>
-														<Select.Trigger class="w-[180px]">
-															<Select.Value
-																placeholder={m.select_role()}
+											{:else}
+												<Button
+													variant="ghost"
+													onclick={(e) => props.sort.toggle(e)}
+												>
+													<Render of={cell.render()} />
+													{#if props.sort.order === 'asc'}
+														<ArrowUp class={'ml-2 h-4 w-4'} />
+													{:else if props.sort.order === 'desc'}
+														<ArrowDown class={'ml-2 h-4 w-4'} />
+													{:else}
+														<ArrowUpDown class={'ml-2 h-4 w-4'} />
+													{/if}
+												</Button>
+												{#if cell.id === 'role'}
+													<div class="flex items-center py-4">
+														<Select.Root bind:selected={$filterValues.role}>
+															<Select.Trigger class="w-[180px]">
+																<Select.Value
+																	placeholder={m.select_role()}
+																/>
+															</Select.Trigger>
+															<Select.Content>
+																<Select.Group>
+																	<Select.Item value="" label=""
+																		>-</Select.Item
+																	>
+																	<Select.Item
+																		value="user"
+																		label="USER">USER</Select.Item
+																	>
+																	<Select.Item
+																		value="admin"
+																		label="ADMIN">ADMIN</Select.Item
+																	>
+																</Select.Group>
+															</Select.Content>
+															<Select.Input
+																name="role"
+																bind:value={$filterValues[cell.id]}
 															/>
-														</Select.Trigger>
-														<Select.Content>
-															<Select.Group>
-																<Select.Item value="" label=""
-																	>-</Select.Item
-																>
-																<Select.Item
-																	value="user"
-																	label="USER">USER</Select.Item
-																>
-																<Select.Item
-																	value="admin"
-																	label="ADMIN">ADMIN</Select.Item
-																>
-															</Select.Group>
-														</Select.Content>
-														<Select.Input
-															name="role"
+														</Select.Root>
+													</div>
+												{:else}
+													<div class="flex items-center py-4">
+														<Input
+															class="max-w-sm"
+															placeholder="Search..."
+															type="text"
 															bind:value={$filterValues[cell.id]}
 														/>
-													</Select.Root>
-												</div>
-											{:else}
-												<div class="flex items-center py-4">
-													<Input
-														class="max-w-sm"
-														placeholder="Search..."
-														type="text"
-														bind:value={$filterValues[cell.id]}
-													/>
-												</div>
+													</div>
+												{/if}
 											{/if}
-										{/if}
-									</Table.Head>
-								</Subscribe>
+										</Table.Head>
+																										{/snippet}
+																</Subscribe>
 							{/each}
 						</Table.Row>
 					</Subscribe>
@@ -204,17 +206,21 @@
 			</Table.Header>
 			<Table.Body {...$tableBodyAttrs}>
 				{#each $pageRows as row (row.id)}
-					<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
-						<Table.Row {...rowAttrs}>
-							{#each row.cells as cell (cell.id)}
-								<Subscribe attrs={cell.attrs()} let:attrs>
-									<Table.Cell {...attrs}>
-										<Render of={cell.render()} />
-									</Table.Cell>
-								</Subscribe>
-							{/each}
-						</Table.Row>
-					</Subscribe>
+					<Subscribe rowAttrs={row.attrs()} >
+						{#snippet children({ rowAttrs })}
+												<Table.Row {...rowAttrs}>
+								{#each row.cells as cell (cell.id)}
+									<Subscribe attrs={cell.attrs()} >
+										{#snippet children({ attrs })}
+																		<Table.Cell {...attrs}>
+												<Render of={cell.render()} />
+											</Table.Cell>
+																											{/snippet}
+																</Subscribe>
+								{/each}
+							</Table.Row>
+																	{/snippet}
+										</Subscribe>
 				{/each}
 			</Table.Body>
 		</Table.Root>
@@ -250,31 +256,33 @@
 				page={getPage()}
 				perPage={getLimit()}
 				onPageChange={(page) => ($sspPage = page)}
-				let:pages
-				let:currentPage
+				
+				
 			>
-				<Pagination.Content>
-					<Pagination.Item>
-						<Pagination.PrevButton></Pagination.PrevButton>
-					</Pagination.Item>
-					{#each pages as page (page.key)}
-						{#if page.type === 'ellipsis'}
-							<Pagination.Item>
-								<Pagination.Ellipsis />
-							</Pagination.Item>
-						{:else}
-							<Pagination.Item>
-								<Pagination.Link {page} isActive={currentPage === page.value}>
-									{page.value}
-								</Pagination.Link>
-							</Pagination.Item>
-						{/if}
-					{/each}
-					<Pagination.Item>
-						<Pagination.NextButton />
-					</Pagination.Item>
-				</Pagination.Content>
-			</Pagination.Root>
+				{#snippet children({ pages, currentPage })}
+								<Pagination.Content>
+						<Pagination.Item>
+							<Pagination.PrevButton></Pagination.PrevButton>
+						</Pagination.Item>
+						{#each pages as page (page.key)}
+							{#if page.type === 'ellipsis'}
+								<Pagination.Item>
+									<Pagination.Ellipsis />
+								</Pagination.Item>
+							{:else}
+								<Pagination.Item>
+									<Pagination.Link {page} isActive={currentPage === page.value}>
+										{page.value}
+									</Pagination.Link>
+								</Pagination.Item>
+							{/if}
+						{/each}
+						<Pagination.Item>
+							<Pagination.NextButton />
+						</Pagination.Item>
+					</Pagination.Content>
+											{/snippet}
+						</Pagination.Root>
 		</div>
 	</div>
 </div>

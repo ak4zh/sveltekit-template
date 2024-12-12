@@ -1,30 +1,25 @@
-import * as dotenv from 'dotenv';
-import { drizzle } from 'drizzle-orm/postgres-js';
+import { db } from './client';
 import { faker } from '@faker-js/faker';
-import postgres from 'postgres';
 import { nanoid } from 'nanoid';
 import { Argon2id } from 'oslo/password';
-import { userTable } from './schemas.ts';
-dotenv.config();
+import type { UserNew } from './schemas';
+import * as table from './schemas';
 
-if (!('DATABASE_URL' in process.env)) throw new Error('DATABASE_URL not found on .env.development');
 const main = async () => {
-	const queryClient = postgres(process.env.DATABASE_URL);
-	const db = drizzle(queryClient);
-	const data: (typeof userTable.$inferInsert)[] = [
+	const data: UserNew[] = [
 		{
 			name: 'Admin',
+			username: faker.internet.username(),
 			email: 'admin@example.com',
 			passwordHash: await new Argon2id().hash('admin123'),
-			token: crypto.randomUUID(),
 			referralCode: nanoid(7),
 			role: 'ADMIN'
 		},
 		{
 			name: 'Demo',
+			username: faker.internet.username(),
 			email: 'demo@example.com',
 			passwordHash: await new Argon2id().hash('demo123'),
-			token: crypto.randomUUID(),
 			referralCode: nanoid(7)
 		}
 	];
@@ -32,14 +27,14 @@ const main = async () => {
 	for (let i = 0; i < 10; i++) {
 		data.push({
 			name: faker.person.fullName(),
+			username: faker.internet.username(),
 			email: faker.internet.email().toLowerCase(),
 			referralCode: nanoid(7),
 			passwordHash: await new Argon2id().hash(faker.internet.password()),
-			token: crypto.randomUUID()
 		});
 	}
 	console.log('Seed start');
-	await db.insert(userTable).values(data);
+	await db.insert(table.users).values(data);
 	console.log('Seed done');
 };
 

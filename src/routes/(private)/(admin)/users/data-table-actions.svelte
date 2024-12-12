@@ -18,12 +18,14 @@
 
 <AlertDialog.Root>
 	<DropdownMenu.Root>
-		<DropdownMenu.Trigger asChild let:builder>
-			<Button variant="ghost" builders={[builder]} size="icon">
-				<span class="sr-only">{m.open_actions()}</span>
-				<Ellipsis class="h-4 w-4" />
-			</Button>
-		</DropdownMenu.Trigger>
+		<DropdownMenu.Trigger asChild >
+			{#snippet children()}
+						<Button variant="ghost" size="icon">
+					<span class="sr-only">{m.open_actions()}</span>
+					<Ellipsis class="h-4 w-4" />
+				</Button>
+								{/snippet}
+				</DropdownMenu.Trigger>
 		<DropdownMenu.Content>
 			<DropdownMenu.Group>
 				<DropdownMenu.Label>{m.actions()}</DropdownMenu.Label>

@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { Loader2 } from 'lucide-svelte';
-	export let data: { heading?: string; message?: string };
+	interface Props {
+		data: { heading?: string; message?: string };
+	}
+
+	let { data }: Props = $props();
 </script>
 
 <section class="container grid items-center gap-6">

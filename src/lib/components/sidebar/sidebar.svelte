@@ -24,8 +24,8 @@
 </script>
 
 
-<div class="grid grid-rows-[auto_1fr_auto] gap-4 h-[95svh]">
-	<div class="flex flex-col justify-center items-center items-center pt-4">
+<div class="grid grid-rows-[auto_1fr_auto] gap-4 h-svh">
+	<div class="flex flex-col justify-center items-center items-center">
 		<!-- <div class="bg-primary p-2 rounded-full">
 			<img class="w-8 h-8" src="/logo-white.svg" alt="{$page.data.userOrgs.find(o => o.id === $page.data.user.orgId)?.name}"/>
 		</div>
@@ -41,7 +41,7 @@
                         href={item.path}
                         class="flex items-center gap-2 rounded-lg px-3 py-2 transition-all {currentPage(item.path)}"
                     >
-                        <svelte:component this={item.icon} class="h-4 w-4" />
+                        <item.icon class="h-4 w-4" />
                         {item.title}
                     </a>
                 </li>
@@ -51,7 +51,7 @@
 	<div class="mx-auto">
 		<div class="flex gap-4 flex-col">
 			<Button href="/orgs" class="text-xs" size="sm">
-				<CogIcon class="mr-2 w-4 h-4 " />
+				<CogIcon class="mr-2 w-4 h-4" />
                 Manage Organizations
 			</Button>
 		</div>

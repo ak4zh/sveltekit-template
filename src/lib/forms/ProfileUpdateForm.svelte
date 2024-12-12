@@ -31,17 +31,30 @@
 			</Card.Header>
 			<Card.Content class="grid gap-4">
 				<Form.Field {form} name="name">
-					<Form.Control let:attrs>
-						<Form.Label>{m.name()}</Form.Label>
-						<Input {...attrs} bind:value={$formData.name} />
-					</Form.Control>
+					<Form.Control >
+						{#snippet children({ attrs })}
+												<Form.Label>{m.name()}</Form.Label>
+							<Input {...attrs} bind:value={$formData.name} />
+																	{/snippet}
+										</Form.Control>
+					<Form.FieldErrors />
+				</Form.Field>
+				<Form.Field {form} name="username">
+					<Form.Control >
+						{#snippet children({ attrs })}
+												<Form.Label>Username</Form.Label>
+							<Input {...attrs} bind:value={$formData.username} />
+																	{/snippet}
+										</Form.Control>
 					<Form.FieldErrors />
 				</Form.Field>
 				<Form.Field {form} name="email">
-					<Form.Control let:attrs>
-						<Form.Label>{m.email()}</Form.Label>
-						<Input {...attrs} bind:value={$formData.email} />
-					</Form.Control>
+					<Form.Control >
+						{#snippet children({ attrs })}
+												<Form.Label>{m.email()}</Form.Label>
+							<Input {...attrs} bind:value={$formData.email} />
+																	{/snippet}
+										</Form.Control>
 					<Form.FieldErrors />
 				</Form.Field>
 			</Card.Content>

@@ -4,7 +4,7 @@ import { setFlash } from 'sveltekit-flash-message/server';
 import { userUpdateSchema, userUpdatePasswordSchema } from '$lib/forms/schemas';
 import { updateEmailAddressSuccessEmail } from '$lib/server/emails/templates';
 import { updateUser } from '$lib/server/database/actions/users';
-import type { UpdateUser } from '$lib/server/database/schemas';
+import type { UserUpdate } from '$lib/server/database/schemas';
 import { zod } from 'sveltekit-superforms/adapters';
 import { Argon2id } from 'oslo/password';
 import { DEMO_ACCOUNT_IDS } from '$lib/constants.js';
@@ -23,7 +23,8 @@ export const load = async (event) => {
 		});
 	}
 	form.data = {
-		name: user?.name,
+		name: user.name,
+		username: user.username,
 		email: user?.email
 	};
 	return {
@@ -44,7 +45,7 @@ export const actions = {
 			const user = event.locals.user;
 			if (user) {
 				const newEmail = user?.email !== form.data.email;
-				const updatedData: UpdateUser = {
+				const updatedData: UserUpdate = {
 					name: form.data.name,
 					email: form.data.email
 				};

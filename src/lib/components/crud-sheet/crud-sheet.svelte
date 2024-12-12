@@ -31,15 +31,17 @@
 
 <div class="hidden md:block">
 	<Dialog.Root bind:open={$dialogOpen}>
-		<Dialog.Trigger asChild let:builder>
-			<Button variant={triggerVariant} builders={[builder]} size={triggerSize}>
-				{#if triggerSize === 'icon'}
-					<span class="sr-only">{triggerText}</span>
-					<Pencil class="h-4 w-4" />
-				{:else}
-					{triggerText}
-				{/if}
-			</Button>
+		<Dialog.Trigger asChild >
+			{#snippet children()}
+						<Button variant={triggerVariant} size={triggerSize}>
+					{#if triggerSize === 'icon'}
+						<span class="sr-only">{triggerText}</span>
+						<Pencil class="h-4 w-4" />
+					{:else}
+						{triggerText}
+					{/if}
+				</Button>
+			{/snippet}
 		</Dialog.Trigger>
 		<Dialog.Content>
 			<Dialog.Header>
@@ -48,7 +50,8 @@
 					{description}
 				</Dialog.Description>
 			</Dialog.Header>
-				<svelte:component this={form} {data} {disabled} {dialogOpen} {sheetOpen}/>
+				{@const SvelteComponent = form}
+				<SvelteComponent {data} {disabled} {dialogOpen} {sheetOpen}/>
 			<Dialog.Footer>
 				<Button type="submit" form="edit-{data.id}" disabled={$disabled}>
 					{#if $disabled}
@@ -63,16 +66,18 @@
 </div>
 <div class="md:hidden">
 	<Sheet.Root bind:open={$sheetOpen}>
-		<Sheet.Trigger asChild let:builder>
-			<Button variant={triggerVariant}  builders={[builder]} size={triggerSize}>
-				{#if triggerSize === 'icon'}
-					<span class="sr-only">{triggerText}</span>
-					<Pencil class="h-4 w-4" />
-				{:else}
-					{triggerText}
-				{/if}
-			</Button>
-		</Sheet.Trigger>
+		<Sheet.Trigger asChild >
+			{#snippet children()}
+						<Button variant={triggerVariant} size={triggerSize}>
+					{#if triggerSize === 'icon'}
+						<span class="sr-only">{triggerText}</span>
+						<Pencil class="h-4 w-4" />
+					{:else}
+						{triggerText}
+					{/if}
+				</Button>
+								{/snippet}
+				</Sheet.Trigger>
 		<Sheet.Content side="right">
 			<Sheet.Header>
 				<Sheet.Title>{title}</Sheet.Title>
@@ -80,20 +85,23 @@
 					{description}
 				</Sheet.Description>
 			</Sheet.Header>
-				<svelte:component this={form} {data} {disabled} {dialogOpen} {sheetOpen}/>
+				{@const SvelteComponent_1 = form}
+				<SvelteComponent_1 {data} {disabled} {dialogOpen} {sheetOpen}/>
 			<Sheet.Footer class="py-4">
-				<Sheet.Close asChild let:builder>
-					<Button
-						type="submit"
-						form="edit-{data.id}"
-						disabled={$disabled}
-					>
-						{#if $disabled}
-							<Loader2 class="mr-2 h-4 w-4 animate-spin" />{m.please_wait()}
-						{:else}
-							{m.save_changes()}
-						{/if}
-					</Button>
+				<Sheet.Close>
+					{#snippet children()}
+						<Button
+							type="submit"
+							form="edit-{data.id}"
+							disabled={$disabled}
+						>
+							{#if $disabled}
+								<Loader2 class="mr-2 h-4 w-4 animate-spin" />{m.please_wait()}
+							{:else}
+								{m.save_changes()}
+							{/if}
+						</Button>
+					{/snippet}
 				</Sheet.Close>
 			</Sheet.Footer>
 		</Sheet.Content>

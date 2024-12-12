@@ -9,7 +9,11 @@
 	import { browser } from '$app/environment';
 	import * as m from '$paraglide/messages.js';
 
-	export let data: SuperValidated<Infer<LoginSchema>>;
+	interface Props {
+		data: SuperValidated<Infer<LoginSchema>>;
+	}
+
+	let { data }: Props = $props();
 	const form = superForm(data, {
 		validators: zodClient(loginSchema)
 	});
@@ -29,17 +33,21 @@
 			</Card.Header>
 			<Card.Content class="grid gap-4">
 				<Form.Field {form} name="email">
-					<Form.Control let:attrs>
-						<Form.Label>{m.email()}</Form.Label>
-						<Input {...attrs} bind:value={$formData.email} />
-					</Form.Control>
+					<Form.Control >
+						{#snippet children({ attrs })}
+												<Form.Label>{m.email()}</Form.Label>
+							<Input {...attrs} bind:value={$formData.email} />
+																	{/snippet}
+										</Form.Control>
 					<Form.FieldErrors />
 				</Form.Field>
 				<Form.Field {form} name="password">
-					<Form.Control let:attrs>
-						<Form.Label>{m.password()}</Form.Label>
-						<Input {...attrs} type="password" bind:value={$formData.password} />
-					</Form.Control>
+					<Form.Control >
+						{#snippet children({ attrs })}
+												<Form.Label>{m.password()}</Form.Label>
+							<Input {...attrs} type="password" bind:value={$formData.password} />
+																	{/snippet}
+										</Form.Control>
 					<Form.FieldErrors />
 				</Form.Field>
 			</Card.Content>

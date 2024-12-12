@@ -8,7 +8,7 @@
 	import { Label } from '$lib/components/ui/label/index.js';
 	import * as m from '$paraglide/messages.js';
 
-	export let data;
+	let { data } = $props();
 </script>
 
 <div class="mx-auto flex max-w-lg flex-col items-center gap-8 py-8">

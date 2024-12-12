@@ -1,8 +1,5 @@
-import { DATABASE_URL } from '$env/static/private';
+import 'dotenv/config';
 import { drizzle } from "drizzle-orm/node-postgres";
-import pg from 'pg'
-
-const client = new pg.Client({ connectionString: DATABASE_URL });
-await client.connect();
-const db = drizzle(client);
-export default db;
+const DATABASE_URL = process.env.DATABASE_URL;
+if (!DATABASE_URL) throw new Error('DATABASE_URL not found on .env.development');
+export const db = drizzle(DATABASE_URL, { casing: 'snake_case' })

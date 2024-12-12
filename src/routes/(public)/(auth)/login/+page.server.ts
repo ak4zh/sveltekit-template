@@ -1,16 +1,18 @@
 import { fail } from '@sveltejs/kit';
 import { setFlash } from 'sveltekit-flash-message/server';
 import { setError, superValidate } from 'sveltekit-superforms';
-import { lucia } from '$lib/server/lucia';
-import { Argon2id } from 'oslo/password';
 import { getUserByEmail } from '$lib/server/database/actions/users';
 import { loginSchema } from '$lib/forms/schemas.js';
 import { zod } from 'sveltekit-superforms/adapters';
 import * as m from '$paraglide/messages.js';
 import { redirectI18n } from '$lib/i18n.js';
+import { verify } from '@node-rs/argon2';
+import * as auth from '$lib/server/auth';
+
+const REDIRECT_URL = '/profile';
 
 export const load = async (event) => {
-	if (event.locals.user) redirectI18n(302, '/profile', event);
+	if (event.locals.user) redirectI18n(302, REDIRECT_URL, event);
 	const form = await superValidate(event, zod(loginSchema));
 	return {
 		form
@@ -32,22 +34,21 @@ export const actions = {
 			}
 
 			if (existingUser.passwordHash) {
-				const validPassword = await new Argon2id().verify(
-					existingUser.passwordHash,
-					form.data.password
-				);
+				const validPassword = await verify(existingUser.passwordHash, form.data.password, {
+					memoryCost: 19456,
+					timeCost: 2,
+					outputLen: 32,
+					parallelism: 1
+				});
 				if (!validPassword) {
 					setFlash({ type: 'error', message: m.flash_incorrect_credentials() }, event);
 					return setError(form, m.flash_incorrect_credentials());
 				} else {
-					//password valid - set session
-					const session = await lucia.createSession(existingUser.id, {});
-					const sessionCookie = lucia.createSessionCookie(session.id);
-					event.cookies.set(sessionCookie.name, sessionCookie.value, {
-						path: '.',
-						...sessionCookie.attributes
-					});
+					const sessionToken = auth.generateSessionToken();
+					const session = await auth.createSession(sessionToken, existingUser.id);
+					auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
 					setFlash({ type: 'success', message: m.flash_login_successful() }, event);
+					return redirectI18n(302, REDIRECT_URL, event);
 				}
 			}
 		} catch (e) {
@@ -58,7 +59,6 @@ export const actions = {
 			setFlash({ type: 'error', message: m.flash_incorrect_credentials() }, event);
 			return setError(form, m.flash_incorrect_credentials());
 		}
-
 		return { form };
 	}
 };

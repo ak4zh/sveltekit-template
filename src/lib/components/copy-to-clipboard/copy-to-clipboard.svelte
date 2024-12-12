@@ -12,7 +12,11 @@
 		$flash = { type: 'success', message };
 	}
 
-	export let value: string;
+	interface Props {
+		value: string;
+	}
+
+	let { value }: Props = $props();
 </script>
 
 <Tooltip.Root>
@@ -20,7 +24,7 @@
 		<Button
 			size="icon"
 			variant="ghost"
-			on:click={() => {
+			onclick={() => {
 				copyText(value);
 				copiedMessage(`Invite URL copied to clipboard!`);
 			}}><Copy /></Button

@@ -2,7 +2,6 @@
 	import LoginForm from '$lib/forms/LoginForm.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import { Copy } from 'lucide-svelte';
-	import * as m from '$paraglide/messages.js';
 
 	let { data } = $props();
 	let creds = $state({ email: data.form?.email, password: data.form?.password });
@@ -12,7 +11,7 @@
 	<div class="flex gap-4">
 		<Button
 			variant="outline"
-			on:click={() => {
+			onclick={() => {
 				creds = { email: 'admin@example.com', password: 'admin123' };
 			}}
 		>
@@ -20,7 +19,7 @@
 		</Button>
 		<Button
 			variant="outline"
-			on:click={() => {
+			onclick={() => {
 				creds = { email: 'demo@example.com', password: 'demo123' };
 			}}
 		>

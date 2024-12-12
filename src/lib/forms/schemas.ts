@@ -5,6 +5,10 @@ export const userSchema = z.object({
 		.string({ required_error: 'Name is required' })
 		.min(1, { message: 'Name is required' })
 		.trim(),
+	username: z.string({ required_error: 'Username is required' })
+		.min(5, { message: 'Userame is required' })
+		.trim()
+		.regex(/a-zA-Z0-9/, 'Username invalid'),
 	email: z
 		.string({ required_error: 'Email is required' })
 		.email({ message: 'Please enter a valid email address' }),
@@ -29,6 +33,7 @@ export type UserSchema = typeof userSchema;
 
 export const userUpdateSchema = userSchema.pick({
 	name: true,
+	username: true,
 	email: true
 });
 export type UserUpdateSchema = typeof userUpdateSchema;
@@ -48,6 +53,7 @@ export type UserUpdatePasswordSchema = typeof userUpdatePasswordSchema;
 
 export const signUpSchema = userSchema.pick({
 	name: true,
+	username: true,
 	email: true,
 	password: true,
 	terms: true

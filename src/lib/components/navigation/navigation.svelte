@@ -4,7 +4,7 @@
 	import { Sun, Moon, SunMoon, UserRound, LogOut, CircleUserRound, Globe } from 'lucide-svelte';
 	import { setMode, resetMode } from 'mode-watcher';
 	import { page } from '$app/stores';
-	import type { User } from 'lucia';
+	import type { User } from '$lib/server/database/schemas';
 	import { APP_NAME } from '$lib/constants';
 	import * as m from '$paraglide/messages.js';
 	import { availableLanguageTags, languageTag } from '$lib/paraglide/runtime';
@@ -48,8 +48,8 @@
 			{#if !user}
 				<Button href="/login">{m.login()}</Button>
 				<DropdownMenu.Root>
-					<DropdownMenu.Trigger asChild let:builder>
-						<Button builders={[builder]} variant="ghost" size="icon">
+					<DropdownMenu.Trigger>
+						<Button variant="ghost" size="icon">
 							<Sun
 								class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
 							/>
@@ -60,21 +60,21 @@
 						</Button>
 					</DropdownMenu.Trigger>
 					<DropdownMenu.Content align="end">
-						<DropdownMenu.Item on:click={() => setMode('light')}
+						<DropdownMenu.Item onclick={() => setMode('light')}
 							>Light</DropdownMenu.Item
 						>
-						<DropdownMenu.Item on:click={() => setMode('dark')}
+						<DropdownMenu.Item onclick={() => setMode('dark')}
 							>Dark</DropdownMenu.Item
 						>
-						<DropdownMenu.Item on:click={() => resetMode()}
+						<DropdownMenu.Item onclick={() => resetMode()}
 							>System</DropdownMenu.Item
 						>
 					</DropdownMenu.Content>
 				</DropdownMenu.Root>
 			{:else}
 				<DropdownMenu.Root>
-					<DropdownMenu.Trigger asChild let:builder>
-						<Button variant="ghost" builders={[builder]}>
+					<DropdownMenu.Trigger>
+						<Button variant="ghost">
 							<CircleUserRound />
 						</Button>
 					</DropdownMenu.Trigger>
@@ -106,13 +106,13 @@
 								{m.appearance()}
 							</DropdownMenu.SubTrigger>
 							<DropdownMenu.SubContent>
-								<DropdownMenu.Item on:click={() => setMode('light')}
+								<DropdownMenu.Item onclick={() => setMode('light')}
 									><Sun class="mr-2 h-4 w-4" />{m.light()}
 								</DropdownMenu.Item>
-								<DropdownMenu.Item on:click={() => setMode('dark')}
+								<DropdownMenu.Item onclick={() => setMode('dark')}
 									><Moon class="mr-2 h-4 w-4" />{m.dark()}
 								</DropdownMenu.Item>
-								<DropdownMenu.Item on:click={() => setMode('system')}
+								<DropdownMenu.Item onclick={() => setMode('system')}
 									><SunMoon class="mr-2 h-4 w-4" />{m.system()}
 								</DropdownMenu.Item>
 							</DropdownMenu.SubContent>

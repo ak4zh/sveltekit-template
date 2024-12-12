@@ -32,17 +32,21 @@
 			</Card.Header>
 			<Card.Content class="grid gap-4">
 				<Form.Field {form} name="password">
-					<Form.Control let:attrs>
-						<Form.Label>{m.new_password()}</Form.Label>
-						<Input {...attrs} bind:value={$formData.password} type="password" />
-					</Form.Control>
+					<Form.Control >
+						{#snippet children({ attrs })}
+												<Form.Label>{m.new_password()}</Form.Label>
+							<Input {...attrs} bind:value={$formData.password} type="password" />
+																	{/snippet}
+										</Form.Control>
 					<Form.FieldErrors />
 				</Form.Field>
 				<Form.Field {form} name="confirmPassword">
-					<Form.Control let:attrs>
-						<Form.Label>{m.confirm_new_password()}</Form.Label>
-						<Input {...attrs} bind:value={$formData.confirmPassword} type="password" />
-					</Form.Control>
+					<Form.Control >
+						{#snippet children({ attrs })}
+												<Form.Label>{m.confirm_new_password()}</Form.Label>
+							<Input {...attrs} bind:value={$formData.confirmPassword} type="password" />
+																	{/snippet}
+										</Form.Control>
 					<Form.FieldErrors />
 				</Form.Field>
 			</Card.Content>
